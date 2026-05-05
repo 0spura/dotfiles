@@ -1,0 +1,68 @@
+{
+  "$schema": "https://json.schemastore.org/claude-code-settings.json",
+  "respectGitignore": true,
+  "cleanupPeriodDays": 30,
+  "env": {
+    "NODE_ENV": "development"
+  },
+  "includeGitInstructions": true,
+  "permissions": {
+    "allow": [
+      "Bash(git status)",
+      "Bash(git diff *)",
+      "Bash(git log *)",
+      "Bash(git add *)",
+      "Bash(git commit *)",
+      "Bash(npm run *)",
+      "Bash(pnpm run *)",
+      "Bash(npx *)",
+      "Bash(ls *)",
+      "Bash(cat *)",
+      "Bash(echo *)"
+    ],
+    "deny": [
+      "Read(./.env)",
+      "Read(./.env.*)",
+      "Read(~/.ssh/**)",
+      "Read(~/.aws/**)",
+      "Bash(rm -rf /)",
+      "Bash(rm -rf ~*)",
+      "Bash(shutdown *)",
+      "Bash(reboot *)",
+      "Bash(sudo rm *)",
+      "Bash(dd *)"
+    ],
+    "ask": [
+      "Bash(git push *)",
+      "Bash(git push)",
+      "Bash(git fetch *)",
+      "Bash(git checkout *)",
+      "Bash(git stash *)",
+      "Bash(git merge *)",
+      "Bash(git rebase *)",
+      "Bash(git branch -d *)",
+      "Bash(git branch -D *)",
+      "Bash(git reset *)",
+      "Bash(rm *)",
+      "Bash(mv *)"
+    ]
+  },
+  "model": "claude-sonnet-4-6",
+  "availableModels": ["sonnet", "opus", "haiku"],
+  "enabledPlugins": {
+    "superpowers@claude-plugins-official": true,
+    "code-simplifier@claude-plugins-official": true,
+    "code-review@claude-plugins-official": true
+  },
+  "sandbox": {
+    "enabled": true,
+    "filesystem": {
+      "allowWrite": [".", "./src", "./tests", "./scripts", "/tmp"],
+      "denyRead": ["./.env", "./.env.*", "~/.ssh/**", "~/.aws/**"]
+    }
+  },
+  "effortLevel": "medium",
+  "autoUpdatesChannel": "stable",
+  "showThinkingSummaries": true,
+  "showTurnDuration": true
+}

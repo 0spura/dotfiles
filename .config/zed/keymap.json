@@ -7,7 +7,7 @@
       "ctrl-x ctrl-c": "editor::ShowEditPrediction",
     },
   },
-  {
+  {g
     "context": "ProjectPanel && not_editing",
     "bindings": {
       "s h": "workspace::ActivatePaneLeft",
