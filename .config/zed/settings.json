@@ -1,0 +1,220 @@
+{
+  "cli_default_open_behavior": "new_window",
+  "theme": {
+    "mode": "dark",
+    "light": "Catppuccin Latte",
+    "dark": "Catppuccin Mocha",
+  },
+
+  "icon_theme": {
+    "mode": "dark",
+    "light": "Zed (Default)",
+    "dark": "Soft Charmed Icons",
+  },
+
+  "ui_font_family": ".ZedSans",
+  "ui_font_size": 16,
+
+  "buffer_font_size": 16,
+  "buffer_font_features": {
+    "calt": true,
+  },
+  "buffer_line_height": {
+    "custom": 1.65,
+  },
+
+  "agent_buffer_font_size": 12,
+
+  "cursor_shape": "bar",
+  "cursor_blink": false,
+
+  "title_bar": {
+    "show_onboarding_banner": false,
+    "show_project_items": false,
+    "show_branch_name": false,
+    "show_user_menu": false,
+  },
+
+  "tab_bar": {
+    "show": true,
+  },
+
+  "tabs": {
+    "file_icons": false,
+    "show_diagnostics": "errors",
+    "close_position": "right",
+  },
+
+  "preview_tabs": {
+    "enabled": true,
+    "enable_preview_from_file_finder": true,
+    "enable_keep_preview_on_code_navigation": true,
+  },
+
+  "toolbar": {
+    "quick_actions": false,
+    "code_actions": false,
+  },
+
+  "status_bar": {
+    "experimental.show": false,
+  },
+
+  "scrollbar": {
+    "show": "auto",
+    "cursors": false,
+    "git_diff": false,
+    "search_results": true,
+    "selected_text": false,
+    "diagnostics": "error",
+    "axes": {
+      "horizontal": false,
+    },
+  },
+
+  "gutter": {
+    "line_numbers": true,
+    "folds": false,
+    "runnables": false,
+  },
+
+  "indent_guides": {
+    "enabled": false,
+  },
+
+  "current_line_highlight": "line",
+  "selection_highlight": true,
+  "show_whitespaces": "none",
+
+  "show_edit_predictions": false,
+  "show_completion_documentation": false,
+  "show_completions_on_input": true,
+
+  "use_autoclose": true,
+  "always_treat_brackets_as_autoclosed": false,
+
+  "inlay_hints": {
+    "enabled": false,
+  },
+
+  "languages": {
+    "TSX": {
+      "inlay_hints": {
+        "enabled": true,
+        "show_type_hints": false,
+        "show_parameter_hints": true,
+      },
+    },
+    "TypeScript": {
+      "inlay_hints": {
+        "enabled": true,
+        "show_type_hints": false,
+        "show_parameter_hints": true,
+      },
+    },
+    "Rust": {
+      "inlay_hints": {
+        "enabled": true,
+        "show_background": false,
+        "show_type_hints": false,
+        "show_value_hints": true,
+      },
+    },
+  },
+
+  "multi_cursor_modifier": "alt",
+  "use_smartcase_search": true,
+  "seed_search_query_from_cursor": "selection",
+
+  "project_panel": {
+    "dock": "left",
+    "default_width": 260,
+    "hide_root": true,
+    "file_icons": true,
+    "folder_icons": true,
+    "git_status": true,
+    "auto_reveal_entries": true,
+    "auto_fold_dirs": true,
+    "sticky_scroll": false,
+    "scrollbar": {
+      "show": "auto",
+    },
+  },
+
+  "outline_panel": {
+    "dock": "left",
+    "default_width": 280,
+    "indent_guides": {
+      "show": "never",
+    },
+  },
+
+  "collaboration_panel": {
+    "dock": "left",
+  },
+
+  "git_panel": {
+    "dock": "left",
+  },
+
+  "terminal": {
+    "dock": "bottom",
+    "default_height": 180,
+    "blinking": "terminal_controlled",
+    "copy_on_select": false,
+    "working_directory": "current_project_directory",
+  },
+
+  "git": {
+    "git_gutter": "tracked_files",
+    "inline_blame": {
+      "enabled": false,
+    },
+    "blame": {
+      "show_avatar": false,
+    },
+  },
+
+  "agent": {
+    "sidebar_side": "right",
+    "dock": "right",
+    "favorite_models": [],
+    "model_parameters": [],
+  },
+
+  "agent_servers": {
+    "codex-acp": {
+      "type": "registry",
+    },
+    "claude-acp": {
+      "type": "registry",
+      "default_model": "sonnet",
+      "default_config_options": {
+        "model": "default",
+      },
+    },
+  },
+
+  "autosave": "on_focus_change",
+  "ensure_final_newline_on_save": true,
+  "remove_trailing_whitespace_on_save": true,
+
+  "confirm_quit": true,
+  "restore_on_startup": "last_workspace",
+
+  "session": {
+    "trust_all_worktrees": true,
+  },
+
+  "telemetry": {
+    "diagnostics": true,
+    "metrics": true,
+  },
+
+  "auto_install_extensions": {
+    "catppuccin": true,
+    "charmed-icons": true,
+    "dockerfile": true,
+    "sql": true,
+  },
+}
