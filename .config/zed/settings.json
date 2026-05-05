@@ -28,13 +28,6 @@
   "cursor_shape": "bar",
   "cursor_blink": false,
 
-  "title_bar": {
-    "show_onboarding_banner": false,
-    "show_project_items": false,
-    "show_branch_name": false,
-    "show_user_menu": false,
-  },
-
   "tab_bar": {
     "show": true,
   },
@@ -52,12 +45,8 @@
   },
 
   "toolbar": {
-    "quick_actions": false,
+    "quick_actions": true,
     "code_actions": false,
-  },
-
-  "status_bar": {
-    "experimental.show": false,
   },
 
   "scrollbar": {
@@ -65,7 +54,7 @@
     "cursors": false,
     "git_diff": false,
     "search_results": true,
-    "selected_text": false,
+    "selected_text": true,
     "diagnostics": "error",
     "axes": {
       "horizontal": false,
@@ -74,12 +63,12 @@
 
   "gutter": {
     "line_numbers": true,
-    "folds": false,
+    "folds": true,
     "runnables": false,
   },
 
   "indent_guides": {
-    "enabled": false,
+    "enabled": true,
   },
 
   "current_line_highlight": "line",
@@ -188,10 +177,6 @@
     },
     "claude-acp": {
       "type": "registry",
-      "default_model": "sonnet",
-      "default_config_options": {
-        "model": "default",
-      },
     },
   },
 
@@ -216,5 +201,6 @@
     "charmed-icons": true,
     "dockerfile": true,
     "sql": true,
+    "toml": true,
   },
 }
