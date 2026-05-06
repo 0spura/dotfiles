@@ -1,6 +1,5 @@
 # Docs e configs do repo — não são dotfiles
 docs
-gentoo
 
 # Script do OS errado
 {{ if ne .chezmoi.os "windows" }}

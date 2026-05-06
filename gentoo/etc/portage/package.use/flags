@@ -1,5 +1,0 @@
-app-admin/doas persist
-sys-auth/seatd server builtin
-media-video/pipewire sound-server pipewire-alsa
-media-sound/pulseaudio -daemon
-www-client/qutebrowser pdf widevine

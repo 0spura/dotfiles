@@ -2,7 +2,6 @@ packages:
   linux:
     dnf:
       - gh
-      - fzf
     custom:
       - name: zed
         check: "which zed"
@@ -12,10 +11,8 @@ packages:
     brew:
       - zed
       - gh
-      - fzf
 
   windows:
     winget:
-      - Zed.Zed
+      - ZedIndustries.Zed
       - GitHub.cli
-      - junegunn.fzf
