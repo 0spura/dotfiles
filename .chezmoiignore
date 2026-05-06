@@ -1,0 +1,14 @@
+# Docs e configs do repo — não são dotfiles
+docs
+gentoo
+
+# Script do OS errado
+{{ if ne .chezmoi.os "windows" }}
+run_onchange_install-packages.ps1.tmpl
+{{ end }}
+{{ if eq .chezmoi.os "windows" }}
+run_onchange_install-packages.sh.tmpl
+{{ end }}
+
+# Settings local gerado automaticamente — específico da máquina
+dot_claude/settings.local.json
