@@ -11,4 +11,7 @@ run_onchange_install-packages.sh.tmpl
 {{ end }}
 
 # Settings local gerado automaticamente — específico da máquina
-dot_claude/settings.local.json
+.claude/settings.local.json
+
+# Binário do chezmoi instalado localmente
+bin

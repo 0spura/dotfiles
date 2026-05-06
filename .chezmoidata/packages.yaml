@@ -1,9 +1,12 @@
 packages:
   linux:
     dnf:
-      - zed
       - gh
       - fzf
+    custom:
+      - name: zed
+        check: "which zed"
+        install: "curl -f https://zed.rs/install.sh | sh"
 
   darwin:
     brew:

@@ -8,6 +8,12 @@ if ! rpm -q {{ . }} > /dev/null 2>&1; then
   sudo dnf install -y {{ . }}
 fi
 {{ end -}}
+{{ range .packages.linux.custom -}}
+if ! {{ .check }} > /dev/null 2>&1; then
+  echo "Instalando {{ .name }}..."
+  {{ .install }}
+fi
+{{ end -}}
 
 {{ else if eq .chezmoi.os "darwin" -}}
 #!/bin/sh
