@@ -1,0 +1,15 @@
+{{ if eq .chezmoi.os "windows" -}}
+$packages = @(
+{{ range .packages.windows.winget -}}
+  "{{ . }}"
+{{ end -}}
+)
+
+foreach ($pkg in $packages) {
+  $installed = winget list --id $pkg --exact 2>$null
+  if ($LASTEXITCODE -ne 0) {
+    Write-Host "Instalando $pkg..."
+    winget install --id $pkg --exact --silent
+  }
+}
+{{ end -}}
