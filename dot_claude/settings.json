@@ -55,8 +55,19 @@
   "sandbox": {
     "enabled": true,
     "filesystem": {
-      "allowWrite": [".", "./src", "./tests", "./scripts", "/tmp"],
-      "denyRead": ["./.env", "./.env.*", "~/.ssh/**", "~/.aws/**"]
+      "allowWrite": [
+        ".",
+        "./src",
+        "./tests",
+        "./scripts",
+        "/tmp"
+      ],
+      "denyRead": [
+        "./.env",
+        "./.env.*",
+        "~/.ssh/**",
+        "~/.aws/**"
+      ]
     }
   },
   "effortLevel": "medium",
