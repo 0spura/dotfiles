@@ -1,17 +1,18 @@
-linux:
-  dnf:
-    - zed
-    - gh
-    - fzf
+packages:
+  linux:
+    dnf:
+      - zed
+      - gh
+      - fzf
 
-darwin:
-  brew:
-    - zed
-    - gh
-    - fzf
+  darwin:
+    brew:
+      - zed
+      - gh
+      - fzf
 
-windows:
-  winget:
-    - Zed.Zed
-    - GitHub.cli
-    - junegunn.fzf
+  windows:
+    winget:
+      - Zed.Zed
+      - GitHub.cli
+      - junegunn.fzf
