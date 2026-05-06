@@ -1,0 +1,23 @@
+{{ if eq .chezmoi.os "linux" -}}
+#!/bin/sh
+set -e
+
+{{ range .packages.linux.dnf -}}
+if ! rpm -q {{ . }} > /dev/null 2>&1; then
+  echo "Instalando {{ . }}..."
+  sudo dnf install -y {{ . }}
+fi
+{{ end -}}
+
+{{ else if eq .chezmoi.os "darwin" -}}
+#!/bin/sh
+set -e
+
+{{ range .packages.darwin.brew -}}
+if ! brew list {{ . }} > /dev/null 2>&1; then
+  echo "Instalando {{ . }}..."
+  brew install {{ . }}
+fi
+{{ end -}}
+
+{{ end -}}
