@@ -1,0 +1,5 @@
+packages:
+  windows:
+    winget:
+      - ZedIndustries.Zed
+      - GitHub.cli

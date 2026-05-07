@@ -46,6 +46,3 @@ tweaks:
         key: sleep-inactive-ac-timeout
         value: "900"
     commands: []
-  darwin:
-    defaults: []
-    commands: []

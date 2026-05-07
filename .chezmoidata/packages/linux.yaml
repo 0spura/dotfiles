@@ -16,9 +16,12 @@ packages:
       - gnome-connections
       - gnome-font-viewer
       - gnome-logs
+      - gnome-maps
       - rhythmbox
       - simple-scan
       - snapshot
+      - gnome-tour
+      - gnome-weather
       - mediawriter
       - yelp
       - gnome-user-docs
@@ -42,13 +45,3 @@ packages:
           sudo dnf install -y docker-ce docker-ce-cli containerd.io docker-buildx-plugin docker-compose-plugin
           sudo systemctl enable --now docker
           sudo usermod -aG docker "$USER"
-
-  darwin:
-    brew:
-      - zed
-      - gh
-
-  windows:
-    winget:
-      - ZedIndustries.Zed
-      - GitHub.cli

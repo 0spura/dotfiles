@@ -1,0 +1,32 @@
+{{ if eq .chezmoi.os "windows" -}}
+Set-StrictMode -Version Latest
+$ErrorActionPreference = "Stop"
+
+{{ range .tweaks.windows.registry -}}
+$registryPath = "{{ .hive }}:\{{ .path }}"
+if (-not (Test-Path $registryPath)) {
+  New-Item -Path $registryPath -Force | Out-Null
+}
+
+$currentValue = Get-ItemPropertyValue -Path $registryPath -Name "{{ .name }}" -ErrorAction SilentlyContinue
+if ($currentValue -ne {{ .value | quote }}) {
+  Write-Host "Aplicando tweak registry {{ .name }}..."
+  New-ItemProperty -Path $registryPath -Name "{{ .name }}" -PropertyType {{ .type }} -Value {{ .value | quote }} -Force | Out-Null
+}
+
+{{ end -}}
+{{ range .tweaks.windows.powershell -}}
+if (-not ({{ .check }})) {
+  Write-Host "Aplicando tweak {{ .name }}..."
+{{ .run | indent 2 }}
+}
+
+{{ end -}}
+{{ range .tweaks.windows.commands -}}
+if (-not ({{ .check }})) {
+  Write-Host "Aplicando tweak {{ .name }}..."
+{{ .run | indent 2 }}
+}
+
+{{ end -}}
+{{ end -}}

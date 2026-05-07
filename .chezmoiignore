@@ -3,9 +3,11 @@ docs
 # Script do OS errado
 {{ if ne .chezmoi.os "windows" }}
 run_onchange_manage-packages.ps1.tmpl
+run_onchange_apply-tweaks.ps1.tmpl
 {{ end }}
 {{ if eq .chezmoi.os "windows" }}
 run_onchange_manage-packages.sh.tmpl
+run_onchange_apply-tweaks.sh.tmpl
 {{ end }}
 
 bin

@@ -15,7 +15,7 @@ irm -useb https://get.chezmoi.io/ps1 | powershell -c -
 chezmoi init --apply github.com/luislima/dotfiles
 ```
 
-O bootstrap instala os pacotes declarados em `.chezmoidata/packages.yaml` e aplica todos os configs automaticamente.
+O bootstrap instala os pacotes declarados em `.chezmoidata/packages/` e aplica todos os configs automaticamente.
 
 ## Uso diário
 
@@ -40,17 +40,36 @@ chezmoi git -- push
 
 ## Adicionar ou remover pacotes
 
-Editar `.chezmoidata/packages.yaml` e rodar `chezmoi apply`. O script detecta a mudança e instala o que estiver faltando.
+Editar os arquivos em `.chezmoidata/packages/` e rodar `chezmoi apply`. O script detecta a mudança e instala o que estiver faltando.
 
 Pacotes com instalação via gerenciador de pacotes (`dnf`, `brew`, `winget`) ficam nas listas por OS. Pacotes com instalação customizada (curl, script, etc.) ficam em `custom`:
 
 ```yaml
+# .chezmoidata/packages/linux.yaml
 packages:
   linux:
-    dnf:
+    dnf_install:
       - gh
     custom:
       - name: zed
         check: "which zed"
         install: "curl -f https://zed.rs/install.sh | sh"
 ```
+
+## Tweaks do sistema
+
+Editar os arquivos em `.chezmoidata/tweaks/` e rodar `chezmoi apply`. Os scripts `run_onchange_apply-tweaks.*.tmpl` aplicam os ajustes quando o conteúdo renderizado muda.
+
+Use o tipo declarativo de cada plataforma quando possível:
+
+```yaml
+tweaks:
+  linux:
+    gsettings: []
+  darwin:
+    defaults: []
+  windows:
+    registry: []
+```
+
+Para ajustes que precisam de lógica própria, use `commands` no Linux/macOS ou `powershell` no Windows.

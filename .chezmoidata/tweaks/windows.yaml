@@ -1,0 +1,15 @@
+tweaks:
+  windows:
+    registry:
+      - hive: HKCU
+        path: Software\Microsoft\Windows\CurrentVersion\Explorer\Advanced
+        name: HideFileExt
+        type: DWord
+        value: 0
+      - hive: HKCU
+        path: Software\Microsoft\Windows\CurrentVersion\Explorer\Advanced
+        name: LaunchTo
+        type: DWord
+        value: 1
+    powershell: []
+    commands: []
