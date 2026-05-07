@@ -1,5 +1,4 @@
 {{ if eq .chezmoi.os "windows" -}}
-Set-StrictMode -Version Latest
 $ErrorActionPreference = "Stop"
 
 {{ range .tweaks.windows.registry -}}
@@ -8,7 +7,7 @@ if (-not (Test-Path $registryPath)) {
   New-Item -Path $registryPath -Force | Out-Null
 }
 
-$currentValue = Get-ItemPropertyValue -Path $registryPath -Name "{{ .name }}" -ErrorAction SilentlyContinue
+$currentValue = (Get-ItemProperty -Path $registryPath -Name "{{ .name }}" -ErrorAction SilentlyContinue)."{{ .name }}"
 if ($currentValue -ne {{ .value | quote }}) {
   Write-Host "Aplicando tweak registry {{ .name }}..."
   New-ItemProperty -Path $registryPath -Name "{{ .name }}" -PropertyType {{ .type }} -Value {{ .value | quote }} -Force | Out-Null
@@ -16,7 +15,10 @@ if ($currentValue -ne {{ .value | quote }}) {
 
 {{ end -}}
 {{ range .tweaks.windows.powershell -}}
-if (-not ({{ .check }})) {
+$checkResult = & {
+{{ .check | indent 2 }}
+}
+if (-not $checkResult) {
   Write-Host "Aplicando tweak {{ .name }}..."
 {{ .run | indent 2 }}
 }

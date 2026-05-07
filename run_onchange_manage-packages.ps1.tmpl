@@ -1,4 +1,40 @@
 {{ if eq .chezmoi.os "windows" -}}
+{{ range .packages.windows.appx_remove -}}
+if (Get-AppxPackage -AllUsers "{{ . }}" -ErrorAction SilentlyContinue) {
+  Write-Host "Removendo {{ . }}..."
+  Get-AppxPackage -AllUsers "{{ . }}" | Remove-AppxPackage -AllUsers
+}
+{{ end -}}
+
+{{ range .packages.windows.capabilities_remove -}}
+Get-WindowsCapability -Online -Name "{{ . }}*" | Where-Object State -eq "Installed" | ForEach-Object {
+  Write-Host "Removendo $($_.Name)..."
+  Remove-WindowsCapability -Online -Name $_.Name
+}
+{{ end -}}
+
+{{ range .packages.windows.features_disable -}}
+if ((Get-WindowsOptionalFeature -Online -FeatureName "{{ . }}" -ErrorAction SilentlyContinue).State -eq "Enabled") {
+  Write-Host "Desativando recurso {{ . }}..."
+  Disable-WindowsOptionalFeature -Online -FeatureName "{{ . }}" -NoRestart
+}
+{{ end -}}
+
+{{ range .packages.windows.features_enable -}}
+if ((Get-WindowsOptionalFeature -Online -FeatureName "{{ . }}" -ErrorAction SilentlyContinue).State -ne "Enabled") {
+  Write-Host "Ativando recurso {{ . }}..."
+  Enable-WindowsOptionalFeature -Online -FeatureName "{{ . }}" -NoRestart
+}
+{{ end -}}
+
+{{ range .packages.windows.winget_remove -}}
+$installed = winget list --id "{{ . }}" --exact 2>$null
+if ($LASTEXITCODE -eq 0) {
+  Write-Host "Removendo {{ . }}..."
+  winget uninstall --id "{{ . }}" --exact --silent
+}
+{{ end -}}
+
 $packages = @(
 {{ range .packages.windows.winget -}}
   "{{ . }}"
@@ -12,4 +48,11 @@ foreach ($pkg in $packages) {
     winget install --id $pkg --exact --silent
   }
 }
+
+{{ range .packages.windows.custom -}}
+if (-not ({{ .check }})) {
+  Write-Host "Instalando {{ .name }}..."
+  {{ .install }}
+}
+{{ end -}}
 {{ end -}}

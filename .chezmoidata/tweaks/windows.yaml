@@ -1,15 +1,41 @@
 tweaks:
   windows:
     registry:
-      - hive: HKCU
-        path: Software\Microsoft\Windows\CurrentVersion\Explorer\Advanced
-        name: HideFileExt
+      - name: SearchboxTaskbarMode
+        hive: HKCU
+        path: SOFTWARE\Microsoft\Windows\CurrentVersion\Search
         type: DWord
-        value: 0
-      - hive: HKCU
-        path: Software\Microsoft\Windows\CurrentVersion\Explorer\Advanced
-        name: LaunchTo
+        value: "0"
+      - name: ShowTaskViewButton
+        hive: HKCU
+        path: SOFTWARE\Microsoft\Windows\CurrentVersion\Explorer\Advanced
         type: DWord
-        value: 1
-    powershell: []
+        value: "0"
+    powershell:
+      - name: taskbar-pins
+        check: |
+          $pins = Get-ChildItem "$env:APPDATA\Microsoft\Internet Explorer\Quick Launch\User Pinned\TaskBar" -Filter "*.lnk" -ErrorAction SilentlyContinue | Select-Object -ExpandProperty Name
+          ($pins.Count -eq 2) -and ($pins -contains "File Explorer.lnk") -and ($pins -contains "Microsoft Edge.lnk")
+        run: |
+          $taskbarPath = "$env:APPDATA\Microsoft\Internet Explorer\Quick Launch\User Pinned\TaskBar"
+          Remove-Item -Path "HKCU:\Software\Microsoft\Windows\CurrentVersion\Explorer\Taskband" -Force -ErrorAction SilentlyContinue
+          Remove-Item "$taskbarPath\*" -Force -ErrorAction SilentlyContinue
+          $shell = New-Object -ComObject WScript.Shell
+          $sc = $shell.CreateShortcut("$taskbarPath\File Explorer.lnk")
+          $sc.TargetPath = "$env:SystemRoot\explorer.exe"
+          $sc.Save()
+          $edgePath = "${env:ProgramFiles(x86)}\Microsoft\Edge\Application\msedge.exe"
+          if (-not (Test-Path $edgePath)) { $edgePath = "$env:ProgramFiles\Microsoft\Edge\Application\msedge.exe" }
+          $sc = $shell.CreateShortcut("$taskbarPath\Microsoft Edge.lnk")
+          $sc.TargetPath = $edgePath
+          $sc.Save()
+          Stop-Process -Name explorer -Force
+          Start-Sleep -Seconds 2
+          Start-Process explorer
+      - name: tema-captured-motion
+        check: "(Get-ItemProperty 'HKCU:\\SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\Themes' -Name CurrentTheme -ErrorAction SilentlyContinue).CurrentTheme -like '*themeB*'"
+        run: |
+          Start-Process "$env:SystemRoot\Resources\Themes\themeB.theme"
+          Start-Sleep -Seconds 3
+          Get-Process "SystemSettings" -ErrorAction SilentlyContinue | Stop-Process -Force
     commands: []

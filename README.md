@@ -2,6 +2,13 @@
 
 Dotfiles pessoais gerenciados com [chezmoi](https://chezmoi.io). Suporte a Fedora, macOS e Windows.
 
+## Pré-requisitos
+
+**Windows:** liberar execução de scripts no PowerShell (necessário para o chezmoi rodar os scripts):
+```powershell
+Set-ExecutionPolicy -ExecutionPolicy RemoteSigned -Scope CurrentUser
+```
+
 ## Bootstrap — nova máquina
 
 **Linux/macOS:**

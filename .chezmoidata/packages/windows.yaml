@@ -1,5 +1,72 @@
 packages:
   windows:
+    appx_remove:
+      - Clipchamp.Clipchamp
+      - Microsoft.BingNews
+      - Microsoft.BingWeather
+      - Microsoft.BingSearch
+      - Microsoft.Copilot
+      - Microsoft.GetHelp
+      - Microsoft.Getstarted
+      - Microsoft.MicrosoftJournal
+      - Microsoft.MicrosoftOfficeHub
+      - Microsoft.MicrosoftSolitaireCollection
+      - Microsoft.MicrosoftStickyNotes
+      - Microsoft.MixedReality.Portal
+      - Microsoft.OutlookForWindows
+      - Microsoft.Paint
+      - Microsoft.People
+      - Microsoft.PowerAutomateDesktop
+      - Microsoft.SkypeApp
+      - Microsoft.Todos
+      - Microsoft.Whiteboard
+      - Microsoft.WindowsCamera
+      - Microsoft.WindowsFeedbackHub
+      - Microsoft.WindowsMaps
+      - Microsoft.WindowsSoundRecorder
+      - Microsoft.YourPhone
+      - Microsoft.ZuneVideo
+      - Microsoft.549981C3F5F10
+      - MicrosoftCorporationII.MicrosoftFamily
+      - MicrosoftCorporationII.QuickAssist
+      - Microsoft.WindowsAlarms
+      - MSTeams
+      - Microsoft.Windows.DevHome
+      - Microsoft.GamingApp
+      - Microsoft.XboxApp
+      - Microsoft.XboxGameOverlay
+      - Microsoft.XboxGamingOverlay
+      - Microsoft.XboxIdentityProvider
+      - Microsoft.XboxSpeechToTextOverlay
+      - Microsoft.Xbox.TCUI
+    capabilities_remove:
+      - App.StepsRecorder
+      - Browser.InternetExplorer
+      - Hello.Face
+      - MathRecognizer
+      - Microsoft.Windows.WordPad
+      - Print.Fax.Scan
+      - Print.Management.Console
+      - Microsoft.Windows.PowerShell.ISE
+      - VBSCRIPT
+      - XPS.Viewer
+    features_disable:
+      - SMB1Protocol
+      - WorkFolders-Client
+      - MicrosoftWindowsPowerShellV2
+      - MicrosoftWindowsPowerShellV2Root
+      - WindowsMediaPlayer
+      - MobileDevices
+    features_enable:
+      - Microsoft-Windows-Subsystem-Linux
+      - VirtualMachinePlatform
+    winget_remove:
+      - Microsoft.OneDrive
     winget:
       - ZedIndustries.Zed
       - GitHub.cli
+      - Git.Git
+    custom:
+      - name: claude-code
+        check: "Get-Command claude -ErrorAction SilentlyContinue"
+        install: "irm https://claude.ai/install.ps1 | iex"
