@@ -2,7 +2,14 @@
 #!/bin/sh
 set -e
 
-{{ range .packages.linux.dnf -}}
+{{ range .packages.linux.dnf_remove -}}
+if rpm -q {{ . }} > /dev/null 2>&1; then
+  echo "Removendo {{ . }}..."
+  sudo dnf remove -y {{ . }}
+fi
+{{ end -}}
+
+{{ range .packages.linux.dnf_install -}}
 if ! rpm -q {{ . }} > /dev/null 2>&1; then
   echo "Instalando {{ . }}..."
   sudo dnf install -y {{ . }}

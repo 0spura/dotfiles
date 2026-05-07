@@ -1,0 +1,51 @@
+tweaks:
+  linux:
+    gsettings:
+      - desktop: GNOME
+        schema: org.gnome.desktop.wm.keybindings
+        key: switch-windows
+        value: "['<Alt>Tab']"
+      - desktop: GNOME
+        schema: org.gnome.desktop.wm.keybindings
+        key: switch-group
+        value: "@as []"
+      - desktop: GNOME
+        schema: org.gnome.shell
+        key: favorite-apps
+        value: "['org.mozilla.firefox.desktop', 'org.gnome.Nautilus.desktop', 'org.gnome.Ptyxis.desktop', 'dev.zed.Zed.desktop']"
+      - desktop: GNOME
+        schema: org.gnome.desktop.interface
+        key: color-scheme
+        value: "'prefer-dark'"
+      - desktop: GNOME
+        schema: org.gnome.settings-daemon.plugins.power
+        key: power-saver-profile-on-low-battery
+        value: "true"
+      - desktop: GNOME
+        schema: org.gnome.desktop.screensaver
+        key: idle-activation-enabled
+        value: "true"
+      - desktop: GNOME
+        schema: org.gnome.desktop.session
+        key: idle-delay
+        value: "uint32 900"
+      - desktop: GNOME
+        schema: org.gnome.settings-daemon.plugins.power
+        key: sleep-inactive-battery-type
+        value: "'suspend'"
+      - desktop: GNOME
+        schema: org.gnome.settings-daemon.plugins.power
+        key: sleep-inactive-battery-timeout
+        value: "900"
+      - desktop: GNOME
+        schema: org.gnome.settings-daemon.plugins.power
+        key: sleep-inactive-ac-type
+        value: "'nothing'"
+      - desktop: GNOME
+        schema: org.gnome.settings-daemon.plugins.power
+        key: sleep-inactive-ac-timeout
+        value: "900"
+    commands: []
+  darwin:
+    defaults: []
+    commands: []

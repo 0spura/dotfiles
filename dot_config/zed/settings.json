@@ -202,5 +202,7 @@
     "dockerfile": true,
     "sql": true,
     "toml": true,
+    "git-firefly": true,
+    "docker-compose": true,
   },
 }
