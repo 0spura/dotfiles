@@ -50,24 +50,14 @@
   "enabledPlugins": {
     "superpowers@claude-plugins-official": true,
     "code-simplifier@claude-plugins-official": true,
-    "code-review@claude-plugins-official": true
+    "code-review@claude-plugins-official": true,
+    "playwright@claude-plugins-official": true
   },
   "sandbox": {
     "enabled": true,
     "filesystem": {
-      "allowWrite": [
-        ".",
-        "./src",
-        "./tests",
-        "./scripts",
-        "/tmp"
-      ],
-      "denyRead": [
-        "./.env",
-        "./.env.*",
-        "~/.ssh/**",
-        "~/.aws/**"
-      ]
+      "allowWrite": [".", "./src", "./tests", "./scripts", "/tmp"],
+      "denyRead": ["./.env", "./.env.*", "~/.ssh/**", "~/.aws/**"]
     }
   },
   "effortLevel": "medium",
