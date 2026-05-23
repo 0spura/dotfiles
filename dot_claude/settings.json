@@ -48,9 +48,6 @@
     ]
   },
   "enabledPlugins": {
-    "superpowers@claude-plugins-official": true,
-    "code-simplifier@claude-plugins-official": true,
-    "code-review@claude-plugins-official": true,
     "playwright@claude-plugins-official": true
   },
   "sandbox": {
@@ -63,5 +60,38 @@
   "effortLevel": "medium",
   "autoUpdatesChannel": "stable",
   "showThinkingSummaries": true,
-  "showTurnDuration": true
+  "showTurnDuration": true,
+  "hooks": {
+    "PreToolUse": [
+      {
+        "matcher": "Bash",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "input=$(cat); cmd=$(echo \"$input\" | jq -r '.command // \"\"' 2>/dev/null || echo ''); if echo \"$cmd\" | grep -qE '(npm (install|run|test|build)|pnpm (install|run|test|build)|cargo (build|test|run)|pytest|jest|vitest)'; then [ -z \"$TMUX\" ] && echo '[Hook] Long-running command — consider tmux for session persistence' >&2; fi; if echo \"$cmd\" | grep -qE '^git push'; then echo '[Hook] Pre-push: run /code-review if changes have not been reviewed yet' >&2; fi; true"
+          }
+        ]
+      }
+    ],
+    "PostToolUse": [
+      {
+        "matcher": "Edit",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "input=$(cat); f=$(echo \"$input\" | jq -r '.file_path // \"\"' 2>/dev/null || echo ''); if [ -n \"$f\" ] && echo \"$f\" | grep -qE '\\.(js|ts|jsx|tsx|mjs|cjs)$' && [ -f \"$f\" ]; then n=$(grep -c 'console\\.log' \"$f\" 2>/dev/null || echo 0); [ \"$n\" -gt 0 ] && echo \"[Hook] $n console.log in $(basename \"$f\") — remove before committing\" >&2; fi; true"
+          }
+        ]
+      },
+      {
+        "matcher": "Write",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "input=$(cat); f=$(echo \"$input\" | jq -r '.file_path // \"\"' 2>/dev/null || echo ''); if [ -n \"$f\" ] && echo \"$f\" | grep -qE '\\.(js|ts|jsx|tsx|mjs|cjs)$' && [ -f \"$f\" ]; then n=$(grep -c 'console\\.log' \"$f\" 2>/dev/null || echo 0); [ \"$n\" -gt 0 ] && echo \"[Hook] $n console.log in $(basename \"$f\") — remove before committing\" >&2; fi; true"
+          }
+        ]
+      }
+    ]
+  }
 }
