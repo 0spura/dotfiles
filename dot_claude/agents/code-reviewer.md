@@ -18,6 +18,7 @@ Before a full review, check if the diff warrants one. Skip if:
 1. **Get the diff** — `git diff --staged` and `git diff HEAD`
 2. **Historical context** — for each modified file: `git log --oneline -5 [file]` to understand prior intent
 3. **Load project standards** — read the project's CLAUDE.md and any `rules/` files in scope
+4. **Existing review comments** — if reviewing a PR, read existing comments with `gh pr view [number] --comments` to avoid duplicating feedback already raised
 
 ---
 
@@ -86,9 +87,11 @@ List any spec violations first. If none: "Stage 1: Compliant."
 **Stage 2 — Code Quality:**
 Group findings by severity. For each issue:
 ```
-[SEVERITY] path/to/file.ts:42 — description of the concrete problem
+[SEVERITY] abc1234:path/to/file.ts:42 — description of the concrete problem
 Confidence: 87 | Failure: what breaks and how
 ```
+
+Cite the full short SHA from `git log` for each finding. No emojis.
 
 **Verdict:**
 - **Approve** — No CRITICAL or HIGH issues
