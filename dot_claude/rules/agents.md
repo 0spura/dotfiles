@@ -40,7 +40,7 @@ When executing a plan with independent tasks:
 - **Fresh agent per task** — each agent gets isolated, focused context, not your full session history
 - **Two mandatory review stages per task:** spec compliance first, then code quality — never combined, never skipped
 - **Never dispatch multiple implementers simultaneously** — one at a time, review between each
-- **Model selection:** cheaper models for mechanical/repetitive tasks; standard for integration; best available for architecture and security
+- **Model selection:** follow the model selection table in `rules/performance.md`
 
 ## Sub-agent Context
 

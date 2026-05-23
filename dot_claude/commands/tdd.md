@@ -6,6 +6,5 @@ The tdd-guide will:
 1. Write failing tests that specify the expected behavior (RED)
 2. Implement the minimal code to make them pass (GREEN)
 3. Refactor while keeping tests green
-4. Verify coverage stays ≥ 80%
 
 Tests are written before implementation — not after.

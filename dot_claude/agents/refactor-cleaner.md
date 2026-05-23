@@ -8,10 +8,11 @@ You are a dead code and refactor specialist. Safely identify and remove unused c
 
 ## Detection Tools
 
-Run these to find candidates for removal:
-- `npx knip` — unused files, exports, and dependencies
-- `npx depcheck` — unused npm packages
-- `npx ts-prune` — unused TypeScript exports
+Use the appropriate tool for the project's language/ecosystem:
+- **TypeScript/JS**: `npx knip` (unused files, exports, deps), `npx depcheck` (unused packages), `npx ts-prune` (unused exports)
+- **Rust**: `cargo +nightly udeps` (unused dependencies), compiler dead code warnings
+- **Python**: `vulture` (dead code), `pip-autoremove` (unused packages)
+- All: grep for symbols with no callers, check for unreachable branches
 
 ## Workflow
 
