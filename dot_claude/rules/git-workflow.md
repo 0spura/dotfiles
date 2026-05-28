@@ -1,34 +1,41 @@
 # Git Workflow
 
-## Commit Message Format
+## Workspace Safety
 
-```
-<type>: <description>
+- Check `git status --short` before substantial edits when working in a repo.
+- Never revert, overwrite, or clean up changes you did not make unless explicitly asked.
+- If the workspace is dirty and the task is large, ask whether to create an isolated worktree.
+- Before creating a worktree, detect whether the current checkout is already isolated. Do not create nested worktrees.
+- Use a project-local `.worktrees/` directory only if it is ignored by git; otherwise ask before changing ignore rules.
+
+## During Work
+
+- Keep changes scoped to the requested behavior.
+- Avoid mixing formatting-only churn with behavior changes.
+- Review `git diff` before finishing significant work.
+- Run focused verification that matches the risk of the change.
+
+## Commits
+
+Commit only when the user asks.
+
+Use one logical change per commit. Before committing:
+
+- Review `git diff --staged`.
+- Confirm no debug logs, commented-out code, hardcoded secrets, or unrelated files are staged.
+- Use appropriate conventional commits:
+
+```text
+<type>: <short description>
 
 [optional body]
 ```
 
-Types: `feat`, `fix`, `refactor`, `docs`, `test`, `chore`, `perf`, `ci`
+## Pull Requests
 
-Good: `fix: prevent race condition in auth token refresh`
-Bad: `fix stuff`, `WIP`, `changes`, `update`
+Before opening or updating a PR:
 
-## Commit Discipline
-
-- One logical change per commit
-- Never commit: debug logs, `console.log`, hardcoded secrets, commented-out code
-- Verify with `git diff --staged` before every commit
-
-## Pull Request Workflow
-
-- Review full commit history (`git diff [base]...HEAD`), not just the latest commit
-- PR title: under 70 characters, describes the change
-- Include a test plan in the PR body
-- Use `-u` flag when pushing a new branch: `git push -u origin branch-name`
-
-## Branch Naming
-
-- `feat/short-description`
-- `fix/short-description`
-- `chore/short-description`
-- `refactor/short-description`
+- Review the full branch diff, not only the latest commit.
+- Include a concise summary and test plan.
+- Mention important risks, migrations, or follow-up work.
+- Ask before posting review comments or PR comments on the user's behalf.

@@ -68,7 +68,7 @@
         "hooks": [
           {
             "type": "command",
-            "command": "input=$(cat); cmd=$(echo \"$input\" | jq -r '.command // \"\"' 2>/dev/null || echo ''); if echo \"$cmd\" | grep -qE '(npm (install|run|test|build)|pnpm (install|run|test|build)|cargo (build|test|run)|pytest|jest|vitest)'; then [ -z \"$TMUX\" ] && echo '[Hook] Long-running command — consider tmux for session persistence' >&2; fi; if echo \"$cmd\" | grep -qE '^git push'; then echo '[Hook] Pre-push: run /code-review if changes have not been reviewed yet' >&2; fi; true"
+            "command": "input=$(cat); cmd=$(echo \"$input\" | jq -r '.command // \"\"' 2>/dev/null || echo ''); if echo \"$cmd\" | grep -qE '(npm (install|run|test|build)|pnpm (install|run|test|build)|cargo (build|test|run)|pytest|jest|vitest)'; then [ -z \"$TMUX\" ] && echo '[Hook] Long-running command — consider tmux for session persistence' >&2; fi; true"
           }
         ]
       }
