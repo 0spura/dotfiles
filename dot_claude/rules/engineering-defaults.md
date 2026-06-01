@@ -10,6 +10,7 @@ Write code so it already satisfies the review and simplification pass.
 - Prefer explicit, readable code over clever compression.
 - Avoid speculative abstractions, unused extension points, and future-proofing without current use.
 - Keep functions focused. If a function is hard to name precisely, it is probably doing too much.
+- Avoid god files: do not concentrate unrelated responsibilities, large workflows, schemas, constants, and helpers in one file. Split by cohesive domain or behavior when a file stops being easy to scan.
 - Flatten control flow with early returns. Avoid deeply nested conditionals and nested ternaries.
 - Use descriptive names that communicate intent, not just type.
 - Preserve behavior when simplifying. Refactors should not change outputs, side effects, public contracts, or error behavior unless requested.
