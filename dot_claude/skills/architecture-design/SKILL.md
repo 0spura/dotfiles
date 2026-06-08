@@ -19,6 +19,7 @@ The goal is to create a clear technical contract, not a large architecture docum
 - Be skeptical of new services, abstractions, queues, event buses, frameworks, and generic layers unless they solve a concrete problem.
 - Separate business rules from implementation details before changing legacy or unclear code.
 - State assumptions, non-goals, and unresolved decisions explicitly.
+- Treat an existing architecture decision log as input. Preserve its history and promote stable, consequential decisions to ADRs.
 
 ## When To Use Each Mode
 
@@ -82,6 +83,7 @@ For an existing repo, inspect only relevant context:
 - existing docs, routes, schemas, services, interfaces, tests, and nearby patterns
 - current ownership boundaries and data flow
 - prior decisions if ADRs/RFCs exist
+- `docs/architecture/decision-log.md` or the repository's equivalent decision log
 
 For a new idea, start from the user's constraints and ask for missing context.
 
@@ -154,7 +156,59 @@ Use only the sections that fit the request:
 
 Keep the artifact concise and implementation-facing.
 
-### 5. Critique Before Handoff
+### 5. Promote Decisions To ADRs
+
+After the architecture direction is approved, review the decision log and identify accepted decisions that are costly to reverse or materially affect:
+
+- system or service boundaries
+- data ownership or persistence
+- public APIs, events, or integration contracts
+- infrastructure and deployment topology
+- authentication, authorization, or security posture
+- migration and compatibility strategy
+- organization-wide technical standards
+
+Create ADRs only when the user asks for documentation or approves the architecture handoff. Follow the repository's existing ADR convention when present. Otherwise write them to:
+
+```text
+docs/adr/NNNN-short-title.md
+```
+
+Choose the next available four-digit sequence without renumbering existing ADRs.
+
+Use this compact structure:
+
+```markdown
+# NNNN: Decision title
+
+- Status: Proposed | Accepted | Superseded
+- Date: YYYY-MM-DD
+
+## Context
+
+Why the decision is needed and which constraints matter.
+
+## Decision
+
+What was chosen.
+
+## Alternatives Considered
+
+The viable alternatives and why they were not selected.
+
+## Consequences
+
+The important positive and negative outcomes, risks, and follow-up work.
+```
+
+After creating an ADR:
+
+- Update the corresponding decision-log entry with the ADR path.
+- Keep the log entry as the chronological index; do not replace or delete it.
+- Create one ADR per independently reversible decision.
+- Do not create ADRs for routine implementation details or tentative ideas.
+
+### 6. Critique Before Handoff
 
 Before finalizing, run a short self-critique:
 
