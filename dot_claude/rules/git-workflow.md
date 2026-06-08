@@ -17,7 +17,7 @@
 
 ## Commits
 
-Commit only when the user asks.
+Commit only when the user asks. When the conversation shifts to a new domain or feature — and there are unstaged changes from the previous work — suggest committing before proceeding.
 
 Use one logical change per commit. Before committing:
 

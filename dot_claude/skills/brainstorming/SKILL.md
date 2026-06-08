@@ -97,6 +97,7 @@ If the user wants changes:
 If the user approves:
 - Offer the next useful artifact, such as a PRD, RFC, ADR, implementation plan, backlog, experiment plan, or prototype plan.
 - Do not create files unless the user asks.
+- If the design is non-trivial, suggest using the **grill-me** skill to pressure-test it before moving to implementation.
 
 ## Markdown Output Preferences
 
