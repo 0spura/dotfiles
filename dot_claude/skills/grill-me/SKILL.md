@@ -32,33 +32,11 @@ Do not ask the user to re-explain what you can read yourself.
 
 ### 2. Build The Decision Tree
 
-Map the decisions that need to be validated. Common areas to cover:
+Map the decisions that need to be validated:
 
-**For product or feature designs:**
-- Problem definition and target user
-- Success metric and how it will be measured
-- MVP scope vs. full vision
-- Edge cases and failure states
-- Rollout and reversibility
-- Instrumentation and observability
-- Dependencies on external systems or teams
-
-**For architecture or technical designs:**
-- Component boundaries and responsibilities
-- Data model and ownership
-- API contracts and versioning
-- Failure modes and recovery
-- Consistency, latency, and scaling constraints
-- Migration path from current state
-- Testing and observability strategy
-- Operational burden
-
-**For implementation decisions:**
-- Fit with existing patterns in the codebase
-- Risk surface introduced
-- Test coverage for the changed behavior
-- Reversibility of the change
-- Performance and resource implications
+- **Product/feature:** problem definition, success metric, MVP scope, edge cases, rollout, observability, external dependencies
+- **Architecture:** component boundaries, data model, API contracts, failure modes, scaling, migration path, operational burden
+- **Implementation:** fit with existing patterns, risk surface, test coverage, reversibility, performance
 
 ### 3. Interrogate Sequentially
 
@@ -100,14 +78,5 @@ Before wrapping up, check:
 
 - Were all major decision areas covered?
 - Were contradictions or gaps named explicitly, not glossed over?
-- Did every question have a clear dependency reason for being asked?
 - Was the recommended answer based on inspected context, not guesswork?
 - Is the summary actionable?
-
-## Behavior To Avoid
-
-- Do not offer open-ended brainstorming when the user wants challenge, not options.
-- Do not ask multiple questions at once.
-- Do not accept vague answers without a clarifying follow-up.
-- Do not skip a hard question because the user seems confident.
-- Do not produce a long report at the start — interrogate first, summarize at the end.

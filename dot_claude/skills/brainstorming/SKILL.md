@@ -1,11 +1,11 @@
 ---
 name: brainstorming
-description: "Use before creative or product-shaping work: brainstorming products, features, integrations, UX flows, market positioning, MVP scope, or implementation direction. Turn rough ideas into clear options, tradeoffs, and an approved design before implementation."
+description: "Use before building a feature or integration: explore workflows, edge cases, architecture direction, and behavior. Turn rough ideas into clear options, tradeoffs, and an approved design before implementation."
 ---
 
 # Brainstorming
 
-Use this skill when the user wants to explore an idea before building, including product ideas, features, market opportunities, integrations, architecture direction, or behavior changes.
+Use this skill when the user wants to explore how something should work before building it: feature workflows, integrations, architecture direction, or behavior changes.
 
 The goal is not to produce a huge document. The goal is to help the user think clearly, expose assumptions, compare options, and converge on a useful next step.
 
@@ -80,11 +80,11 @@ Once the direction is selected, present a design in Markdown. Use only the secti
 - Validation plan
 - Next steps
 
-For product brainstorming, emphasize value, differentiation, market assumptions, activation, retention, monetization, and validation.
-
 For feature brainstorming, emphasize workflows, edge cases, permissions, states, instrumentation, and rollout.
 
 For architecture brainstorming, emphasize boundaries, interfaces, data flow, failure modes, observability, testing, and migration path.
+
+For product-level decisions (positioning, market fit, pricing, retention, growth motion), use the **product** skill instead.
 
 ### 5. Maintain The Architecture Decision Log
 
@@ -136,38 +136,6 @@ If the user approves:
 - Do not create files unless the user asks, except for the architecture decision log.
 - If the design is non-trivial, suggest using the **grill-me** skill to pressure-test it before moving to implementation.
 
-## Markdown Output Preferences
-
-Use compact Markdown structures:
-
-- Short headings.
-- Bullets for alternatives and tradeoffs.
-- Tables only when comparing options or prioritizing.
-
-Good default formats:
-
-### Option Comparison
-
-| Option | Best for | Tradeoff | Risk |
-| --- | --- | --- | --- |
-| A | ... | ... | ... |
-| B | ... | ... | ... |
-
-### Prioritization
-
-| Item | Impact | Effort | Confidence | Notes |
-| --- | --- | --- | --- | --- |
-| ... | High | Low | Medium | ... |
-
-### Decision Summary
-
-- Recommendation:
-- Why:
-- Assumptions:
-- Risks:
-- Decision log:
-- Next step:
-
 ## Quality Bar
 
 Before presenting a design, check:
@@ -179,11 +147,3 @@ Before presenting a design, check:
 - Are risks and unknowns named?
 - Were confirmed architectural decisions added to the decision log?
 - Is there a concrete next step?
-- Is the answer understandable without a diagram?
-
-## Behavior To Avoid
-
-- Do not treat brainstorming as permission to produce long essays.
-- Do not make the user answer five questions at once.
-- Do not jump from a vague idea directly to implementation.
-- Do not recommend broad refactors or platform rewrites unless they directly serve the idea.
