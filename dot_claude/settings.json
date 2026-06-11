@@ -61,6 +61,10 @@
   "autoUpdatesChannel": "stable",
   "showThinkingSummaries": true,
   "showTurnDuration": true,
+  "attribution": {
+    "commit": "",
+    "pr": ""
+  },
   "hooks": {
     "PreToolUse": [
       {
