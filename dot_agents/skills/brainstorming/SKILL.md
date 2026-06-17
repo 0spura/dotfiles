@@ -23,5 +23,31 @@ description: "Use before building a feature or integration: explore workflows, e
 3. If the user pointed to a direction, explore it — don't offer alternatives for completeness. Only present 2-3 options when the decision is genuinely open.
 4. Present a design: problem, core use case, MVP scope, non-goals, user flow, risks, next steps.
 5. Get approval. Revise if needed.
+6. Save the approved design to `docs/features/<feature-name>/design.md` using only the sections that fit:
 
-**Done when:** User approves a design direction and the next concrete step is clear. Suggest **srs** to formalize requirements. For very small scopes where requirements are already unambiguous, suggest **architecture-design** directly.
+```markdown
+# Design — [Feature Name]
+
+## Problem
+What is broken or missing and who feels it.
+
+## Core Use Case
+The primary scenario this design addresses.
+
+## MVP Scope
+What is included in the first version.
+
+## Non-Goals
+What this design explicitly does not cover.
+
+## User Flow
+Step-by-step: how a user accomplishes the core use case.
+
+## Risks
+What could go wrong or invalidate this design.
+
+## Next Steps
+Immediate actions after approval.
+```
+
+**Done when:** Design saved and approved. Suggest **srs** to formalize requirements. For very small scopes where requirements are already unambiguous, suggest **architecture-design** directly.

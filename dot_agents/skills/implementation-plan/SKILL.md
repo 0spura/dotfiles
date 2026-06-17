@@ -27,14 +27,15 @@ description: "Use after architecture is approved and grill-me is done: break the
 4. Break each phase into tasks: action-named, one-sitting sized, with explicit verify-with and dependencies.
 5. Produce the plan: Phase / Goal / Done when / Tasks (with verify-with) / Risks.
 
-**Done when:** Plan approved and saved to `docs/plans/YYYY-MM-DD-feature-name.md` with header: Date / SRS / Architecture / Testing tools (e.g. "Unit: jest, E2E: playwright") / Status.
+**Done when:** Plan approved and saved to `docs/features/<feature-name>/plan.md` with header: Date / SRS / Architecture / Testing tools (e.g. "Unit: jest, E2E: playwright") / Status.
 
 **Execution per task:**
-1. Read the plan file in `docs/plans/` to find the next unchecked task
+1. Read the plan file in `docs/features/<feature-name>/` to find the next unchecked task
 2. Write the test for this task only (it fails)
 3. Implement until the test passes
-4. Mark the task `- [x]` in the plan file
-5. Commit — one task, one commit
-6. Repeat
+4. If the implementation diverged from `architecture.md` or `srs-document.md`, update those files now — before committing. A commit that changes behavior without updating the relevant doc is incomplete.
+5. Mark the task `- [x]` in the plan file
+6. Commit — one task, one commit (code + doc updates together)
+7. Repeat
 
 When all tasks in a phase are checked, run `/code-review` before starting the next. Never generate all tests upfront. Update the plan file when scope changes — it's the source of truth across sessions.

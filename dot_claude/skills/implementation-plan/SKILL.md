@@ -22,7 +22,7 @@ Execution order for every task: **spec → test → implement → commit**.
 
 ### 1. Understand The Architecture
 
-Read `docs/architecture/` and `docs/srs.md`. The architecture document defines the technical constraints — stack, boundaries, data model, APIs — that tasks must stay within. The SRS provides `RF-XXX.N` IDs to reference in each task. Do not revisit decisions in either document — treat them as settled input.
+Read `docs/features/<feature-name>/architecture.md` and `docs/features/<feature-name>/srs-document.md`. The architecture document defines the technical constraints — stack, boundaries, data model, APIs — that tasks must stay within. The SRS provides `RF-XXX.N` IDs to reference in each task. Do not revisit decisions in either document — treat them as settled input.
 
 ### 2. Identify The Riskiest Parts
 
@@ -50,13 +50,13 @@ Ordering principles:
 For each phase, list concrete tasks. Each task:
 - Named as an action ("implement X", "add Y", "wire Z to W") — not a noun
 - Small enough to complete and commit in one sitting
-- Referenced to an SRS requirement when one exists, using a markdown link ("implements [RF-HAB.3](../srs.md#rf-hab3-frequency)")
+- Referenced to an SRS requirement when one exists, using a markdown link ("implements [RF-HAB.3](./srs-document.md#rf-hab3-frequency)")
 - Has an explicit "verify with" — the test or observable behavior that proves it works
 - Has explicit dependencies ("requires task 3 complete", "blocked by external API access")
 
 ### 5. Save And Produce The Plan
 
-Save the plan to `docs/plans/YYYY-MM-DD-feature-name.md` before presenting it. This file is the source of truth across sessions — the agent reads it at the start of each session to resume without re-explaining context. Treat it as a living document: update it when scope changes, not after the fact.
+Save the plan to `docs/features/<feature-name>/plan.md` before presenting it. This file is the source of truth across sessions — the agent reads it at the start of each session to resume without re-explaining context. Treat it as a living document: update it when scope changes, not after the fact.
 
 File header:
 
@@ -64,8 +64,8 @@ File header:
 # Plan: [Feature name]
 
 - Date: YYYY-MM-DD
-- SRS: [link to SRS file, if exists]
-- Architecture: [link to architecture doc, if exists]
+- SRS: [link to docs/features/<feature-name>/srs-document.md]
+- Architecture: [link to docs/features/<feature-name>/architecture.md]
 - Testing tools: [e.g. "Unit: jest, E2E: playwright"]
 - Status: In Progress | Complete
 ```
@@ -89,12 +89,13 @@ Risks: [what could block or invalidate this phase]
 After the plan is approved and saved, implementation begins task by task — not all at once.
 
 Execution pattern per task:
-1. Read `docs/plans/` to find the current plan and locate the next unchecked task
+1. Read `docs/features/<feature-name>/plan.md` to find the current plan and locate the next unchecked task
 2. Write the test for this task only (it fails) — do not generate tests for future tasks
 3. Implement until the test passes
-4. Mark the task as done in the plan file: `- [x]`
-5. Commit — one task, one commit
-6. Move to the next task
+4. If the implementation diverged from `architecture.md` or `srs-document.md`, update those files now — before committing. A commit that changes behavior without updating the relevant doc is incomplete.
+5. Mark the task as done in the plan file: `- [x]`
+6. Commit — one task, one commit (code + doc updates together)
+7. Move to the next task
 
 When all tasks in a phase are checked, mark the phase complete and suggest `/code-review` before starting the next phase.
 

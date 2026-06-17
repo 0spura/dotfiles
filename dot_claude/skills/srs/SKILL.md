@@ -28,7 +28,7 @@ The product context (vision, principles, target users, market) lives in `docs/pr
 ```markdown
 # SRS — [Product / Feature Name]
 
-> Product context: [docs/product/discovery.md](../product/discovery.md)
+> Product context: [docs/product/discovery.md](../../product/discovery.md)
 
 # 1. Functional Requirements
 
@@ -55,7 +55,7 @@ The product context (vision, principles, target users, market) lives in `docs/pr
 
 ### 1. Read The Approved Design
 
-Take the brainstorming output as input. Identify: actors, use cases, constraints, non-goals, and any explicit decisions already made.
+Read `docs/features/<feature-name>/design.md` as the primary input. This file contains the approved design from brainstorming — use it as the source of truth, not the conversational context. Identify: actors, use cases, constraints, non-goals, and any explicit decisions already made.
 
 ### 2. Organize By Domain
 
@@ -67,7 +67,7 @@ Each requirement describes observable system behavior, not implementation. Decla
 
 ### 4. Save The Document
 
-Save to `docs/srs.md` (full product) or `docs/srs/feature-name.md` (scoped feature). This file is versioned — changes tracked in git, deprecated requirements never deleted.
+Save to `docs/features/<feature-name>/srs-document.md`. This file is versioned — changes tracked in git, deprecated requirements never deleted.
 
 ### 5. Hand Off
 

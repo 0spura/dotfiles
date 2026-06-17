@@ -43,4 +43,35 @@ Problem · Target user · Core use case · MVP scope · Non-goals · User flow �
 
 Ask if the design looks right. Revise if needed. Ask again only when the revised direction is meaningfully different.
 
+### 6. Save The Approved Design
+
+Once approved, save the design to `docs/features/<feature-name>/design.md`. This file is the clean input for the SRS — it captures the approved decision without the conversational context, so the next session starts from a clear baseline rather than re-deriving it from the discussion.
+
+Use only the sections that fit the request:
+
+```markdown
+# Design — [Feature Name]
+
+## Problem
+What is broken or missing and who feels it.
+
+## Core Use Case
+The primary scenario this design addresses.
+
+## MVP Scope
+What is included in the first version.
+
+## Non-Goals
+What this design explicitly does not cover.
+
+## User Flow
+Step-by-step: how a user accomplishes the core use case.
+
+## Risks
+What could go wrong or invalidate this design.
+
+## Next Steps
+Immediate actions after approval.
+```
+
 On approval: suggest **srs** to formalize the requirements before architecture design begins. For very small scopes where requirements are already unambiguous, suggest **architecture-design** directly.

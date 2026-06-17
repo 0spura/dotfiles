@@ -11,44 +11,17 @@ The SRS defines the *what*. This skill defines the *how*. Do not rewrite or expa
 
 Do not implement while the architecture is being designed. Prefer the simplest design that satisfies the stated requirements. Be skeptical of new services, abstractions, queues, event buses, and generic layers unless they solve a concrete problem.
 
-## Modes
-
-Use the lightest mode that fits the request.
-
-### Feature Architecture
-
-Domain boundaries · states and transitions · API contracts · data model changes · rollout and backwards compatibility · observability
-
-### System Integration
-
-Ownership of each system · request/response or event contracts · idempotency and retries · auth · failure handling · rate limits, timeouts, backpressure · data consistency
-
-### Modernization Or Refactor
-
-Before proposing a new structure:
-1. Identify behavior that must not change
-2. Extract business rules from current code
-3. Separate domain policy from technical plumbing
-4. Call out magic numbers, thresholds, state transitions, validations, calculations
-5. Identify where tests need to pin behavior before refactoring
-
-### Architecture Critique
-
-- Do we need this complexity?
-- What is the simplest design that meets the requirements?
-- Does each boundary reflect a real domain boundary?
-- Which non-functional requirements are missing?
-- What happens when a dependency is down?
-- Is the migration story concrete?
-- Are there abstractions with only one implementation and no clear second use?
-
 ## Process
 
-### 1. Read The SRS
+### 1. Establish The Project Foundation
 
-Read `docs/srs.md` (or the scoped SRS file). Use the `RF-XXX.N` requirement IDs as anchors — every significant architectural decision should trace back to a requirement. Also inspect existing code, schemas, routes, interfaces, tests, and existing ADRs.
+If `docs/project.md` does not exist, create it first. This document covers: stack, languages, frameworks, infra, deployment model, and global constraints (e.g. "all APIs are REST", "auth via JWT"). It is the foundation all features inherit — do not repeat this context in per-feature architecture docs.
 
-### 2. Extract Business Rules
+### 2. Read The SRS
+
+Read `docs/project.md`, `docs/features/<feature-name>/srs-document.md`, and existing ADRs. Use the `RF-XXX.N` requirement IDs as anchors — every significant architectural decision should trace back to a requirement. Also inspect existing code, schemas, routes, interfaces, and tests.
+
+### 3. Extract Business Rules
 
 When current behavior matters, identify rules before designing changes:
 - Calculations, fees, limits, thresholds, scores, rounding
@@ -71,7 +44,7 @@ Confidence:
 Open question:
 ```
 
-### 3. Compare Options
+### 4. Compare Options
 
 For non-trivial decisions, present 2-3 options:
 
@@ -82,9 +55,9 @@ For non-trivial decisions, present 2-3 options:
 
 Lead with the recommended option when there is enough signal.
 
-### 4. Produce And Save The Architecture Document
+### 5. Produce And Save The Architecture Document
 
-Save to `docs/architecture/feature-name.md` (feature-scoped) or `docs/architecture/overview.md` (system-wide). This document is the technical source of truth across sessions — the agent reads it before making any implementation decision to avoid inventing solutions incompatible with what was already decided.
+Save to `docs/features/<feature-name>/architecture.md`. This document is the technical source of truth across sessions — the agent reads it before making any implementation decision to avoid inventing solutions incompatible with what was already decided.
 
 Use only the sections that fit:
 
@@ -116,11 +89,11 @@ What fails, how it fails, and what the recovery path is.
 Decisions not yet made. Do not leave these implicit.
 ```
 
-### 5. Document Significant Decisions
+### 6. Document Significant Decisions
 
 After the contract is approved, identify decisions that are costly to reverse: system boundaries, data ownership, public APIs, infrastructure, auth posture, migration strategy. Use the **adr** skill to document them.
 
-### 6. Self-Critique Before Handoff
+### 7. Self-Critique Before Handoff
 
 - Is this simpler than the obvious overbuilt version?
 - Does every boundary have a reason?

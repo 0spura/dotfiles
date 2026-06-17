@@ -18,9 +18,9 @@ description: "Use after brainstorming is approved: formalize what the system mus
 
 **Process:**
 1. Read `docs/product/discovery.md` for product context — do not repeat it in the SRS. Start directly at requirements.
-2. Take brainstorming output as input. Identify actors, use cases, constraints, non-goals.
+2. Read `docs/features/<feature-name>/design.md` as the primary input — use it as the source of truth, not the conversational context. Identify actors, use cases, constraints, non-goals.
 3. Group functional requirements by domain (RF-XXX). Non-functional in separate section (RNF-XXX).
 4. Write each requirement: observable behavior, concrete, priority + status + dependencies declared.
-5. Save to `docs/srs.md` (full product) or `docs/srs/feature-name.md` (scoped feature). Link to discovery doc at the top: `> Context: [docs/product/discovery.md](../product/discovery.md)`
+5. Save to `docs/features/<feature-name>/srs-document.md`. Link to discovery doc at the top: `> Context: [docs/product/discovery.md](../../product/discovery.md)`
 
 **Done when:** SRS saved and approved. Suggest **architecture-design** to define how requirements will be implemented.

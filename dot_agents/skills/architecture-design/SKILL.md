@@ -1,6 +1,6 @@
 ---
 name: architecture-design
-description: "Use when designing, critiquing, or modernizing software architecture: feature architecture, service boundaries, APIs, integrations, data flow, migrations, failure modes, business-rule extraction, and implementation contracts before coding."
+description: "Use when designing software architecture: service boundaries, APIs, data model, integrations, failure modes, and technical contracts before coding."
 ---
 
 # Architecture Design
@@ -15,19 +15,14 @@ description: "Use when designing, critiquing, or modernizing software architectu
 - Challenge new services, abstractions, queues, event buses unless they solve a concrete problem.
 - Separate business rules from implementation details before changing legacy code.
 
-**Modes:**
-- **Feature:** actors, domain boundaries, states/transitions, data model, rollout, observability
-- **Integration:** ownership, communication pattern (REST/events/RPC), idempotency approach, auth, failure handling, rate limits — not field-level contracts (those live in code)
-- **Modernization:** extract business rules first; identify what must not change before proposing new structure
-- **Critique:** challenge complexity, validate domain boundaries, name missing NFRs, trace dependency failures
-
 **Process:**
-1. Read `docs/srs.md` and existing ADRs. Use RF-XXX.N IDs as anchors for decisions.
-2. Inspect relevant code, schemas, routes, and existing patterns.
-3. Extract business rules: calculations, validations, state transitions, eligibility, limits.
-4. Compare 2-3 options for non-trivial decisions: what / when / tradeoff / risk / migration cost.
-5. Produce the contract: stack, boundaries, data model, integration patterns, security model, deployment, failure modes, open questions. Do not document field-level API contracts — those live in code.
-6. Save to `docs/architecture/feature-name.md`. This is the technical source of truth across sessions.
-7. On approval, use **adr** for decisions affecting system boundaries, data ownership, or public APIs.
+1. If `docs/project.md` does not exist, create it first: stack, languages, frameworks, infra, deployment model, global constraints (e.g. "all APIs are REST", "auth via JWT"). This is the foundation all features inherit.
+2. Read `docs/project.md`, `docs/features/<feature-name>/srs-document.md`, and existing ADRs. Use RF-XXX.N IDs as anchors for decisions.
+3. Inspect relevant code, schemas, routes, and existing patterns.
+4. Extract business rules: calculations, validations, state transitions, eligibility, limits.
+5. Compare 2-3 options for non-trivial decisions: what / when / tradeoff / risk / migration cost.
+6. Produce the contract: boundaries, data model, integration patterns, security model, deployment, failure modes, open questions. Do not document field-level API contracts — those live in code.
+7. Save to `docs/features/<feature-name>/architecture.md`.
+8. On approval, use **adr** for decisions affecting system boundaries, data ownership, or public APIs.
 
 **Done when:** Document saved. Suggest **grill-me** to pressure-test before implementation.
