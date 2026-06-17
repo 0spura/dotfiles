@@ -1,11 +1,15 @@
 ---
 name: brainstorming
-description: "Use before building a feature or integration: explore workflows, edge cases, architecture direction, and behavior. Turn rough ideas into clear options, tradeoffs, and an approved design before implementation."
+description: "Use before building a feature or defining a system: explore workflows, module boundaries, tech direction, edge cases, and behavior. Turn rough ideas into clear options, tradeoffs, and an approved design before implementation."
 ---
 
 # Brainstorming
 
 Use when the user wants to explore how something should work before building it. The goal is to converge on a useful next step, not produce a large document.
+
+**Scopes:**
+- **System:** overall architecture, module boundaries, tech stack, cross-cutting concerns, feature sequencing. Use when starting a new product or making a large structural decision. Saves to `docs/product/system-design.md`.
+- **Feature:** how a specific feature or integration should work. Saves to `docs/features/<feature-name>/design.md`.
 
 If there is no product context established yet (competitors, market position, ICP), suggest running **product-discovery** first. Brainstorming features without market grounding tends to produce ideas that are internally coherent but misaligned with what the market needs.
 
@@ -35,9 +39,15 @@ If the user already pointed to a direction, explore that direction — do not of
 
 ### 4. Shape The Design
 
-Present a Markdown design using only the sections that fit the request:
+Present a Markdown design using only the sections that fit the scope.
 
-Problem · Target user · Core use case · MVP scope · Non-goals · User flow · Functional requirements · Data or integration needs · Architecture direction · Operational concerns · Risks · Validation plan · Next steps
+**Feature design** → `docs/features/<feature-name>/design.md`:
+
+Problem · Core use case · MVP scope · Non-goals · User flow · Risks · Next steps
+
+**System design** → `docs/product/system-design.md`:
+
+Vision · Modules (what each owns and how they relate) · Tech direction · Cross-cutting concerns (auth, API style, observability) · Feature roadmap · Principles · Open questions
 
 ### 5. Get Approval
 
@@ -74,4 +84,6 @@ What could go wrong or invalidate this design.
 Immediate actions after approval.
 ```
 
-On approval: suggest **srs** to formalize the requirements before architecture design begins. For very small scopes where requirements are already unambiguous, suggest **architecture-design** directly.
+On approval:
+- System scope → suggest **architecture-design** to produce `docs/project.md` and then plan features.
+- Feature scope → suggest **srs** to formalize requirements. For very small scopes where requirements are already unambiguous, suggest **architecture-design** directly.

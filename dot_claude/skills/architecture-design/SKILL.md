@@ -15,7 +15,7 @@ Do not implement while the architecture is being designed. Prefer the simplest d
 
 ### 1. Establish The Project Foundation
 
-If `docs/project.md` does not exist, create it first. This document covers: stack, languages, frameworks, infra, deployment model, and global constraints (e.g. "all APIs are REST", "auth via JWT"). It is the foundation all features inherit — do not repeat this context in per-feature architecture docs.
+If `docs/project.md` does not exist, create it first. Read `docs/product/system-design.md` if it exists — it contains approved system-level decisions that must be reflected here. This document covers: stack, languages, frameworks, infra, deployment model, and global constraints (e.g. "all APIs are REST", "auth via JWT"). It is the foundation all features inherit — do not repeat this context in per-feature architecture docs.
 
 ### 2. Read The SRS
 

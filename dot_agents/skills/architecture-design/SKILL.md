@@ -16,7 +16,7 @@ description: "Use when designing software architecture: service boundaries, APIs
 - Separate business rules from implementation details before changing legacy code.
 
 **Process:**
-1. If `docs/project.md` does not exist, create it first: stack, languages, frameworks, infra, deployment model, global constraints (e.g. "all APIs are REST", "auth via JWT"). This is the foundation all features inherit.
+1. If `docs/project.md` does not exist, create it first. Read `docs/product/system-design.md` if it exists — it contains approved system-level decisions that must be reflected here. Covers: stack, languages, frameworks, infra, deployment model, global constraints (e.g. "all APIs are REST", "auth via JWT"). This is the foundation all features inherit.
 2. Read `docs/project.md`, `docs/features/<feature-name>/srs-document.md`, and existing ADRs. Use RF-XXX.N IDs as anchors for decisions.
 3. Inspect relevant code, schemas, routes, and existing patterns.
 4. Extract business rules: calculations, validations, state transitions, eligibility, limits.
