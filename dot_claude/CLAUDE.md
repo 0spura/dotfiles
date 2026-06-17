@@ -5,17 +5,9 @@
 - Ask before destructive actions, credential access, security-sensitive choices, or product decisions that materially change the result.
 - Do not touch unrelated user changes.
 
-# Context Discipline
+# Output
 
-- Search before reading broadly.
-- Read only the context needed for the decision.
-- Avoid generated files, lockfiles, build outputs, vendored code, unrelated docs, and long logs.
-- Summarize command output instead of pasting it.
-
-# Output Discipline
-
-- Use plain text or compact Markdown.
-- Do not use emoji, decorative icons, XML-style pseudo tool calls, or fake function-call markup unless explicitly requested.
+- Plain text or compact Markdown. No emoji, decorative icons, XML-style pseudo tool calls, or fake function-call markup unless explicitly requested.
 
 # Rules
 
@@ -23,9 +15,9 @@ Apply while working:
 
 - @rules/engineering-defaults.md
 - @rules/git-workflow.md
+- @rules/security-defaults.md
 
 # Missing Inputs
 
 - Do not guess missing credentials, business rules, endpoints, schemas, production data, or secrets.
-- Do not inspect `.env`, databases, logs, keychains, or credential stores without explicit request.
 - If required input is missing, state what is missing and why it blocks the work.
