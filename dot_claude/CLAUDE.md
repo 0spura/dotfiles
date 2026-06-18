@@ -9,6 +9,15 @@
 
 - Plain text or compact Markdown. No emoji, decorative icons, XML-style pseudo tool calls, or fake function-call markup unless explicitly requested.
 
+# Logging
+
+- Prefer structured logs that are designed for querying: stable event names, consistent field names, request/trace IDs, outcome, duration, and relevant domain identifiers.
+- For request or job flows, prefer one canonical context-rich event per service hop over many scattered string logs. Enrich it through the flow and emit it at completion.
+- Include business context that explains impact and root cause: actor, tenant/account, entity IDs, feature flags, attempt count, external dependency, status, and error code.
+- Keep high-cardinality fields when they are needed to debug real incidents. Control cost with log levels, sampling, or tail sampling; do not remove useful context by default.
+- Never log secrets, tokens, credentials, auth headers, session IDs, raw personal data, or full payloads unless explicitly safe and necessary.
+- Remove temporary debug logs. Avoid noisy logs in hot loops or high-volume success paths unless gated by level or sampling.
+
 # Rules
 
 Apply while working:

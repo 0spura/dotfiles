@@ -16,6 +16,14 @@
 - Never silently default missing or failed values — only use defaults the domain explicitly defines.
 - User-facing errors: safe and actionable. Logs: diagnostic but never secrets.
 
+**Logging:**
+- Design logs for querying, not just reading: stable event names, consistent fields, request/trace IDs, outcome, duration, and relevant domain identifiers.
+- For request or job flows, prefer one canonical context-rich event per service hop over many scattered string logs. Enrich it through the flow and emit it at completion.
+- Add business context needed for incident analysis: actor, tenant/account, entity IDs, feature flags, attempt count, external dependency, status, and error code.
+- Keep useful high-cardinality fields for debugging. Manage volume with levels, sampling, or tail sampling instead of stripping context by default.
+- Never log secrets, tokens, credentials, auth headers, session IDs, raw personal data, or full payloads unless explicitly safe and necessary.
+- Remove temporary debug logs. Avoid noisy logs in hot loops or high-volume success paths unless gated by level or sampling.
+
 **Tests:**
 - Add or update tests when behavior changes, a bug is fixed, or meaningful edge cases exist.
 - Test observable behavior, not implementation details.
