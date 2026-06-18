@@ -16,6 +16,7 @@ A single `docs/srs.md` covers the entire product, organized by domain. When addi
 - **Status:** `Draft` → `Accepted` → `Deprecated`.
 - **Linking:** Always reference requirements with a markdown link, never plain text: `[RF-ANC.1](#rf-anc1)`.
 - **Verifiability:** If a QA engineer cannot write a test without asking a follow-up question, the requirement is not done. No vague language ("easy", "fast", "reasonable") — use measurable criteria.
+- **Sequencing:** MoSCoW priority reflects business value, not implementation order. Do not assign or suggest roadmap phases — that belongs in the backlog or `docs/roadmap.md`.
 
 ## Process
 

@@ -19,6 +19,7 @@ Use when exploring how something should work before building it. Goal: converge 
 - Stay within the stated scope. Do not expand the problem or surface adjacent concerns unless asked.
 - One question at a time. Use multiple-choice when it helps.
 - Inspect the repo before asking questions the code already answers.
+- Do not suggest roadmap positioning, phase assignment, or implementation order — sequencing belongs in the backlog or `docs/roadmap.md`, not here.
 
 ## Process
 
