@@ -1,105 +1,142 @@
 ---
 name: architecture-design
-description: "Use after the SRS is approved: define how requirements will be implemented — service boundaries, APIs, data model, integrations, failure modes, and technical contracts before coding."
+description: "Use after system-design is approved (system scope) or after SRS is approved (feature scope): define how requirements will be implemented — data model, integration patterns, security model, failure modes, and technical contracts before coding."
 ---
 
 # Architecture Design
 
-Use after the SRS is approved. Goal: a clear technical contract that answers *how* the requirements will be implemented — not a large document.
+Goal: a clear technical contract that answers *how* something will be implemented. Not a large document — only the decisions that aren't obvious from the code.
 
-The SRS defines the *what*. This skill defines the *how*. Do not rewrite or expand requirements here; reference them from the SRS. If a requirement is unclear, go back to the SRS before designing.
+The SRS defines the *what*. This skill defines the *how*. Do not rewrite or expand requirements here; reference them by ID. If a requirement is unclear, go back to the SRS before designing.
 
-Do not implement while the architecture is being designed. Prefer the simplest design that satisfies the stated requirements. Be skeptical of new services, abstractions, queues, event buses, and generic layers unless they solve a concrete problem.
+Prefer the simplest design that satisfies the stated requirements. Be skeptical of new services, abstractions, queues, event buses, and generic layers unless they solve a concrete problem stated in a requirement.
+
+## Scopes
+
+This skill has two distinct scopes with different inputs, outputs, and section sets:
+
+**System scope** — overall technical contract for the entire product. Use after `docs/product/system-design.md` is approved. Saves to `docs/architecture.md`. Does NOT include a Stack section (lives in `docs/project.md`) or a Boundaries section (lives in `docs/product/system-design.md`).
+
+**Feature scope** — technical contract for a specific feature. Use after the feature's SRS is approved. Saves to `docs/features/<feature-name>/architecture.md`. References `docs/project.md` and `docs/architecture.md` instead of repeating global decisions.
+
+Identify the scope before doing anything else.
 
 ## Process
 
-### 1. Establish The Project Foundation
+### 1. Establish Foundations
 
-If `docs/project.md` does not exist, create it first. Read `docs/product/system-design.md` if it exists — it contains approved system-level decisions that must be reflected here. This document covers: stack, languages, frameworks, infra, deployment model, and global constraints (e.g. "all APIs are REST", "auth via JWT"). It is the foundation all features inherit — do not repeat this context in per-feature architecture docs.
+**Always do this first:**
+- If `docs/project.md` does not exist → create it before anything else. It covers stack, global constraints, repo structure, and environments. Everything else inherits from it.
+- Read `docs/product/system-design.md` if it exists — approved module and tech direction decisions are settled. Do not relitigate them.
+- For feature scope: read the feature's SRS and `docs/architecture.md`.
+- Read existing ADRs in `docs/adr/`.
 
-### 2. Read The SRS
+**Check what's already documented before writing any section.** If a decision is in project.md, system-design.md, or an ADR, reference it — do not repeat it.
 
-Read `docs/project.md`, `docs/features/<feature-name>/srs-document.md`, and existing ADRs. Use the `RF-XXX.N` requirement IDs as anchors — every significant architectural decision should trace back to a requirement. Also inspect existing code, schemas, routes, interfaces, and tests.
+### 2. Identify Open Decisions
 
-### 3. Extract Business Rules
+Before drafting, list the decisions that are not yet settled and that materially affect implementation. For each:
+- What are the viable options?
+- What is the recommended option and why?
+- What assumption does it rest on?
 
-When current behavior matters, identify rules before designing changes:
-- Calculations, fees, limits, thresholds, scores, rounding
+Present these to the user **before drafting the full document**. Resolve each one. Do not draft a document around unresolved decisions — the document will need to be rewritten.
+
+For non-trivial decisions, use this format:
+
+| Option | Best for | Tradeoff | Risk |
+|---|---|---|---|
+| A | ... | ... | ... |
+| B | ... | ... | ... |
+
+### 3. Extract Business Rules (feature scope only)
+
+For feature-level architecture, identify rules the implementation must preserve:
+- Calculations, thresholds, limits, rounding
 - Validations and cross-field constraints
-- Eligibility and authorization policy
 - Lifecycle states and allowed transitions
-- Retry limits, cutoff times, retention periods, escalation policy
+- Retry limits, cutoff times, retention periods
 
-Skip infrastructure-only details (logging, connection pooling, framework glue, UI layout).
+Skip infrastructure-only details. Format rules only when the logic is non-obvious:
 
-If useful, format rules as:
-
-```text
-Rule:
+```
+Rule: [name]
 Source: [RF-XXX.N]
-Plain English:
-Given / When / Then:
-Parameters:
-Confidence:
-Open question:
+Given / When / Then: [concrete behavior]
+Parameters: [values]
 ```
 
-### 4. Compare Options
+### 4. Produce The Architecture Document
 
-For non-trivial decisions, present 2-3 options:
+Write only sections that add information not already in project.md, system-design.md, or an existing ADR.
 
-| Option | Best for | Tradeoff | Risk | Migration cost |
-| --- | --- | --- | --- | --- |
-| A | ... | ... | ... | ... |
-| B | ... | ... | ... | ... |
-
-Lead with the recommended option when there is enough signal.
-
-### 5. Produce And Save The Architecture Document
-
-Save to `docs/features/<feature-name>/architecture.md`. This document is the technical source of truth across sessions — the agent reads it before making any implementation decision to avoid inventing solutions incompatible with what was already decided.
-
-Use only the sections that fit:
+**System scope** → `docs/architecture.md`:
 
 ```markdown
-# Architecture — [Feature / System Name]
+# Architecture — [Product Name]
 
-## Stack
-Languages, frameworks, databases, infrastructure, and third-party services. One line per decision with the rationale.
-
-## Boundaries
-Service and module boundaries. What each owns, what it does not own.
+> Stack: [docs/project.md](./project.md)
+> System design: [docs/product/system-design.md](./product/system-design.md)
 
 ## Data Model
-Entities, relationships, and key fields. Enough to implement without ambiguity — not a full ERD.
+Entities, relationships, and key fields — on-device and backend separately if both exist.
+Enough to implement without ambiguity. Not a full ERD.
 
 ## Integration Patterns
-How components communicate: REST vs events vs RPC, sync vs async, auth mechanism, retry policy, idempotency approach, failure handling. Do not document field-level API contracts here — those live in code (OpenAPI annotations, route handlers). Document the pattern and the decisions around it.
+Protocols, sync strategy, conflict resolution, retry policy, failure handling.
+Do not document field-level API contracts — those live in code.
 
 ## Security Model
-Auth mechanism, permission model, trust boundaries, data sensitivity classification.
+Auth mechanism, permission model, trust boundaries, data sensitivity classification,
+consent model for sensitive data.
 
 ## Deployment
-Where it runs, how it scales, environment differences (dev/staging/prod).
+Where each component runs, how it scales, CI/CD flow per component.
 
 ## Failure Modes
-What fails, how it fails, and what the recovery path is.
-
-## Open Questions
-Decisions not yet made. Do not leave these implicit.
+What fails, how it fails, user impact, system behavior, recovery path.
 ```
 
-### 6. Document Significant Decisions
+**Feature scope** → `docs/features/<feature-name>/architecture.md`:
 
-After the contract is approved, identify decisions that are costly to reverse: system boundaries, data ownership, public APIs, infrastructure, auth posture, migration strategy. Use the **adr** skill to document them.
+```markdown
+# Architecture — [Feature Name]
 
-### 7. Self-Critique Before Handoff
+> Project foundation: [docs/project.md](../../project.md)
+> System architecture: [docs/architecture.md](../../architecture.md)
+> SRS: [docs/features/<name>/srs-document.md](./srs-document.md)
 
+## Data Model Changes
+New entities or changes to existing ones. Reference existing tables by name — do not redefine them.
+
+## Business Rules
+Non-obvious rules the implementation must preserve, traced to SRS requirement IDs.
+
+## Integration Patterns
+Any patterns specific to this feature that differ from or extend the system-level patterns.
+
+## Security Considerations
+Anything this feature adds to the security model — new trust boundaries, new sensitive data, new permissions.
+
+## Failure Modes
+What this feature adds to the failure surface.
+```
+
+### 5. Self-Critique Before Saving
+
+- Does every section add information not already in project.md or system-design.md?
 - Is this simpler than the obvious overbuilt version?
-- Does every boundary have a reason?
-- Is the data migration or compatibility story clear?
-- Can one dependency failure be traced end to end?
+- Does every boundary or service separation have a concrete reason?
+- Can a dependency failure be traced end to end?
 - Are business rules preserved?
-- Are missing values represented explicitly instead of silently defaulted?
+- Are missing or optional values represented explicitly — never silently defaulted?
 
-If a major weakness remains, call it out. Then suggest **grill-me**.
+If a major weakness remains, call it out explicitly. Then suggest **grill-me**.
+
+### 6. Save And Document Decisions
+
+Save the document. Then identify decisions that are costly to reverse: data ownership, public API contracts, auth posture, infrastructure choices, migration strategy. Use the **adr** skill to record each one.
+
+After the architecture is approved:
+- System scope → suggest **grill-me** before feature work begins
+- Feature scope → suggest **implementation-plan** to sequence the work
