@@ -32,10 +32,10 @@ Only for non-obvious business rules, algorithms, compatibility constraints, or e
 
 ## Living Documentation
 
-Feature docs in `docs/features/` reflect the current state of the system, not the original design. When a code change diverges from what is documented, update the doc in the same commit — not after, not in a follow-up. A commit that changes behavior without updating the relevant doc is incomplete.
+Docs reflect the current state of the system, not the original design. When a code change diverges from what is documented, update the doc in the same commit — not after, not in a follow-up. A commit that changes behavior without updating the relevant doc is incomplete.
 
-- If a task changes the data model, security model, or integration pattern: update `architecture.md`.
-- If a task invalidates or changes a requirement: update `srs-document.md` (mark deprecated requirements as `~~strikethrough~~`, never delete).
+- If a task changes the data model, security model, or integration pattern: update `docs/architecture.md`.
+- If a task invalidates or changes a requirement: update `docs/srs.md` (mark deprecated requirements as `~~strikethrough~~`, never delete).
 - If a decision that affects system boundaries or public APIs changes: create a new ADR superseding the old one.
 
 ## Built-In Review

@@ -5,61 +5,40 @@ description: "Use before building a feature or defining a system: explore workfl
 
 # Brainstorming
 
-**When to use:** User wants to explore how something should work before building. Trigger: "how should we approach", "brainstorm", "let's think through", "before I build", "help me design".
+Use when exploring how something should work before building it. Goal: converge on an approved design — not produce a large document.
 
-**Goal:** Converge on a design the user approves before any implementation starts.
+## Scopes
 
-**Scopes:**
-- **System:** overall architecture, module boundaries, tech stack, cross-cutting concerns, feature sequencing. Use when starting a new product or making a large structural decision. Saves to `docs/product/system-design.md`.
-- **Feature:** how a specific feature or integration should work. Saves to `docs/features/<feature-name>/design.md`.
+- **System** — overall architecture, module boundaries, tech stack, cross-cutting concerns. Use when starting a new product or making a large structural decision. Saves to `docs/product/vision-and-strategy.md`.
+- **Feature** — how a specific feature or integration should work. Ends with conversational approval — no file saved.
 
-**Constraints:**
-- If no product context exists (competitors, market position, ICP), suggest **product-discovery** first.
+## Constraints
+
+- If no product context exists yet (competitors, market position, ICP), suggest **product-discovery** first.
 - No implementation, code scaffolding, or file edits during brainstorming.
 - Stay within the stated scope. Do not expand the problem or surface adjacent concerns unless asked.
 - One question at a time. Use multiple-choice when it helps.
-- No diagrams or visual output unless explicitly asked.
-- Inspect the repo before asking questions the code answers.
+- Inspect the repo before asking questions the code already answers.
 
-**Process:**
-1. Read relevant code, docs, and existing patterns.
+## Process
+
+1. Read relevant code, docs, and existing patterns. For system scope, read `docs/product/discovery.md` if it exists.
 2. Clarify only if a missing piece would materially change the direction. If scope is already clear, skip.
-3. If the user pointed to a direction, explore it — don't offer alternatives for completeness. Only present 2-3 options when the decision is genuinely open.
+3. If the user pointed to a direction, explore it — don't offer alternatives for completeness. Only present 2–3 options when the decision is genuinely open. For each: what it is, when it works well, main tradeoff, risk. Lead with the recommended option when there is enough signal.
 4. Present a design using only the sections that fit the scope (see templates below).
 5. Get approval. Revise if needed.
-6. Save the approved design to the path that matches the scope.
+6. System scope: save the approved design to `docs/product/vision-and-strategy.md`. Feature scope: approval is conversational — no file saved.
 
-**Feature design template** → `docs/features/<feature-name>/design.md`:
+## Templates
 
-```markdown
-# Design — [Feature Name]
+**Feature design** (conversational — not saved to file):
 
-## Problem
-What is broken or missing and who feels it.
+Problem · Core use case · MVP scope · Non-goals · User flow · Risks
 
-## Core Use Case
-The primary scenario this design addresses.
-
-## MVP Scope
-What is included in the first version.
-
-## Non-Goals
-What this design explicitly does not cover.
-
-## User Flow
-Step-by-step: how a user accomplishes the core use case.
-
-## Risks
-What could go wrong or invalidate this design.
-
-## Next Steps
-Immediate actions after approval.
-```
-
-**System design template** → `docs/product/system-design.md`:
+**System scope** → `docs/product/vision-and-strategy.md`:
 
 ```markdown
-# System Design — [Product Name]
+# Vision and Strategy — [Product Name]
 
 ## Vision
 What this system is and what problem it solves at the macro level.
@@ -71,10 +50,10 @@ The main parts of the system, what each owns, and how they relate.
 Language, framework, database, infra — and why. High-level only; details go in docs/project.md.
 
 ## Cross-Cutting Concerns
-Auth strategy, data model philosophy, API style, observability approach.
+Auth strategy, API style, observability approach.
 
-## Feature Roadmap
-Which features belong to which modules. Sequencing and dependencies between them.
+## Features
+Which features the system includes and which module owns each one.
 
 ## Principles
 Non-negotiable architectural constraints that every decision must respect.
@@ -83,6 +62,8 @@ Non-negotiable architectural constraints that every decision must respect.
 Decisions not yet made that will materially affect the system shape.
 ```
 
-**Done when:** Design saved and approved.
-- System scope → suggest **architecture-design** to produce `docs/project.md` and then plan features.
-- Feature scope → suggest **srs** to formalize requirements. For very small scopes where requirements are already unambiguous, suggest **architecture-design** directly.
+## Done When
+
+Design approved.
+- System scope → suggest **srs** to formalize the system requirements.
+- Feature scope → suggest **srs** to add the feature requirements to `docs/srs.md`.

@@ -21,6 +21,12 @@
 - Test observable behavior, not implementation details.
 - Mock only external dependencies (network, filesystem, time, third-party services).
 
+**Living documentation:**
+- If a task changes the data model, security model, or integration pattern: update `docs/architecture.md`.
+- If a task invalidates or changes a requirement: update `docs/srs.md` (mark deprecated requirements as `~~strikethrough~~`, never delete).
+- If a decision that affects system boundaries or public APIs changes: create a new ADR superseding the old one in `docs/adr/`.
+- Update docs in the same commit as the code — never after, never in a follow-up.
+
 **Done when:** code is correct, diff is clean, tests pass, no debug artifacts staged.
 
 ## Git

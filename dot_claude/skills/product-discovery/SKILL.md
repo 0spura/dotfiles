@@ -5,61 +5,44 @@ description: "Use before brainstorming features or designing a new product: rese
 
 # Product Discovery
 
-Use as the first step when starting a new product or feature area. Goal: build a shared understanding of the market landscape so that brainstorming stays grounded — features debated without this context tend to drift from what the market actually needs.
+Use as the first step when starting a new product or feature area. Goal: build shared understanding of the market landscape so brainstorming stays grounded — features debated without this context tend to drift from what the market actually needs.
+
+## Constraints
+
+- One question at a time if multiple things are unclear.
+- Prioritize products users would consider as alternatives — go broad first, then narrow.
+- The discovery document must be self-contained: no other introduction needed when an agent reads it cold.
 
 ## Process
 
-### 1. Understand The Product
+1. If not already clear, ask: what does this product do, who is it for, what problem does it solve.
+2. Search for similar products, direct competitors, and adjacent solutions. For each: what it does, who it targets, pricing model, key differentiators, known weaknesses, user sentiment patterns.
+3. Synthesize findings: main players and what they own, gaps and unmet needs, consistent user complaints across the category, patterns of successful products.
+4. Define the product position: most defensible niche given what exists, ICP, what "winning" looks like against existing alternatives.
+5. Save to `docs/product/discovery.md`.
 
-If not already clear, ask: what does this product do, who is it for, what problem does it solve. One question at a time if multiple things are missing.
-
-### 2. Research The Market
-
-Search for similar products, direct competitors, and adjacent solutions. For each relevant product:
-- What it does and who it targets
-- Pricing model (if public)
-- Key differentiators and known weaknesses
-- User sentiment patterns (reviews, forums, social media)
-
-Go broad first, then narrow to the most relevant players. Prioritize products users would consider as alternatives.
-
-### 3. Map The Landscape
-
-Synthesize findings:
-- Who the main players are and what they each own
-- Where the gaps and unmet needs are
-- What users consistently complain about across the category
-- What patterns successful products in this space share
-
-### 4. Define The Product Position
-
-Based on the research, establish:
-- The most defensible position for this product given what already exists
-- The ICP (Ideal Customer Profile) that best fits the gap
-- What "winning" looks like against the existing alternatives
-
-### 5. Save The Discovery Document
-
-Save to `docs/product/discovery.md`. This is the authoritative context for the product — any agent starting fresh reads this first. It must be descriptive enough that no other introduction is needed: the SRS starts directly at requirements, the architecture doc starts directly at technical decisions.
+## Template
 
 ```markdown
 # [Product Name]
 
 ## What It Is
-A clear, thorough description of the product — what it does, the core mechanic, and why it exists. Enough for someone with no prior context to understand the product deeply, not just superficially.
+Clear description of the product — what it does, the core mechanic, and why it exists.
+Enough for someone with no prior context to understand deeply, not just superficially.
 
 ## Problem
-The specific problem it solves. Be concrete: who feels this problem, when, and what they do today instead.
+Specific problem it solves. Who feels it, when, and what they do today instead.
 
 ## Target Users
-Who the product is for. Narrow enough to be useful — not "anyone who wants X" but the specific profile of the person who gets the most value and is most likely to pay.
+Narrow enough to be useful — the specific profile of the person who gets the most value and is most likely to pay.
 
 ## Design Principles
-The non-negotiable constraints that shape every product decision. These are not aspirations — they are filters. If a feature violates a principle, it does not ship.
+Non-negotiable constraints that shape every product decision. Filters, not aspirations.
+If a feature violates a principle, it does not ship.
 1. **[Principle]** — why it exists and what it rules out
 
 ## Market
-Main competitors and adjacent solutions: what each covers, their pricing model, known weaknesses, and user sentiment patterns.
+Main competitors and adjacent solutions: what each covers, pricing model, known weaknesses, user sentiment patterns.
 
 ## Gaps
 What the market consistently fails to deliver. Where users are underserved, frustrated, or resorting to workarounds.
@@ -71,9 +54,9 @@ What this product does differently and why it wins in its niche. Defined against
 How it makes money. Pricing model, value metric, freemium vs paid, key monetization decisions.
 
 ## Assumptions
-What we're taking as true that would change the strategy if wrong. Name the riskiest one first.
+What we're taking as true that would change the strategy if wrong. Riskiest assumption first.
 ```
 
-### 6. Hand Off
+## Done When
 
-After the document is saved and approved, suggest **brainstorming**. The discovery doc is the input — brainstorming should not re-explain the product, it should build on it.
+Document saved and approved. Suggest **brainstorming** (system scope) to explore how to build it.

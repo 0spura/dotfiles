@@ -5,16 +5,32 @@ description: "Use when documenting an architecture decision: creating, updating,
 
 # ADR (Architecture Decision Record)
 
-**When to use:** A significant technical decision was approved and needs to be recorded. Trigger: "document this decision", "create an ADR", "record this choice".
+Use when a significant technical decision needs to be recorded — one that is costly to reverse or materially affects system boundaries, data ownership, public APIs, infrastructure, auth/security posture, or migration strategy.
 
-**Goal:** A committed decision on record — context, what was chosen, alternatives rejected, and consequences.
+Do not create ADRs for routine implementation details or tentative ideas. An ADR documents a committed decision, not a discussion.
 
-**Constraints:**
-- Only for committed decisions, not tentative ideas or routine implementation details.
-- Never renumber or delete existing ADRs. Superseded ADRs stay, marked as `Superseded by [NNNN]`.
-- File path: `docs/adr/NNNN-short-title.md` (next available sequence), unless the repo has a different convention.
+## When To Create
 
-**Format:**
+Create when the user asks, or proactively suggest it when **architecture-design** or **grill-me** approves a decision affecting:
+- Service or module boundaries
+- Data ownership or persistence model
+- Public API or event contracts
+- Infrastructure and deployment topology
+- Authentication, authorization, or security posture
+- Migration or backwards-compatibility strategy
+
+## File Convention
+
+Follow the repo's existing ADR convention when one exists. Otherwise:
+
+```
+docs/adr/NNNN-short-title.md
+```
+
+Choose the next available four-digit sequence. Never renumber existing ADRs.
+
+## Template
+
 ```markdown
 # NNNN: Decision title
 
@@ -22,16 +38,25 @@ description: "Use when documenting an architecture decision: creating, updating,
 - Date: YYYY-MM-DD
 
 ## Context
-Why this decision is needed and what would happen without it.
+Why this decision is needed. The forces at play, constraints, and what would happen without a decision.
 
 ## Decision
-What was chosen. One paragraph, direct.
+What was chosen. Be direct — one paragraph.
 
 ## Alternatives Considered
-Each viable alternative and why it was not selected.
+Required. Each viable alternative and why it was not selected.
+If only one option existed, explain why no other approach was viable.
 
 ## Consequences
-Positive outcomes, costs, risks, and follow-up work.
+Positive outcomes, costs, risks, and follow-up work this decision creates.
+
+## Traceability
+- Requirements: [RF-XXX.N links from docs/srs.md — or "—" if not requirement-driven]
+- Plan: [docs/plans/<feature>.md — or "—" if not tied to a specific feature]
 ```
 
-**Done when:** ADR file created at `docs/adr/NNNN-short-title.md`.
+## Lifecycle
+
+- `Proposed` — decision recommended but not yet approved.
+- `Accepted` — approved and in effect.
+- `Superseded` — replaced by a newer ADR. Update this record's status to `Superseded by [NNNN](link)` and mark the new ADR as `Accepted`. Never delete superseded ADRs.

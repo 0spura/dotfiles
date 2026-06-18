@@ -5,85 +5,65 @@ description: "Use before building a feature or defining a system: explore workfl
 
 # Brainstorming
 
-Use when the user wants to explore how something should work before building it. The goal is to converge on a useful next step, not produce a large document.
+Use when exploring how something should work before building it. Goal: converge on an approved design — not produce a large document.
 
-**Scopes:**
-- **System:** overall architecture, module boundaries, tech stack, cross-cutting concerns, feature sequencing. Use when starting a new product or making a large structural decision. Saves to `docs/product/system-design.md`.
-- **Feature:** how a specific feature or integration should work. Saves to `docs/features/<feature-name>/design.md`.
+## Scopes
 
-If there is no product context established yet (competitors, market position, ICP), suggest running **product-discovery** first. Brainstorming features without market grounding tends to produce ideas that are internally coherent but misaligned with what the market needs.
+- **System** — overall architecture, module boundaries, tech stack, cross-cutting concerns. Use when starting a new product or making a large structural decision. Saves to `docs/product/vision-and-strategy.md`.
+- **Feature** — how a specific feature or integration should work. Ends with conversational approval — no file saved.
 
-Do not implement, scaffold, or edit code while brainstorming unless the user explicitly moves to implementation.
+## Constraints
 
-**Stay within the stated scope.** If the user defined the problem, do not expand it. Resist the urge to surface adjacent concerns, related improvements, or "while we're at it" suggestions unless directly asked. Scope creep during brainstorming wastes the user's time and buries the actual question.
-
-Ask one question at a time. Use multiple-choice when it helps the user answer quickly.
+- If no product context exists yet (competitors, market position, ICP), suggest **product-discovery** first.
+- No implementation, code scaffolding, or file edits during brainstorming.
+- Stay within the stated scope. Do not expand the problem or surface adjacent concerns unless asked.
+- One question at a time. Use multiple-choice when it helps.
+- Inspect the repo before asking questions the code already answers.
 
 ## Process
 
-### 1. Understand Context
+1. Read relevant code, docs, and existing patterns. For system scope, read `docs/product/discovery.md` if it exists.
+2. Clarify only if a missing piece would materially change the direction. If scope is already clear, skip.
+3. If the user pointed to a direction, explore it — don't offer alternatives for completeness. Only present 2–3 options when the decision is genuinely open. For each: what it is, when it works well, main tradeoff, risk. Lead with the recommended option when there is enough signal.
+4. Present a design using only the sections that fit the scope (see templates below).
+5. Get approval. Revise if needed.
+6. System scope: save the approved design to `docs/product/vision-and-strategy.md`. Feature scope: approval is conversational — no file saved.
 
-For an existing repo: skim relevant files, docs, and patterns before proposing anything. Stay focused on what affects the idea.
+## Templates
 
-For a pure idea: identify the domain, target user, desired outcome, and known constraints from the user's description.
+**Feature design** (conversational — not saved to file):
 
-### 2. Clarify The Goal (only if needed)
+Problem · Core use case · MVP scope · Non-goals · User flow · Risks
 
-If the scope, target, and constraints are already clear from the user's prompt, skip this step and move to options. Only ask when a missing piece would materially change the direction.
-
-When clarification is needed, ask until these are clear: who is this for, what problem does it solve, what does success look like, what constraints matter, what is explicitly out of scope.
-
-### 3. Explore Options
-
-If the user already pointed to a direction, explore that direction — do not offer alternatives for the sake of completeness. Only present 2-3 options when the decision is genuinely open. For each option: what it is, when it works well, main tradeoff, risk. Lead with the recommended option when there is enough signal.
-
-### 4. Shape The Design
-
-Present a Markdown design using only the sections that fit the scope.
-
-**Feature design** → `docs/features/<feature-name>/design.md`:
-
-Problem · Core use case · MVP scope · Non-goals · User flow · Risks · Next steps
-
-**System design** → `docs/product/system-design.md`:
-
-Vision · Modules (what each owns and how they relate) · Tech direction · Cross-cutting concerns (auth, API style, observability) · Feature roadmap · Principles · Open questions
-
-### 5. Get Approval
-
-Ask if the design looks right. Revise if needed. Ask again only when the revised direction is meaningfully different.
-
-### 6. Save The Approved Design
-
-Once approved, save the design to `docs/features/<feature-name>/design.md`. This file is the clean input for the SRS — it captures the approved decision without the conversational context, so the next session starts from a clear baseline rather than re-deriving it from the discussion.
-
-Use only the sections that fit the request:
+**System scope** → `docs/product/vision-and-strategy.md`:
 
 ```markdown
-# Design — [Feature Name]
+# Vision and Strategy — [Product Name]
 
-## Problem
-What is broken or missing and who feels it.
+## Vision
+What this system is and what problem it solves at the macro level.
 
-## Core Use Case
-The primary scenario this design addresses.
+## Modules
+The main parts of the system, what each owns, and how they relate.
 
-## MVP Scope
-What is included in the first version.
+## Tech Direction
+Language, framework, database, infra — and why. High-level only; details go in docs/project.md.
 
-## Non-Goals
-What this design explicitly does not cover.
+## Cross-Cutting Concerns
+Auth strategy, API style, observability approach.
 
-## User Flow
-Step-by-step: how a user accomplishes the core use case.
+## Features
+Which features the system includes and which module owns each one.
 
-## Risks
-What could go wrong or invalidate this design.
+## Principles
+Non-negotiable architectural constraints that every decision must respect.
 
-## Next Steps
-Immediate actions after approval.
+## Open Questions
+Decisions not yet made that will materially affect the system shape.
 ```
 
-On approval:
-- System scope → suggest **architecture-design** to produce `docs/project.md` and then plan features.
-- Feature scope → suggest **srs** to formalize requirements. For very small scopes where requirements are already unambiguous, suggest **architecture-design** directly.
+## Done When
+
+Design approved.
+- System scope → suggest **srs** to formalize the system requirements.
+- Feature scope → suggest **srs** to add the feature requirements to `docs/srs.md`.

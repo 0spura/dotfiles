@@ -5,22 +5,60 @@ description: "Use after brainstorming is approved: formalize what the system mus
 
 # SRS (Software Requirements Specification)
 
-**When to use:** Brainstorming approved, ready to formalize requirements. Trigger: "write the SRS", "formalize requirements", "before architecture", "document what we're building".
+Use after the brainstorming design is approved. Goal: translate the approved design into a versioned requirements specification — what the system must do, for whom, under which constraints. The SRS defines the *what*. Architecture design defines the *how*.
 
-**Goal:** A versioned document defining what the system must do — not how. Requirements that embed implementation choices are premature decisions, not requirements.
+A single `docs/srs.md` covers the entire product, organized by domain. When adding a new feature, append new RF-XXX domain sections — do not create separate files.
 
-**Constraints:**
-- IDs: `RF-XXX.N` for functional, `RNF-XXX.N` for non-functional. Never renumber or delete.
-- Priority: Must Have / Should Have / Could Have / Won't Have. Cap Must Have at ~60%.
-- Status: Draft → Accepted → Deprecated.
-- Always link requirements with markdown: `[RF-ANC.1](#rf-anc1-anchor-creation)`, never plain text.
-- Every requirement must be testable without asking a follow-up question.
+## Conventions
 
-**Process:**
-1. Read `docs/product/discovery.md` for product context — do not repeat it in the SRS. Start directly at requirements.
-2. Read `docs/features/<feature-name>/design.md` as the primary input — use it as the source of truth, not the conversational context. Identify actors, use cases, constraints, non-goals.
-3. Group functional requirements by domain (RF-XXX). Non-functional in separate section (RNF-XXX).
-4. Write each requirement: observable behavior, concrete, priority + status + dependencies declared.
-5. Save to `docs/features/<feature-name>/srs-document.md`. Link to discovery doc at the top: `> Context: [docs/product/discovery.md](../../product/discovery.md)`
+- **IDs:** Functional requirements use `RF-XXX.N` (2–4 letter domain code + sequence). Non-functional use `RNF-XXX.N`. Never renumber or delete — deprecated requirements get `~~strikethrough~~` and a note.
+- **Priority (MoSCoW):** Must Have / Should Have / Could Have / Won't Have. Cap Must Have at ~60%.
+- **Status:** `Draft` → `Accepted` → `Deprecated`.
+- **Linking:** Always reference requirements with a markdown link, never plain text: `[RF-ANC.1](#rf-anc1)`.
+- **Verifiability:** If a QA engineer cannot write a test without asking a follow-up question, the requirement is not done. No vague language ("easy", "fast", "reasonable") — use measurable criteria.
 
-**Done when:** SRS saved and approved. Suggest **architecture-design** to define how requirements will be implemented.
+## Process
+
+1. Check if `docs/srs.md` exists.
+   - **Does not exist:** create it from scratch using `docs/product/vision-and-strategy.md` and `docs/product/discovery.md` as input. Read both before writing anything.
+   - **Exists:** read the existing document, identify the new domains affected by the current feature, and append the new RF-XXX sections. Do not rewrite or reorganize existing requirements.
+2. Identify actors, use cases, constraints, non-goals, and decisions already made.
+3. Group functional requirements into domains (RF-XXX). Non-functional in a separate section (RNF-XXX).
+4. Write each requirement: observable system behavior, not implementation. One rule per bullet. Edge cases and limits inline.
+5. Save `docs/srs.md`.
+
+## Template (initial creation)
+
+```markdown
+# SRS — [Product Name]
+
+> Product context: [docs/product/discovery.md](./product/discovery.md)
+
+## Context
+2–4 sentences: the product's purpose and the core design direction.
+Updated when the product direction changes — never deleted.
+
+# 1. Functional Requirements
+
+## RF-XXX: [Domain Name]
+
+### RF-XXX.1: [Requirement name]
+**Priority:** Must Have | **Status:** Accepted | **Dependencies:** —
+* Concrete, verifiable behavior. One rule per bullet.
+* Edge cases and limits go here.
+
+# 2. Non-Functional Requirements
+
+## RNF-XXX: [Category]
+
+### RNF-XXX.1: [Requirement name]
+**Priority:** Must Have | **Status:** Accepted | **Dependencies:** —
+* Measurable target (e.g. "< 100ms p95", "≥ WCAG 2.1 AA").
+
+# 3. Glossary
+# 4. References
+```
+
+## Done When
+
+Document saved and approved. Suggest **architecture-design** to define how the requirements will be implemented.
