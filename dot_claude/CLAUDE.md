@@ -8,6 +8,11 @@
 # Output
 
 - Plain text or compact Markdown. No emoji, decorative icons, XML-style pseudo tool calls, or fake function-call markup unless explicitly requested.
+- Code comments, SQL comments, migration comments, identifiers, and commit messages must be in English.
+
+# Verification
+
+- Always run the most relevant lint, formatter check, static analysis, typecheck, or compiler check before finishing code changes. If required project tooling is missing, install the project-declared dependency/tooling needed to run it.
 
 # Logging
 

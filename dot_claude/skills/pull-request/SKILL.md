@@ -1,0 +1,62 @@
+---
+name: pull-request
+description: "Use after feature implementation is committed: open or update a PR, write the PR body, link work items, monitor checks, and handle CI feedback."
+---
+
+# Pull Request
+
+Use after the feature branch has committed implementation work. Goal: create a reviewable PR and keep it healthy until checks are understood.
+
+Use the tracker-specific skill for platform operations. For GitHub, use **github**.
+
+## Before Opening
+
+1. Confirm branch, base branch, and clean `git status`.
+2. Review the full branch diff, not only the latest commit.
+3. Run the relevant lint/static checks and tests.
+4. Confirm tracker work items for the feature are updated.
+5. Identify the parent work item and any child items this PR should close or reference.
+
+## PR Body
+
+```markdown
+## Summary
+
+- [concrete change]
+- [concrete change]
+
+## Test Plan
+
+- [command actually run]
+- [command actually run]
+
+## Risk
+
+[Low, or concrete risk: migration/data/auth/compatibility/performance]
+
+## Notes
+
+[rollout, migration, follow-up, or "-"]
+```
+
+Rules:
+
+- Summary describes user-visible or system-visible changes, not process.
+- Test Plan lists only commands actually run.
+- Link the PR to the parent work item through native tracker linking and verify it appears there.
+- Do not mention issue numbers in commit messages.
+- Do not mention issue numbers in the PR body unless explicitly requested.
+- Do not repeat SRS, architecture, ADR, parent item, or child item lists in the PR body unless needed for reviewer context.
+- Mention migrations, breaking changes, auth/security impact, rollout, and follow-ups explicitly.
+
+## Checks
+
+1. After opening or updating the PR, fetch checks.
+2. If a check fails, read the failing job logs and summarize the real failure.
+3. Fix failures when they are in scope; otherwise report the blocker.
+4. Re-run failed jobs only when the failure is flaky or the fix is already pushed.
+5. Update the PR body or comment only when useful and approved.
+
+## Done When
+
+The PR is open or updated, has a clear body, links the right work item(s), and checks are passing or their failures are summarized with next steps.

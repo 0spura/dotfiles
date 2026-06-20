@@ -50,13 +50,6 @@
   "enabledPlugins": {
     "playwright@claude-plugins-official": true
   },
-  "sandbox": {
-    "enabled": true,
-    "filesystem": {
-      "allowWrite": [".", "./src", "./tests", "./scripts", "/tmp"],
-      "denyRead": ["./.env", "./.env.*", "~/.ssh/**", "~/.aws/**"]
-    }
-  },
   "effortLevel": "medium",
   "autoUpdatesChannel": "stable",
   "showThinkingSummaries": true,

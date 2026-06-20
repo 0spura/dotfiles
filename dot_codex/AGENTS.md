@@ -8,7 +8,8 @@
 - Smallest change that solves the problem. Follow existing patterns before introducing abstractions.
 - Standard library and existing helpers before new dependencies.
 - Early returns over nested conditionals.
-- Comments only for non-obvious business rules, algorithms, or external API quirks.
+- Keep file organization scalable. Do not put unrelated models, handlers, services, SQL, tests, and adapters into one catch-all folder; split by domain, layer, or ownership boundary following project conventions.
+- Comments in English only, and only for non-obvious business rules, algorithms, or external API quirks.
 - Refactors must not change behavior, public contracts, or error handling unless asked.
 
 **Error handling:**
@@ -28,6 +29,10 @@
 - Add or update tests when behavior changes, a bug is fixed, or meaningful edge cases exist.
 - Test observable behavior, not implementation details.
 - Mock only external dependencies (network, filesystem, time, third-party services).
+
+**Lint and static checks:**
+- Always run the closest available lint, formatter check, static analysis, typecheck, or compiler check before finishing code changes.
+- Do not add a new lint framework unless the user asked or the existing stack clearly expects it.
 
 **Living documentation:**
 - If a task changes the data model, security model, or integration pattern: update `docs/architecture.md`.

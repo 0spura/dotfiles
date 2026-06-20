@@ -9,12 +9,13 @@ Write code so it already satisfies the review and simplification pass.
 - Use standard library, framework primitives, and existing helpers before adding dependencies.
 - Avoid speculative abstractions, unused extension points, and future-proofing without current use.
 - Keep functions focused. Avoid god files — split by cohesive domain when a file stops being easy to scan.
+- Keep file organization scalable. Do not put unrelated models, handlers, services, SQL, tests, and adapters into one catch-all folder; split by domain, layer, or ownership boundary following project conventions.
 - Flatten control flow with early returns. Avoid deeply nested conditionals.
 - Preserve behavior when simplifying. Refactors must not change outputs, side effects, public contracts, or error behavior unless requested.
 
 ## Comments
 
-Only for non-obvious business rules, algorithms, compatibility constraints, or external API quirks. Remove comments that restate obvious code or describe behavior that no longer exists.
+Write code comments in English. Add comments only for non-obvious business rules, algorithms, compatibility constraints, or external API quirks. Remove comments that restate obvious code or describe behavior that no longer exists.
 
 ## Error Handling
 
@@ -29,6 +30,13 @@ Only for non-obvious business rules, algorithms, compatibility constraints, or e
 - Test observable behavior, not implementation details.
 - Mock only external dependencies (network, filesystem, time, randomness, third-party services).
 - If tests fail, fix the implementation unless the test is demonstrably wrong.
+
+## Lint And Static Checks
+
+- Always run the closest available lint, formatter check, static analysis, typecheck, or compiler check before finishing code changes.
+- If the project declares lint/typecheck tooling but dependencies are missing, install the required project dependencies/tooling and run the check.
+- If no lint tool exists, use the language's compiler, parser, formatter check, or typechecker as the minimum static verification.
+- Do not add a new lint framework to a project unless the user asked or the existing stack clearly expects it.
 
 ## Living Documentation
 
