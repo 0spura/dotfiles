@@ -117,6 +117,7 @@ mutation {
 Rules:
 
 - Use Project Status for workflow state.
+- When opening a PR, move the parent issue's Project Status to `In review`.
 - Use Project Size/Estimate and org Effort fields for complexity; do not encode estimates in labels.
 - Use Priority fields when available; do not invent priority labels.
 - Use labels only for durable taxonomy that fields do not model.
@@ -132,6 +133,7 @@ Rules:
 - For an existing branch, use GraphQL `createLinkedBranch` with the issue ID, repository ID, branch name, and branch OID.
 - Open the PR from the linked branch.
 - Do not put issue numbers in commit messages.
+- Do not put issue numbers in PR titles unless explicitly requested.
 - Do not put issue numbers in the PR body unless explicitly requested.
 
 Link an existing branch to an issue:
@@ -160,7 +162,7 @@ mutation {
 ## Pull Requests And Checks
 
 ```bash
-gh pr create --repo OWNER/REPO --base BASE --head BRANCH --title "title" --body-file BODY.md
+gh pr create --repo OWNER/REPO --base BASE --head BRANCH --title "title without issue number" --body-file BODY.md
 gh pr edit PR_NUMBER --repo OWNER/REPO --body-file BODY.md
 gh pr checks PR_NUMBER --repo OWNER/REPO
 gh run view RUN_ID --repo OWNER/REPO --log-failed

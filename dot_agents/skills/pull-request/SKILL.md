@@ -42,8 +42,10 @@ Use the tracker-specific skill for platform operations. For GitHub, use **github
 Rules:
 
 - Summary describes user-visible or system-visible changes, not process.
+- Title describes the change only; do not include issue numbers unless explicitly requested.
 - Test Plan lists only commands actually run.
 - Link the PR to the parent work item through native tracker linking and verify it appears there.
+- Move the parent work item/card to review using the tracker native Status field.
 - Do not mention issue numbers in commit messages.
 - Do not mention issue numbers in the PR body unless explicitly requested.
 - Do not repeat SRS, architecture, ADR, parent item, or child item lists in the PR body unless needed for reviewer context.
@@ -59,4 +61,4 @@ Rules:
 
 ## Done When
 
-The PR is open or updated, has a clear body, links the right work item(s), and checks are passing or their failures are summarized with next steps.
+The PR is open or updated, has a clear body, links the right work item(s), the tracker item is in review, and checks are passing or their failures are summarized with next steps.
