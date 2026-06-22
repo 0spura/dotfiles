@@ -39,8 +39,13 @@ Use after the feature branch has committed implementation work. Goal: create a r
 
 Rules:
 
+- Title format: `<type>(<scope>): <imperative description>` — same convention as commits.
+  - `type`: `feat`, `fix`, `refactor`, `docs`, `chore`, `test`, `ci`, `perf`
+  - `scope`: module or domain context, lowercase, no spaces
+  - description: lowercase, imperative, no period, no em-dash
+  - Good: `feat(auth): rotate refresh token and detect replay`
 - Summary describes user-visible or system-visible changes, not process.
-- Title describes the change only; do not include issue numbers unless explicitly requested.
+- Do not include issue numbers in the title unless explicitly requested.
 - Test Plan lists only commands actually run.
 - Link the PR to the parent work item through native tracker linking and verify it appears there.
 - Move the parent work item/card to review using the tracker native Status field.
