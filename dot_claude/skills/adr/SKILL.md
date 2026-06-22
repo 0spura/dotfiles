@@ -52,7 +52,7 @@ Positive outcomes, costs, risks, and follow-up work this decision creates.
 
 ## Traceability
 - Requirements: [RF-XXX.N links from docs/srs.md — or "—" if not requirement-driven]
-- Plan: [docs/plans/<feature>.md — or "—" if not tied to a specific feature]
+- Tracker: [issue/PR number — or "—" if not tied to a work item]
 ```
 
 ## Lifecycle

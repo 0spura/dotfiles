@@ -59,4 +59,4 @@ What we're taking as true that would change the strategy if wrong. Riskiest assu
 
 ## Done When
 
-Document saved and approved. Suggest **brainstorming** (system scope) to explore how to build it.
+Document saved and approved. Suggest **brainstorming** (product scope) to define the vision and philosophy before requirements.

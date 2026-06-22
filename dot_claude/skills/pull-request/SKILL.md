@@ -7,13 +7,11 @@ description: "Use after feature implementation is committed: open or update a PR
 
 Use after the feature branch has committed implementation work. Goal: create a reviewable PR and keep it healthy until checks are understood.
 
-Use the tracker-specific skill for platform operations. For GitHub, use **github**.
-
 ## Before Opening
 
 1. Confirm branch, base branch, and clean `git status`.
 2. Review the full branch diff, not only the latest commit.
-3. Run the relevant lint/static checks and tests.
+3. Run the full verification suite: formatter check, linter, static analysis, and test suite. All must pass. Use the Verification command from the work item as the baseline — do not open the PR with known failures.
 4. Confirm tracker work items for the feature are updated.
 5. Identify the parent work item and any child items this PR should close or reference.
 

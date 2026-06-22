@@ -15,7 +15,7 @@ Use this skill to turn one approved feature into tracker work items. Do not impl
 - Use native tracker fields before labels: Status, Priority, Effort, Size, Estimate, Iteration, Milestone, type, assignee, child items, and relationships.
 - Use labels only for durable cross-cutting classification from the repository taxonomy.
 - Use Milestone only for release/delivery grouping, not feature grouping.
-- Use the tracker-specific skill for creation/update details. For GitHub, use **github**.
+- Use the tracker MCP tools to create and update work items.
 - Do not create repo plan files.
 
 ## Method

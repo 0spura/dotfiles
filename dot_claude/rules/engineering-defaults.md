@@ -8,8 +8,7 @@ Write code so it already satisfies the review and simplification pass.
 - Follow existing project patterns before introducing new abstractions.
 - Use standard library, framework primitives, and existing helpers before adding dependencies.
 - Avoid speculative abstractions, unused extension points, and future-proofing without current use.
-- Keep functions focused. Avoid god files — split by cohesive domain when a file stops being easy to scan.
-- Keep file organization scalable. Do not put unrelated models, handlers, services, SQL, tests, and adapters into one catch-all folder; split by domain, layer, or ownership boundary following project conventions.
+- Keep functions focused and files cohesive. Split by domain, layer, or ownership boundary when a file mixes unrelated concerns or stops being easy to scan.
 - Flatten control flow with early returns. Avoid deeply nested conditionals.
 - Preserve behavior when simplifying. Refactors must not change outputs, side effects, public contracts, or error behavior unless requested.
 
@@ -55,4 +54,3 @@ Before finishing significant changes:
 - Simplify recently touched code while preserving behavior.
 - Report only concrete risks with a plausible failure mode.
 
-When receiving external code review feedback: understand before implementing, verify against the codebase, push back with technical reasoning when feedback is wrong or conflicts with prior decisions.

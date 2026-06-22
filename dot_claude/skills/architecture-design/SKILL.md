@@ -5,9 +5,9 @@ description: "Use after SRS is approved: define how requirements will be impleme
 
 # Architecture Design
 
-Use after the SRS is approved. Goal: a clear technical contract that answers *how* something will be implemented. Only the decisions that aren't obvious from the code.
+Use after the SRS is approved. Goal: a clear technical contract that answers *how* something will be implemented.
 
-The SRS defines the *what*. This skill defines the *how*. Do not rewrite or expand requirements here — reference them by RF-XXX.N ID. If a requirement is unclear, go back to the SRS before designing.
+The SRS defines the *what*. This skill defines the *how*. Architecture documents decisions and constraints — not behavior. If you find yourself describing what the system does rather than how it works, you are writing SRS content; reference the requirement ID instead of repeating it. If a requirement is unclear, go back to the SRS before designing.
 
 A single `docs/architecture.md` covers the entire product. When adding a new feature, update the relevant sections — merge new content into the existing structure, do not append feature-named sections.
 
@@ -16,13 +16,12 @@ A single `docs/architecture.md` covers the entire product. When adding a new fea
 - No implementation until the architecture is approved.
 - Prefer the simplest design that satisfies the stated requirements.
 - Challenge new services, abstractions, queues, and event buses unless they solve a concrete problem in a requirement.
-- Check what is already documented before writing any section — if a decision is in `project.md`, `vision-and-strategy.md`, or an ADR, reference it, do not repeat it.
-- If a requirement is unclear, go back to the SRS before designing.
+- Reference, never repeat: if a decision is already in `project.md`, `vision.md`, or an ADR, one line pointing there is enough.
 
 ## Process
 
 1. Check if `docs/architecture.md` exists.
-   - **Does not exist:** if `docs/project.md` does not exist either, create it first — it covers stack, global constraints, repo structure, and environments. Then create `docs/architecture.md` from scratch using `docs/srs.md` and `docs/product/vision-and-strategy.md` as input.
+   - **Does not exist:** if `docs/project.md` does not exist either, create it first — it covers stack, global constraints, repo structure, and environments. Then create `docs/architecture.md` from scratch using `docs/srs.md` as input. Read `docs/product/vision.md` first — Principles are hard constraints that every architectural decision must respect.
    - **Exists:** read the existing document and existing ADRs. Identify which sections are affected by the current feature. Update those sections by merging new content — do not add feature-named sections.
 2. List open decisions not yet settled that materially affect implementation. For non-trivial decisions, present options before drafting:
 
@@ -40,11 +39,13 @@ A single `docs/architecture.md` covers the entire product. When adding a new fea
 
 ## Template (initial creation)
 
+Include only the sections that have non-obvious decisions. Omit sections that are fully covered by the SRS, stack docs, or ADRs — a reference link is sufficient.
+
 ```markdown
 # Architecture — [Product Name]
 
 > Stack: [docs/project.md](./project.md)
-> Vision and strategy: [docs/product/vision-and-strategy.md](./product/vision-and-strategy.md)
+> Vision: [docs/product/vision.md](./product/vision.md)
 > SRS: [docs/srs.md](./srs.md)
 
 ## Data Model
@@ -52,7 +53,6 @@ Entities, relationships, and key fields. Enough to implement without ambiguity. 
 
 ## Business Rules
 Non-obvious rules the implementation must preserve, traced to SRS requirement IDs.
-Organized by domain — updated as features land.
 
 ## Integration Patterns
 Protocols, sync strategy, conflict resolution, retry policy, failure handling.
