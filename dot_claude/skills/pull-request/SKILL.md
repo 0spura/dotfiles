@@ -15,6 +15,17 @@ Use after the feature branch has committed implementation work. Goal: create a r
 4. Confirm tracker work items for the feature are updated.
 5. Identify the parent work item and any child items this PR should close or reference.
 
+## Code Review Loop
+
+Run `/code-review` on the branch diff before opening the PR. For each actionable finding:
+
+1. Apply the fix.
+2. Commit the fix (same commit conventions as the feature work).
+3. Re-run `/code-review` on the updated diff.
+4. Repeat until no actionable findings remain — only informational or accepted-risk items are left.
+
+Do not open the PR until the loop exits clean. If a finding cannot be fixed in this PR (out of scope, needs a follow-up), note it explicitly in the PR body under **Notes**.
+
 ## PR Body
 
 ```markdown
