@@ -20,19 +20,21 @@ A single `docs/srs.md` covers the entire product, organized by domain. When addi
 
 ## Process
 
-1. Check if `docs/srs.md` exists.
-   - **Does not exist:** create it from scratch using `docs/product/vision-and-strategy.md` and `docs/product/discovery.md` as input. Read both before writing anything.
+1. Read `docs/product/vision-and-strategy.md` if it exists. Extract Principles and Anti-goals; any requirement that contradicts them must be flagged and justified before it can proceed.
+2. Check if `docs/srs.md` exists.
+   - **Does not exist:** create it from scratch using `docs/product/vision-and-strategy.md` and `docs/product/discovery.md` as input when available. If prior docs are missing, state which inputs are missing and what assumptions fill the gap.
    - **Exists:** read the existing document, identify the new domains affected by the current feature, and append the new RF-XXX sections. Do not rewrite or reorganize existing requirements.
-2. Identify actors, use cases, constraints, non-goals, and decisions already made.
-3. Group functional requirements into domains (RF-XXX). Non-functional in a separate section (RNF-XXX).
-4. Write each requirement: observable system behavior, not implementation. One rule per bullet. Edge cases and limits inline.
-5. Save `docs/srs.md`.
+3. Identify actors, use cases, constraints, non-goals, and decisions already made.
+4. Group functional requirements into domains (RF-XXX). Non-functional in a separate section (RNF-XXX).
+5. Write each requirement: observable system behavior, not implementation. One rule per bullet. Edge cases and limits inline.
+6. Save `docs/srs.md`.
 
 ## Template (initial creation)
 
 ```markdown
 # SRS — [Product Name]
 
+> Vision and strategy: [docs/product/vision-and-strategy.md](./product/vision-and-strategy.md)
 > Product context: [docs/product/discovery.md](./product/discovery.md)
 
 ## Context
@@ -57,7 +59,10 @@ Updated when the product direction changes — never deleted.
 * Measurable target (e.g. "< 100ms p95", "≥ WCAG 2.1 AA").
 
 # 3. Glossary
+Terms with non-obvious domain meaning or that have multiple interpretations in the codebase. One line per term: `**Term** — definition`.
+
 # 4. References
+Links to related ADRs, discovery doc, vision/strategy doc, or external specs that informed requirements. One line per link.
 ```
 
 ## Done When

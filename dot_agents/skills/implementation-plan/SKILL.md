@@ -23,6 +23,18 @@ Use this skill to turn one approved feature into tracker work items. Do not impl
 - SDD at system level: SRS, architecture, and ADRs are the approved spec; work items must not redefine them.
 - TDD at task level: each child item/checklist task should include the focused test or check that proves it works before implementation.
 
+## Title Format
+
+```text
+<scope>: <imperative description>
+```
+
+- `scope` is the domain, layer, or module prefix — lowercase, no spaces (for example `auth`, `api`, `db`, `infra`, `ui`).
+- Description is lowercase, imperative, no period, no em-dash, no parenthetical suffixes.
+- Child item titles follow the same format; use a tighter scope if the parent already sets the domain.
+- Bad: `api: refresh token — rotação e detecção de replay`
+- Good: `auth: rotate refresh token and detect replay via token families`
+
 ## Work Item Shape
 
 Parent feature item:
@@ -32,7 +44,7 @@ Parent feature item:
 [one paragraph]
 
 ## Scope
-Source: `docs/srs.md#...`
+Source: [docs/srs.md#req-id](https://github.com/owner/repo/blob/main/docs/srs.md#req-id), ...
 
 - Must:
 - Should:
@@ -85,11 +97,12 @@ SRS: `docs/srs.md#rf-xxxn` or `-`
 4. Read only the relevant SRS, architecture, and ADR context.
 5. Sequence from the selected feature's MoSCoW priority and requirement dependencies.
 6. Define the implementation surface at module/folder level. Do not over-specify classes/functions unless architecture already decided them.
-7. Create or update the parent feature item.
-8. Create child items only when they reduce coordination risk; otherwise use parent checklists.
-9. Set native tracker fields when available.
-10. Use relationships/child items for blocked, blocking, related, and duplicate links. Do not list related item numbers in the body unless automation is unavailable.
-11. Present the final work item structure and next unblocked item.
+7. If the tracker is GitHub, construct each SRS source URL as `https://github.com/<owner>/<repo>/blob/main/docs/srs.md#<req-id>` using the repository discovered from GitHub context.
+8. Create or update the parent feature item.
+9. Create child items only when they reduce coordination risk; otherwise use parent checklists.
+10. Set native tracker fields when available.
+11. Use relationships/child items for blocked, blocking, related, and duplicate links. Do not list related item numbers in the body unless automation is unavailable.
+12. Present the final work item structure and next unblocked item.
 
 ## Done When
 

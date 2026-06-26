@@ -25,13 +25,14 @@ Use this skill to implement approved tracker work items. Work one unblocked item
 1. Find the parent feature item, then select the next open child item by tracker Status, Priority, and relationships.
 2. Prefer Status `Ready`; skip anything blocked by relationships or explicit blockers.
 3. Check `git status --short`; create or switch to the linked feature branch/worktree before editing.
-4. Write or update the focused test for this item.
-5. Implement until verification passes.
-6. Run the item's verification command plus lint/static checks before committing.
-7. Review `git diff`; update SRS, architecture, or ADR docs if behavior diverged.
-8. Commit the completed item or meaningful checklist item with a conventional commit.
-9. Update execution state only: Status, commit/verification evidence, and blockers/relationships.
-10. Move to the next unblocked item.
+4. Before creating any new file, state its path and single responsibility. If it would handle more than one domain concern, propose the split first and wait for approval before writing.
+5. Write or update the focused test for this item. If the item has no testable behavior, state the reason explicitly.
+6. Implement until verification passes.
+7. Run the item's verification command plus lint/static checks before committing.
+8. Review `git diff`; update SRS, architecture, or ADR docs if behavior diverged.
+9. Commit the completed item or meaningful checklist item with a conventional commit.
+10. Update execution state only: Status, commit/verification evidence, and blockers/relationships.
+11. Move to the next unblocked item.
 
 ## Done When
 

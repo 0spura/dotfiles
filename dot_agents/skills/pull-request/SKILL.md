@@ -13,9 +13,20 @@ Use the tracker-specific skill for platform operations. For GitHub, use **github
 
 1. Confirm branch, base branch, and clean `git status`.
 2. Review the full branch diff, not only the latest commit.
-3. Run the relevant lint/static checks and tests.
+3. Run the full verification suite: formatter check, linter, static analysis, and test suite. Use the work item's Verification command as the baseline. Do not open the PR with known failures unless the user explicitly approves the risk.
 4. Confirm tracker work items for the feature are updated.
 5. Identify the parent work item and any child items this PR should close or reference.
+
+## Code Review Loop
+
+Review the branch diff before opening the PR. Use Codex review tooling when available; otherwise perform a code-review pass yourself. For each actionable finding:
+
+1. Apply the fix.
+2. Commit the fix using the same commit conventions as the feature work.
+3. Re-run the review on the updated diff.
+4. Repeat until no actionable findings remain — only informational or accepted-risk items are left.
+
+Do not open the PR until the loop exits clean. If a finding cannot be fixed in this PR because it is out of scope or needs a follow-up, note it explicitly in the PR body under **Notes**.
 
 ## PR Body
 
@@ -41,8 +52,13 @@ Use the tracker-specific skill for platform operations. For GitHub, use **github
 
 Rules:
 
+- Title format: `<type>(<scope>): <imperative description>` — same convention as commits.
+  - `type`: `feat`, `fix`, `refactor`, `docs`, `chore`, `test`, `ci`, `perf`
+  - `scope`: module or domain context, lowercase, no spaces
+  - description: lowercase, imperative, no period, no em-dash
+  - Good: `feat(auth): rotate refresh token and detect replay`
 - Summary describes user-visible or system-visible changes, not process.
-- Title describes the change only; do not include issue numbers unless explicitly requested.
+- Do not include issue numbers in the title unless explicitly requested.
 - Test Plan lists only commands actually run.
 - Link the PR to the parent work item through native tracker linking and verify it appears there.
 - Move the parent work item/card to review using the tracker native Status field.
