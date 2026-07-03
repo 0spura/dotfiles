@@ -8,7 +8,7 @@ Write code so it already satisfies the review and simplification pass.
 - Follow existing project patterns before introducing new abstractions.
 - Use standard library, framework primitives, and existing helpers before adding dependencies.
 - Avoid speculative abstractions, unused extension points, and future-proofing without current use.
-- Keep functions focused and files cohesive. Split by domain, layer, or ownership boundary when a file mixes unrelated concerns or stops being easy to scan.
+- Decide the file and directory layout before writing, not after a file sprawls. When a file mixes unrelated domains or grows hard to scan, split it: create a directory and separate by domain, layer, or ownership boundary. This applies to documentation and specs as much as to code — a growing spec becomes a directory of focused files with an index, never one god file.
 - Flatten control flow with early returns. Avoid deeply nested conditionals.
 - Preserve behavior when simplifying. Refactors must not change outputs, side effects, public contracts, or error behavior unless requested.
 

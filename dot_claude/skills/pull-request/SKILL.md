@@ -11,9 +11,10 @@ Use after the feature branch has committed implementation work. Goal: create a r
 
 1. Confirm branch, base branch, and clean `git status`.
 2. Review the full branch diff, not only the latest commit.
-3. Run the full verification suite: formatter check, linter, static analysis, and test suite. All must pass. Use the Verification command from the work item as the baseline — do not open the PR with known failures.
-4. Confirm tracker work items for the feature are updated.
-5. Identify the parent work item and any child items this PR should close or reference.
+3. Run the full verification suite: formatter check, linter, static analysis, test suite, and the project's build command (from `docs/project.md` or the project's tooling). All must pass. Use the Verification command from the work item as the baseline — do not open the PR with known failures.
+4. If the change touches auth, payments, user data, secrets, public APIs, or file access, run `/security-review` and resolve actionable findings before opening.
+5. Confirm tracker work items for the feature are updated.
+6. Identify the parent work item and any child items this PR should close or reference.
 
 ## Code Review Loop
 
@@ -43,6 +44,10 @@ Do not open the PR until the loop exits clean. If a finding cannot be fixed in t
 
 [Low, or concrete risk: migration/data/auth/compatibility/performance]
 
+## Breaking Changes
+
+[None, or: what breaks, who is affected, and the migration/rollback path]
+
 ## Notes
 
 [rollout, migration, follow-up, or "-"]
@@ -50,18 +55,12 @@ Do not open the PR until the loop exits clean. If a finding cannot be fixed in t
 
 Rules:
 
-- Title format: `<type>(<scope>): <imperative description>` — same convention as commits.
-  - `type`: `feat`, `fix`, `refactor`, `docs`, `chore`, `test`, `ci`, `perf`
-  - `scope`: module or domain context, lowercase, no spaces
-  - description: lowercase, imperative, no period, no em-dash
-  - Good: `feat(auth): rotate refresh token and detect replay`
+- Title: conventional commit format `<type>(<scope>): <description>` (see git-workflow). Good: `feat(auth): rotate refresh token and detect replay`.
 - Summary describes user-visible or system-visible changes, not process.
-- Do not include issue numbers in the title unless explicitly requested.
+- Do not include issue numbers in the title or PR body unless explicitly requested.
 - Test Plan lists only commands actually run.
-- Link the PR to the parent work item through native tracker linking and verify it appears there.
+- Link the PR to the parent work item through the tracker MCP's native linking (provider-agnostic) and verify it appears there.
 - Move the parent work item/card to review using the tracker native Status field.
-- Do not mention issue numbers in commit messages.
-- Do not mention issue numbers in the PR body unless explicitly requested.
 - Do not repeat SRS, architecture, ADR, parent item, or child item lists in the PR body unless needed for reviewer context.
 - Mention migrations, breaking changes, auth/security impact, rollout, and follow-ups explicitly.
 

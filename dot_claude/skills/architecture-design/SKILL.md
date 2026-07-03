@@ -1,15 +1,16 @@
 ---
 name: architecture-design
 description: "Use after SRS is approved: define how requirements will be implemented — service boundaries, APIs, data model, integrations, failure modes, and technical contracts before coding."
+allowed-tools: Read, Grep, Glob, Write, Edit
 ---
 
 # Architecture Design
 
 Use after the SRS is approved. Goal: a clear technical contract that answers *how* something will be implemented.
 
-The SRS defines the *what*. This skill defines the *how*. Architecture documents decisions and constraints — not behavior. If you find yourself describing what the system does rather than how it works, you are writing SRS content; reference the requirement ID instead of repeating it. If a requirement is unclear, go back to the SRS before designing.
+The SRS defines the *what*. This skill defines the *how*. Architecture documents decisions and constraints — not behavior. If you find yourself describing what the system does rather than how it works, you are writing SRS content; reference the requirement ID instead of repeating it. UI flows and navigation are not architecture — they live in `docs/design/`. If a requirement is unclear, go back to the SRS before designing.
 
-A single `docs/architecture.md` covers the entire product. When adding a new feature, update the relevant sections — merge new content into the existing structure, do not append feature-named sections.
+A single `docs/architecture.md` covers the entire product. When adding a new feature, update the relevant sections — merge new content into the existing structure, do not append feature-named sections. Once the file stops being easy to scan, keep it as an index and split concerns into `docs/architecture/<concern>.md`.
 
 ## Constraints
 
@@ -33,40 +34,9 @@ A single `docs/architecture.md` covers the entire product. When adding a new fea
    ```
    Rule: [name] | Source: [RF-XXX.N] | Given / When / Then: [behavior] | Parameters: [values]
    ```
-4. Update or create the architecture document (see template below).
+4. Update or create the architecture document. For initial creation, read `reference/template.md`.
 5. Self-critique before saving: Is this simpler than the obvious overbuilt version? Does every service boundary have a concrete reason? Can a dependency failure be traced end to end? Are business rules preserved? Are missing values represented explicitly — never silently defaulted?
 6. Save. Identify decisions costly to reverse → use **adr** for each one.
-
-## Template (initial creation)
-
-Include only the sections that have non-obvious decisions. Omit sections that are fully covered by the SRS, stack docs, or ADRs — a reference link is sufficient.
-
-```markdown
-# Architecture — [Product Name]
-
-> Stack: [docs/project.md](./project.md)
-> Vision: [docs/product/vision.md](./product/vision.md)
-> SRS: [docs/srs.md](./srs.md)
-
-## Data Model
-Entities, relationships, and key fields. Enough to implement without ambiguity. Not a full ERD.
-
-## Business Rules
-Non-obvious rules the implementation must preserve, traced to SRS requirement IDs.
-
-## Integration Patterns
-Protocols, sync strategy, conflict resolution, retry policy, failure handling.
-Do not document field-level API contracts — those live in code.
-
-## Security Model
-Auth mechanism, permission model, trust boundaries, data sensitivity classification.
-
-## Deployment
-Where each component runs, how it scales, CI/CD flow per component.
-
-## Failure Modes
-What fails, how it fails, user impact, system behavior, recovery path.
-```
 
 ## Done When
 

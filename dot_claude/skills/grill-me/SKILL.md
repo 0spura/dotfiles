@@ -18,22 +18,18 @@ Reserve for decisions that are expensive to reverse: data model changes, public 
 
 ## Process
 
-1. Read `docs/product/vision.md` if it exists. Extract Principles and Anti-goals — these are absolute constraints. Any decision that violates a principle is a blocking issue, not a trade-off to weigh.
-2. Read the user's description and inspect relevant codebase context. Identify major decision areas: goals, constraints, data flow, failure modes, dependencies, rollout, validation.
-3. Map decisions to validate — starting with principle violations if any exist, then:
-   - **Product/feature:** problem definition, success metric, MVP scope, edge cases, rollout, observability, external dependencies
-   - **Architecture:** component boundaries, data model, API contracts, failure modes, scaling, migration path, operational burden
-   - **Implementation:** fit with existing patterns, risk surface, test coverage, reversibility, performance
-4. Start with the most load-bearing decision — the one that invalidates the most downstream choices if wrong. Follow each answer's branch before moving on.
+1. Read `docs/product/vision.md` if it exists. Principles and Anti-goals are absolute constraints — any decision that violates one is a blocking issue, not a trade-off to weigh.
+2. Read the user's description and inspect relevant codebase context. Derive the decision areas that actually matter for this artifact — from the artifact itself and the Principles, not a fixed checklist. Start from principle violations if any exist.
+3. Start with the most load-bearing decision — the one that invalidates the most downstream choices if wrong. Follow each answer's branch before moving on.
 
    Format each question as:
    > **[Topic]:** [Question]
    >
    > Recommended: [recommendation, or "no strong preference"]
 
-5. After covering all material decision points, check: did any answer reveal a new contradiction, unresolved dependency, or principle violation? If yes, re-enter step 4 at those points automatically — do not wait for the user to ask. Repeat until no new issues surface.
-6. Summarize: decisions that are solid, assumptions validated, risks or gaps still open, items that need a decision before proceeding.
-7. Ask whether to proceed, revise, or dig deeper into any open item. On revision, re-enter at the affected decision point — do not restart the full interrogation.
+4. After covering the material decision points, check whether any answer revealed a new contradiction, unresolved dependency, or principle violation. If so, re-enter step 3 at those points automatically — do not wait to be asked. Repeat until no new issues surface.
+5. Summarize: decisions that are solid, assumptions validated, risks or gaps still open, items that need a decision before proceeding.
+6. Ask whether to proceed, revise, or dig deeper into any open item. On revision, re-enter at the affected decision point — do not restart the full interrogation.
 
 ## Done When
 

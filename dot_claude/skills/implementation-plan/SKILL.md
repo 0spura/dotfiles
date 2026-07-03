@@ -12,16 +12,15 @@ Use this skill to turn one approved feature into tracker work items. Do not impl
 - Plan exactly one selected feature at a time.
 - Use the parent work item as the feature boundary.
 - Use child work items only when work has its own PR/commit scope, dependency, risk, or discussion. Otherwise use a checklist in the parent item.
-- Use native tracker fields before labels: Status, Priority, Effort, Size, Estimate, Iteration, Milestone, type, assignee, child items, and relationships.
+- Tracker-agnostic: drive every work-item, field, and link operation through the tracker MCP, and derive host/repo/default branch from its context (`tracker_get_context`). Never assume a provider (GitHub, GitLab, Linear) or hardcode its URL scheme — map to whatever native fields the tracker exposes.
+- Use native tracker fields before labels: status, priority, estimate/size, iteration/cycle, release grouping (milestone/project), type, assignee, sub-items, and relationships — whatever the tracker offers.
 - Use labels only for durable cross-cutting classification from the repository taxonomy.
-- Use Milestone only for release/delivery grouping, not feature grouping.
-- Use the tracker MCP tools to create and update work items.
+- Use the release-grouping field (milestone, cycle, or equivalent) only for delivery grouping, not feature grouping.
 - Do not create repo plan files.
 
 ## Method
 
-- SDD at system level: SRS, architecture, and ADRs are the approved spec; work items must not redefine them.
-- TDD at task level: each child item/checklist task should include the focused test or check that proves it works before implementation.
+Work items carry the approved spec forward — they do not redefine SRS, architecture, or ADRs. Each item names the focused test or check that proves it before implementation (SDD at system level, TDD at task level).
 
 ## Title Format
 
@@ -45,7 +44,7 @@ Parent feature item:
 [one paragraph]
 
 ## Scope
-Source: [docs/srs.md#req-id](https://github.com/owner/repo/blob/main/docs/srs.md#req-id), ...
+Source: [docs/srs.md#req-id](<link built from tracker context — see Process step 7>), ...
 
 - Must:
 - Should:
@@ -98,7 +97,7 @@ SRS: `docs/srs.md#rf-xxxn` or `-`
 4. Read only the relevant SRS, architecture, and ADR context.
 5. Sequence from the selected feature's MoSCoW priority and requirement dependencies.
 6. Define the implementation surface at module/folder level. Do not over-specify classes/functions unless architecture already decided them.
-7. Construct the SRS source URL as `https://github.com/<owner>/<repo>/blob/main/docs/srs.md#<req-id>` using the repo from tracker context. Each requirement ID gets its own link.
+7. Build each requirement's source link from the host, repo, and default branch reported by the tracker context (`tracker_get_context`) — never a hardcoded domain. If the tracker exposes no browsable URL, fall back to the repo-relative path `docs/srs.md#<req-id>`. Each requirement ID gets its own link.
 8. Create or update the parent feature item.
 9. Create child items only when they reduce coordination risk; otherwise use parent checklists.
 10. Set native tracker fields when available.
