@@ -12,7 +12,11 @@ Use after a branch has committed work — a feature, or a standalone fix, perf, 
 1. Confirm branch, base branch, and clean `git status`.
 2. Review the full branch diff, not only the latest commit.
 3. Run the full verification suite: formatter check, linter, static analysis, test suite, and the project's build command (from `docs/project.md` or the project's tooling). All must pass. Use the Verification command from the work item as the baseline — do not open the PR with known failures.
-4. Delegate to the **code-review agent** on the branch diff. For each actionable finding: apply the fix, commit (same conventions), and re-run until no critical or warning findings remain. If a finding cannot be fixed in this PR, note it in the PR body under **Notes**.
+4. Review loop with the **code-review agent** on the branch diff, until it converges:
+   - Apply each critical/warning finding, commit (same conventions), then **re-run the verification suite** — a fix that breaks a test is caught in the same loop.
+   - Re-delegate to the code-review agent; the pass targets whether the applied fixes introduced regressions, not a fresh nitpick hunt.
+   - Stop when the agent returns no critical or warning findings. Suggestions do not block the PR and are not re-litigated across passes.
+   - If a finding cannot be fixed in this PR, note it in the PR body under **Notes** and move on — do not loop on it.
 5. Confirm the tracker work item(s) this PR delivers are updated.
 6. Identify which work item(s) this PR should close or reference — the parent and child items for a feature, or the single item for a standalone fix/perf/refactor.
 
