@@ -18,7 +18,7 @@ The SRS states observable system behavior only. Before writing any requirement, 
 - How it is built — data model, APIs, protocols, sync, retries → `docs/architecture.md`
 - A costly-to-reverse decision and its alternatives → `docs/adr/`
 
-If you are describing what the user sees or taps, stop — that is design, not a requirement. When the SRS spans multiple domains or you are unsure where content belongs, read `reference/boundaries.md`.
+If you are describing what the user sees or taps, stop — that is design, not a requirement. When unsure whether content is a requirement or belongs in design/architecture, read `reference/boundaries.md`.
 
 ## Conventions
 
@@ -27,7 +27,7 @@ If you are describing what the user sees or taps, stop — that is design, not a
 - **Status:** `Draft` → `Accepted` → `Deprecated`.
 - **Linking:** Always reference requirements with a markdown link, never plain text: `[RF-ANC.1](#rf-anc1)`.
 - **Verifiability:** If a QA engineer cannot write a test without asking a follow-up question, the requirement is not done. No vague language ("easy", "fast", "reasonable") — use measurable criteria.
-- **Sequencing:** MoSCoW priority reflects business value, not implementation order. Do not assign or suggest roadmap phases — that belongs in the backlog or `docs/roadmap.md`.
+- **Sequencing:** MoSCoW priority reflects business value, not implementation order. Do not assign or suggest delivery phases — that belongs in the tracker backlog.
 
 ## Process
 
@@ -42,4 +42,4 @@ If you are describing what the user sees or taps, stop — that is design, not a
 
 ## Done When
 
-Document saved and approved. Suggest **architecture-design** to define how the requirements will be implemented. For products with significant UI, also suggest **ui-design** to define interface structure and flows in parallel.
+Document saved and approved. Suggest **architecture-design** to define how the requirements will be implemented. For products with significant UI, also suggest the **ui-design agent** to define interface structure and flows in parallel.

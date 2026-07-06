@@ -14,7 +14,7 @@ Use when exploring how something should work before building it. Goal: converge 
 |---|---|---|---|
 | **Product** | `docs/product/discovery.md` | saves `docs/product/vision.md` | **srs** |
 | **Component** | `docs/product/vision.md`, `docs/architecture.md`, component code | conversational — no file | **grill-me** (if data model / public API / irreversible infra), else **architecture-design** |
-| **Feature** | `docs/product/vision.md`, relevant `docs/srs.md` section | conversational — no file | **grill-me** (if auth / data model / external contracts), else **srs**; **ui-design** flow if significant UI |
+| **Feature** | `docs/product/vision.md`, relevant `docs/srs.md` section | conversational — no file | **grill-me** (if auth / data model / external contracts), else **srs**; **ui-design agent** (flow scope) if significant UI |
 
 - **Product** — philosophy, north star, principles. Starting a new product or redefining its direction.
 - **Component** — a module, plugin, integration, or service: boundaries, interfaces, responsibilities, tech choices.
@@ -24,12 +24,12 @@ If an idea crosses a scope — a feature that introduces a new boundary, or a co
 
 ## Constraints
 
-- If no product context exists yet (competitors, market position, ICP), suggest **product-discovery** first.
+- If no product context exists yet (competitors, market position, ICP), suggest the **product-discovery agent** first.
 - No implementation, code scaffolding, or edits to source during brainstorming.
 - Stay within the stated scope. Do not expand the problem or surface adjacent concerns unless asked.
 - One question at a time. Use multiple-choice when it helps.
 - Inspect the repo before asking questions the code already answers.
-- Do not suggest roadmap positioning, phase assignment, or implementation order — that belongs in the backlog or `docs/roadmap.md`.
+- Do not suggest roadmap positioning, phase assignment, or implementation order — that belongs in the tracker backlog.
 
 ## Process
 

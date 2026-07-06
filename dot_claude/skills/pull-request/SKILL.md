@@ -1,31 +1,20 @@
 ---
 name: pull-request
-description: "Use after feature implementation is committed: open or update a PR, write the PR body, link work items, monitor checks, and handle CI feedback."
+description: "Use after implementation is committed on a branch: open or update a PR, write the PR body, link work items, monitor checks, and handle CI feedback. Works for a feature or a standalone fix/perf/refactor."
 ---
 
 # Pull Request
 
-Use after the feature branch has committed implementation work. Goal: create a reviewable PR and keep it healthy until checks are understood.
+Use after a branch has committed work — a feature, or a standalone fix, perf, or refactor. Goal: create a reviewable PR and keep it healthy until checks are understood.
 
 ## Before Opening
 
 1. Confirm branch, base branch, and clean `git status`.
 2. Review the full branch diff, not only the latest commit.
 3. Run the full verification suite: formatter check, linter, static analysis, test suite, and the project's build command (from `docs/project.md` or the project's tooling). All must pass. Use the Verification command from the work item as the baseline — do not open the PR with known failures.
-4. If the change touches auth, payments, user data, secrets, public APIs, or file access, run `/security-review` and resolve actionable findings before opening.
-5. Confirm tracker work items for the feature are updated.
-6. Identify the parent work item and any child items this PR should close or reference.
-
-## Code Review Loop
-
-Run `/code-review` on the branch diff before opening the PR. For each actionable finding:
-
-1. Apply the fix.
-2. Commit the fix (same commit conventions as the feature work).
-3. Re-run `/code-review` on the updated diff.
-4. Repeat until no actionable findings remain — only informational or accepted-risk items are left.
-
-Do not open the PR until the loop exits clean. If a finding cannot be fixed in this PR (out of scope, needs a follow-up), note it explicitly in the PR body under **Notes**.
+4. Delegate to the **code-review agent** on the branch diff. For each actionable finding: apply the fix, commit (same conventions), and re-run until no critical or warning findings remain. If a finding cannot be fixed in this PR, note it in the PR body under **Notes**.
+5. Confirm the tracker work item(s) this PR delivers are updated.
+6. Identify which work item(s) this PR should close or reference — the parent and child items for a feature, or the single item for a standalone fix/perf/refactor.
 
 ## PR Body
 
@@ -59,8 +48,8 @@ Rules:
 - Summary describes user-visible or system-visible changes, not process.
 - Do not include issue numbers in the title or PR body unless explicitly requested.
 - Test Plan lists only commands actually run.
-- Link the PR to the parent work item through the tracker MCP's native linking (provider-agnostic) and verify it appears there.
-- Move the parent work item/card to review using the tracker native Status field.
+- Link the PR to the work item it delivers (the parent, for a feature) through the tracker MCP's native linking (provider-agnostic) and verify it appears there.
+- Move that work item/card to review using the tracker native Status field.
 - Do not repeat SRS, architecture, ADR, parent item, or child item lists in the PR body unless needed for reviewer context.
 - Mention migrations, breaking changes, auth/security impact, rollout, and follow-ups explicitly.
 

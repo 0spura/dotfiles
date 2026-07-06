@@ -13,3 +13,4 @@ run_onchange_apply-tweaks.sh.tmpl
 bin
 
 README.md
+dot_claude/README.md
