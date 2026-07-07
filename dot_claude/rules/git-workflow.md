@@ -18,7 +18,7 @@ Commit only when the user asks. When the conversation shifts to a new domain wit
 One logical change per commit. Before committing:
 - Review `git diff --staged`. No debug logs, commented-out code, hardcoded secrets, or unrelated files.
 - Conventional commits: `<type>(<scope>): <short description>` with optional body.
-  - Use `(<scope>)` for module or path context: `feat(auth): add token refresh` — never use em-dashes or other separators.
+  - Use `(<scope>)` for module or path context: `feat(auth): add token refresh`. Never use em-dashes or other separators.
   - Types: `feat`, `fix`, `chore`, `refactor`, `test`, `docs`, `ci`, `perf`.
   - Description: lowercase, imperative, no period at the end.
   - Never include issue or PR numbers in the commit message.

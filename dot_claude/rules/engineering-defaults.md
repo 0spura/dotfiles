@@ -1,20 +1,12 @@
 # Engineering Defaults
 
-Write code so it already satisfies the review and simplification pass.
-
 ## Build Simply
 
 - Prefer the smallest change that solves the requested problem.
 - Follow existing project patterns before introducing new abstractions.
-- Use standard library, framework primitives, and existing helpers before adding dependencies.
 - Avoid speculative abstractions, unused extension points, and future-proofing without current use.
-- Decide the file and directory layout before writing, not after a file sprawls. When a file mixes unrelated domains or grows hard to scan, split it: create a directory and separate by domain, layer, or ownership boundary. This applies to documentation and specs as much as to code — a growing spec becomes a directory of focused files with an index, never one god file.
-- Flatten control flow with early returns. Avoid deeply nested conditionals.
-- Preserve behavior when simplifying. Refactors must not change outputs, side effects, public contracts, or error behavior unless requested.
-
-## Comments
-
-Write code comments in English. Add comments only for non-obvious business rules, algorithms, compatibility constraints, or external API quirks. Remove comments that restate obvious code or describe behavior that no longer exists.
+- Prefer the standard library, framework primitives, and existing helpers before adding a dependency. When one is genuinely needed, install it with the package manager's add command (`pnpm add`, `cargo add`, `uv add`, `go get`) instead of hand-writing a version string, so the resolver sets the version, lockfile, and integrity. Take the resolved version, respect the project's existing version policy, and do not force a major bump it did not ask for. Then code against the installed version's own API (types or local docs), not what you remember.
+- Decide the file and directory layout before writing, not after a file sprawls. When a file mixes unrelated domains or grows hard to scan, split it by domain, layer, or ownership boundary. This applies to documentation and specs as much as to code: a growing spec becomes a directory of focused files with an index, never one god file.
 
 ## Error Handling
 
@@ -26,8 +18,6 @@ Write code comments in English. Add comments only for non-obvious business rules
 ## Tests
 
 - Add or update tests when behavior changes, a bug is fixed, or meaningful edge cases exist.
-- Test observable behavior, not implementation details.
-- Mock only external dependencies (network, filesystem, time, randomness, third-party services).
 - If tests fail, fix the implementation unless the test is demonstrably wrong.
 
 ## Lint And Static Checks
@@ -39,7 +29,7 @@ Write code comments in English. Add comments only for non-obvious business rules
 
 ## Living Documentation
 
-Docs reflect the current state of the system, not the original design. When a code change diverges from what is documented, update the doc in the same commit — not after, not in a follow-up. A commit that changes behavior without updating the relevant doc is incomplete.
+Docs reflect the current state of the system, not the original design. When a code change diverges from what is documented, update the doc in the same commit, not after and not in a follow-up. A commit that changes behavior without updating the relevant doc is incomplete.
 
 - If a task changes the data model, security model, or integration pattern: update `docs/architecture.md`.
 - If a task invalidates or changes a requirement: update `docs/srs.md` (mark deprecated requirements as `~~strikethrough~~`, never delete).
@@ -51,6 +41,4 @@ Before finishing significant changes:
 
 - Check the result against the user's request.
 - Review the diff for bugs introduced by the changed lines.
-- Simplify recently touched code while preserving behavior.
 - Report only concrete risks with a plausible failure mode.
-

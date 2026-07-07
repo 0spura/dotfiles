@@ -5,19 +5,19 @@ description: "Use when documenting an architecture decision: creating, updating,
 
 # ADR (Architecture Decision Record)
 
-Use when a significant technical decision needs to be recorded — one that is costly to reverse or materially affects system boundaries, data ownership, public APIs, infrastructure, auth/security posture, or migration strategy.
+Use when a significant technical decision needs to be recorded: one that is costly to reverse or that materially affects system boundaries, data ownership, public APIs, infrastructure, auth or security posture, or migration strategy.
 
 Do not create ADRs for routine implementation details or tentative ideas. An ADR documents a committed decision, not a discussion.
 
 ## When To Create
 
 Create when the user asks, or proactively suggest it when **architecture-design** or **grill-me** approves a decision affecting:
-- Service or module boundaries
-- Data ownership or persistence model
-- Public API or event contracts
-- Infrastructure and deployment topology
-- Authentication, authorization, or security posture
-- Migration or backwards-compatibility strategy
+- Service or module boundaries.
+- Data ownership or persistence model.
+- Public API or event contracts.
+- Infrastructure and deployment topology.
+- Authentication, authorization, or security posture.
+- Migration or backwards-compatibility strategy.
 
 ## File Convention
 
@@ -41,7 +41,7 @@ Choose the next available four-digit sequence. Never renumber existing ADRs.
 Why this decision is needed. The forces at play, constraints, and what would happen without a decision.
 
 ## Decision
-What was chosen. Be direct — one paragraph.
+What was chosen. Be direct, in one paragraph.
 
 ## Alternatives Considered
 Required. Each viable alternative and why it was not selected.
@@ -51,12 +51,12 @@ If only one option existed, explain why no other approach was viable.
 Positive outcomes, costs, risks, and follow-up work this decision creates.
 
 ## Traceability
-- Requirements: [RF-XXX.N links from docs/srs.md — or "—" if not requirement-driven]
-- Tracker: [issue/PR number — or "—" if not tied to a work item]
+- Requirements: [RF-XXX.N links from docs/srs.md, or "none" if not requirement-driven]
+- Tracker: [issue or PR number, or "none" if not tied to a work item]
 ```
 
 ## Lifecycle
 
-- `Proposed` — decision recommended but not yet approved.
-- `Accepted` — approved and in effect.
-- `Superseded` — replaced by a newer ADR. Update this record's status to `Superseded by [NNNN](link)` and mark the new ADR as `Accepted`. Never delete superseded ADRs.
+- `Proposed`: decision recommended but not yet approved.
+- `Accepted`: approved and in effect.
+- `Superseded`: replaced by a newer ADR. Update this record's status to `Superseded by [NNNN](link)` and mark the new ADR as `Accepted`. Never delete superseded ADRs.

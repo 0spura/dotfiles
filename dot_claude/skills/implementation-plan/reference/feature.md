@@ -1,21 +1,21 @@
 # Feature Item
 
-Type prefix: `feat(<scope>):` → executed by the **implement-item** agent (TDD, new behavior).
+Type prefix: `feat(<scope>):`, executed by the **implement-item** agent (TDD, new behavior).
 
-A feature is decomposed into a parent (the feature boundary) and child items only when a piece has its own PR/commit scope, dependency, risk, or discussion. Otherwise keep it as a checklist in the parent.
+A feature is decomposed into a parent (the feature boundary) and child items only when a piece has its own PR or commit scope, dependency, risk, or discussion. Otherwise keep it as a checklist in the parent.
 
 ## Parent
 
 ```markdown
 ## Goal
-[one paragraph — the feature boundary, not a restatement of requirements]
+[one paragraph: the feature boundary, not a restatement of requirements]
 
 ## Requirements
-The SRS requirement IDs this feature delivers, each linked. Priority (MoSCoW) and acceptance already live in the SRS — reference them, do not restate or re-prioritize.
-- [RF-XXX.N](<link built from tracker context>) — [one line: what it delivers]
+The SRS requirement IDs this feature delivers, each linked. Priority (MoSCoW) and acceptance already live in the SRS; reference them, do not restate or re-prioritize.
+- [RF-XXX.N](<link built from tracker context>): [one line: what it delivers]
 
 ## Implementation Surface
-- `[path/module]` - [responsibility]
+- `[path/module]`: [responsibility]
 
 ## Acceptance
 - [ ] [observable result or requirement ID]
@@ -34,10 +34,10 @@ The SRS requirement IDs this feature delivers, each linked. Priority (MoSCoW) an
 [one concrete action]
 
 ## Requirement
-SRS: `docs/srs.md#rf-xxxn` or `-`
+SRS: `docs/srs.md#rf-xxxn` or none
 
 ## Implementation Surface
-- `[path/module]` - [expected responsibility]
+- `[path/module]`: [expected responsibility]
 
 ## Acceptance
 - [ ] [observable result]
@@ -49,5 +49,5 @@ SRS: `docs/srs.md#rf-xxxn` or `-`
 - [unit/integration/e2e/static check and what it proves]
 
 ## Notes
-[edge cases, migration notes, or "-"]
+[edge cases, migration notes, or "none"]
 ```

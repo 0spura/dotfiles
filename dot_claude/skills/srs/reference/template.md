@@ -3,21 +3,21 @@
 Use only when `docs/srs.md` does not yet exist.
 
 ```markdown
-# SRS — [Product Name]
+# SRS: [Product Name]
 
 > Vision: [docs/product/vision.md](./product/vision.md)
 > Product context: [docs/product/discovery.md](./product/discovery.md)
 
 ## Context
-2–4 sentences: the product's purpose and the core design direction.
-Updated when the product direction changes — never deleted.
+2 to 4 sentences: the product's purpose and the core design direction.
+Updated when the product direction changes, never deleted.
 
 # 1. Functional Requirements
 
 ## RF-XXX: [Domain Name]
 
 ### RF-XXX.1: [Requirement name]
-**Priority:** Must Have | **Status:** Accepted | **Dependencies:** —
+**Priority:** Must Have | **Status:** Accepted | **Dependencies:** none
 * Concrete, verifiable behavior. One rule per bullet.
 * Edge cases and limits go here.
 
@@ -26,11 +26,11 @@ Updated when the product direction changes — never deleted.
 ## RNF-XXX: [Category]
 
 ### RNF-XXX.1: [Requirement name]
-**Priority:** Must Have | **Status:** Accepted | **Dependencies:** —
-* Measurable target (e.g. "< 100ms p95", "≥ WCAG 2.1 AA").
+**Priority:** Must Have | **Status:** Accepted | **Dependencies:** none
+* Measurable target (for example, "< 100ms p95", "at least WCAG 2.1 AA").
 
 # 3. Glossary
-Terms with non-obvious domain meaning or that have multiple interpretations in the codebase. One line per term: `**Term** — definition`.
+Terms with non-obvious domain meaning or multiple interpretations in the codebase. One line per term: `**Term**: definition`.
 
 # 4. References
 Links to related ADRs, discovery doc, vision doc, or external specs that informed requirements. One line per link.
