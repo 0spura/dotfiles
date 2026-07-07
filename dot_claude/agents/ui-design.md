@@ -19,7 +19,7 @@ You define how the interface is structured: navigation, surfaces, and interactio
 
 If you are stating a business rule or a stored field, stop: that belongs in SRS or architecture.
 
-The preloaded **design-principles** skill contains the empirical HCI guidelines (thumb zone, touch targets, Hick's Law). Apply them throughout. Use `WebSearch` or `WebFetch` only for platform-specific or version-specific details it does not cover.
+Apply the empirical HCI guidelines (thumb zone, touch targets, Hick's Law) throughout. Use `WebSearch` or `WebFetch` only for platform-specific or version-specific details they do not cover.
 
 ## Scopes
 
@@ -54,7 +54,7 @@ After saving, suggest **adr** for costly-to-reverse navigation decisions (global
 > Decisions: [docs/adr/](../adr/)
 
 ## Principles
-Product-specific UI constraints that filter every screen and flow decision. Ground each in the product context and the empirical guidelines from the preloaded design-principles skill. Override a default only with an explicit reason.
+Product-specific UI constraints that filter every screen and flow decision. Ground each in the product context and the empirical HCI guidelines. Override a default only with an explicit reason.
 
 1. **[Principle]:** what it rules out
 

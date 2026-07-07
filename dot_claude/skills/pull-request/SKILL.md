@@ -5,76 +5,60 @@ description: "Use after implementation is committed on a branch: open or update 
 
 # Pull Request
 
-Use after a branch has committed work: a feature, or a standalone fix, perf, or refactor. The goal is to create a reviewable PR and keep it healthy until checks are understood.
+Use after a branch has committed work: a feature, or a standalone fix, perf, or refactor. Open a reviewable PR and keep it healthy until its checks resolve.
 
-## Before Opening
+## Before opening
 
 1. Confirm branch, base branch, and clean `git status`.
-2. Review the full branch diff, not only the latest commit.
-3. Run the full verification suite: formatter check, linter, static analysis, test suite, and the project's build command (from `docs/project.md` or the project's tooling). All must pass. Use the Verification command from the work item as the baseline; do not open the PR with known failures.
-4. Review loop on the branch diff until it converges. The reviewer and the fixer are separate agents so the review judgment (opus) stays independent of the fix:
-   - Delegate the review to the **code-review agent**. If it returns no critical or warning findings, the loop is done.
-   - Hand its critical and warning findings to the **apply-review agent** (sonnet), which fixes them, re-runs the verification suite, and commits as fixups. A fix that breaks a test is caught in the same delegation.
-   - Re-delegate to the code-review agent. The pass targets whether the applied fixes introduced regressions, not a fresh nitpick hunt.
-   - Stop when the code-review agent returns no critical or warning findings. Suggestions do not block the PR and are not re-litigated across passes.
-   - If apply-review returns a finding it could not fix (structural decision, out of scope, or a reviewer misread), resolve it with the user or note it in the PR body under **Notes** and move on. Do not loop on it.
-5. Confirm the tracker work items this PR delivers are updated.
-6. Identify which work items this PR should close or reference: the parent and child items for a feature, or the single item for a standalone fix, perf, or refactor.
+2. Review the full branch diff, not just the latest commit.
+3. Run the full verification suite (formatter, linter, static analysis, tests, and the build command from `docs/project.md`), using the work item's Verification command as the baseline. Open only on green.
+4. Run the review loop until it converges. Reviewer and fixer are separate agents so the review judgment stays independent of the fix:
+   - Delegate to the **code-reviewer agent**. On a sensitive diff (auth, authorization, user data, payments, secrets, uploads, file access, external URLs, input handling), also delegate to the **security-review agent** and merge the findings.
+   - Hand the critical and warning findings to the **apply-review agent**, which fixes them, re-runs verification, and commits fixups; a fix that breaks a test is caught in the same delegation.
+   - Re-delegate to the reviewer, targeting regressions from the fixes, not fresh nitpicks. The loop ends when the reviewer returns no critical or warning findings; suggestions never block it.
+   - A finding apply-review cannot fix (structural decision, out of scope, reviewer misread) goes to the user or into the PR body **Notes**; the loop moves on rather than spinning on it.
+5. Confirm the tracker items this PR delivers are updated, and identify which it closes or references: parent and children for a feature, the single item otherwise.
 
-## PR Body
+## PR body
 
 ```markdown
 ## Summary
-
-- [concrete change]
 - [concrete change]
 
 ## Test Plan
-
-- [command actually run]
 - [command actually run]
 
 ## Risk
-
 [Low, or concrete risk: migration, data, auth, compatibility, performance]
 
 ## Breaking Changes
-
-[None, or: what breaks, who is affected, and the migration or rollback path]
+[None, or: what breaks, who is affected, migration or rollback path]
 
 ## Notes
-
 [rollout, migration, follow-up, or "none"]
 ```
 
-Rules:
+- Title in conventional commit format `<type>(<scope>): <description>` (see git-workflow), free of issue numbers unless explicitly requested.
+- Summary states user- or system-visible changes, not process; Test Plan lists only commands actually run.
+- Call out migrations, breaking changes, auth or security impact, rollout, and follow-ups.
+- Link the PR to the item it delivers (the parent, for a feature) through the tracker MCP's native linking, verify it appears, and move that item to review via the native Status field.
+- Repeat SRS, architecture, ADR, or item lists only where a reviewer needs the context.
 
-- Title: conventional commit format `<type>(<scope>): <description>` (see git-workflow). Good: `feat(auth): rotate refresh token and detect replay`.
-- Summary describes user-visible or system-visible changes, not process.
-- Do not include issue numbers in the title or PR body unless explicitly requested.
-- Test Plan lists only commands actually run.
-- Link the PR to the work item it delivers (the parent, for a feature) through the tracker MCP's native linking (provider-agnostic) and verify it appears there.
-- Move that work item or card to review using the tracker native Status field.
-- Do not repeat SRS, architecture, ADR, parent item, or child item lists in the PR body unless a reviewer needs the context.
-- Mention migrations, breaking changes, auth or security impact, rollout, and follow-ups explicitly.
+## Watch loop
 
-## Watch Loop
+Watch only when something changes on its own: CI checks running, or reviewers who may respond. With neither, report the PR state and stop.
 
-Decide whether to watch before looping. Watch only when the PR has something that changes on its own: CI checks that are running, or requested reviewers who may respond. If it has neither, report the PR state and stop; there is nothing to poll.
-
-When watching, drive the loop yourself rather than on a fixed interval. React to events and pace each poll to how long the checks actually take: a suite that runs for eight minutes is not worth polling every minute. Widen the interval as the PR settles, and stop as soon as the exit condition holds.
+Drive the loop yourself, pacing each poll to how long the checks actually take, since an eight-minute suite is not worth polling every minute. Widen the interval as the PR settles, and stop as soon as the exit condition holds.
 
 Each pass:
 
-1. Fetch the current checks and review threads through the tracker. The check result carries each check's status and, for failed checks, the tail of its failing job log inline, so both progress and diagnosis come from the tracker without shelling out to the host CLI.
-2. If a check failed, read the inline log and summarize the real failure. Fix it when it is in scope, delegating a real code defect to the **debug** agent and a scoped change to **implement-item**, then commit with the same conventions and push. Let the next pass confirm the fix.
-3. If a failure is out of scope to fix here, stop the loop and report the blocker.
-4. If a reviewer left actionable comments, address them and commit. Reply only when approved.
-5. Re-run failed jobs only when the failure is flaky or the fix is already pushed.
-6. Re-enter the loop until the exit condition holds.
+1. Fetch checks and review threads through the tracker; the result carries each check's status and, for failures, the tail of the failing job log inline, giving progress and diagnosis without the host CLI.
+2. On a failed check, read the log and summarize the real failure. Fix it in scope, routing a real code defect to the **debug** agent and a scoped change to **implement-item**, then commit and push, and let the next pass confirm. Out of scope, stop and report the blocker.
+3. On actionable reviewer comments, address and commit; reply only when approved.
+4. Re-run a failed job only when it is flaky or the fix is already pushed.
 
-Exit when checks pass and no review thread is left unaddressed, or when a blocker needs the user. Update the PR body or a comment only when useful and approved.
+Exit when checks pass with every review thread addressed, or when a blocker needs the user.
 
 ## Done When
 
-The PR is open or updated, has a clear body, links the right work items, and the tracker item is in review. Checks are passing with no unaddressed review threads, or the loop stopped on a blocker that is summarized with next steps.
+The PR is open or updated, carries a clear body, links the right items, and its tracker item is in review, with checks passing and no open review threads, or stopped on a blocker summarized with next steps.

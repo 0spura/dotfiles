@@ -1,7 +1,7 @@
 ---
 name: design-principles
-description: Empirical HCI and UX guidelines per device type to ground UI design decisions. Preloaded into the ui-design agent; do not invoke directly.
-disable-model-invocation: true
+description: Empirical HCI and UX guidelines per device type to ground UI design decisions.
+user-invocable: false
 ---
 
 # Design Principles

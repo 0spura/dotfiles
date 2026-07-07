@@ -1,43 +1,38 @@
 ---
 name: architecture-design
-description: "Use after SRS is approved: define how requirements will be implemented, covering service boundaries, APIs, data model, integrations, failure modes, and technical contracts before coding."
+description: "Define how approved requirements will be implemented (service boundaries, APIs, data model, integrations, failure modes, technical contracts) before coding."
 allowed-tools: Read, Grep, Glob, Write, Edit
 ---
 
 # Architecture Design
 
-Use after the SRS is approved. The goal is a clear technical contract that answers *how* something will be implemented.
+The SRS defines the *what*; this defines the *how*. Produce a technical contract of decisions and constraints, not behavior. Describing what the system does means writing SRS content, so reference the requirement ID instead. UI flows live in `docs/design/`; an unclear requirement goes back to the SRS before design.
 
-The SRS defines the *what*. This skill defines the *how*. Architecture documents decisions and constraints, not behavior. If you find yourself describing what the system does rather than how it works, you are writing SRS content; reference the requirement ID instead of repeating it. UI flows and navigation are not architecture; they live in `docs/design/`. If a requirement is unclear, go back to the SRS before designing.
+A single `docs/architecture.md` covers the product, merging each feature into the sections it affects rather than appending feature-named ones. Once it stops being easy to scan, keep it as an index and split concerns into `docs/architecture/<concern>.md`.
 
-A single `docs/architecture.md` covers the entire product. When adding a new feature, update the relevant sections and merge new content into the existing structure rather than appending feature-named sections. Once the file stops being easy to scan, keep it as an index and split concerns into `docs/architecture/<concern>.md`.
+## The bar
 
-## Constraints
-
-- No implementation until the architecture is approved.
-- Prefer the simplest design that satisfies the stated requirements.
-- Challenge new services, abstractions, queues, and event buses unless they solve a concrete problem in a requirement.
-- Reference, never repeat: if a decision is already in `project.md`, `vision.md`, or an ADR, one line pointing there is enough.
+- The simplest design that satisfies the requirements. A new service, abstraction, queue, or event bus earns its place by solving a concrete requirement.
+- Reference, never repeat: a decision already in `project.md`, `vision.md`, or an ADR gets one line pointing there.
+- Design settles before implementation starts.
 
 ## Process
 
-1. Check whether `docs/architecture.md` exists.
-   - **Does not exist:** if `docs/project.md` does not exist either, create it first, since it covers stack, global constraints, repo structure, and environments. Then create `docs/architecture.md` from scratch using `docs/srs.md` as input. Read `docs/product/vision.md` first, since its Principles are hard constraints that every architectural decision must respect.
-   - **Exists:** read the existing document and existing ADRs. Identify which sections the current feature affects and update them by merging new content. Do not add feature-named sections.
-2. List open decisions not yet settled that materially affect implementation. For non-trivial decisions, present options before drafting:
+1. On a fresh `docs/architecture.md`: create `docs/project.md` first if absent (stack, global constraints, repo structure, environments), then build from `docs/srs.md`, with `docs/product/vision.md` Principles as hard constraints. On an existing one: read it and the ADRs, then merge the current feature into the sections it affects.
+2. List open decisions that materially affect implementation. For each non-trivial one, present options before drafting:
 
    | Option | Best for | Tradeoff | Risk |
    |---|---|---|---|
    | A | ... | ... | ... |
 
-3. Extract business rules for the current work: calculations, validations, state transitions, limits. Format only when non-obvious:
+3. Extract the business rules for this work (calculations, validations, state transitions, limits), formatting the non-obvious ones:
    ```
    Rule: [name] | Source: [RF-XXX.N] | Given / When / Then: [behavior] | Parameters: [values]
    ```
-4. Update or create the architecture document. For initial creation, read `reference/template.md`.
-5. Self-critique before saving: Is this simpler than the obvious overbuilt version? Does every service boundary have a concrete reason? Can a dependency failure be traced end to end? Are business rules preserved? Are missing values represented explicitly rather than silently defaulted?
-6. Save. Identify decisions costly to reverse and use **adr** for each one.
+4. Update or create the document; for initial creation, read `reference/template.md`.
+5. Self-critique before saving: simpler than the overbuilt version? Every boundary justified? A dependency failure traceable end to end? Business rules preserved? Missing values explicit rather than silently defaulted?
+6. Save. Use **adr** for each decision costly to reverse.
 
 ## Done When
 
-Document saved and approved. Suggest **grill-me** to pressure-test before implementation.
+Saved and approved. Suggest **grill-me** to pressure-test before implementation.

@@ -8,10 +8,6 @@ Use only when `docs/srs.md` does not yet exist.
 > Vision: [docs/product/vision.md](./product/vision.md)
 > Product context: [docs/product/discovery.md](./product/discovery.md)
 
-## Context
-2 to 4 sentences: the product's purpose and the core design direction.
-Updated when the product direction changes, never deleted.
-
 # 1. Functional Requirements
 
 ## RF-XXX: [Domain Name]

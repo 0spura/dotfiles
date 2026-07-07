@@ -1,31 +1,21 @@
 # Git Workflow
 
-## Workspace Safety
+## Workspace safety
 
-- Check `git status --short` before substantial edits.
-- Never revert, overwrite, or clean up changes you did not make unless explicitly asked.
-- If the workspace is dirty and the task is large, ask whether to create an isolated worktree. Do not create nested worktrees.
+- Check `git status --short` before substantial edits, and leave changes you did not make alone unless asked to touch them.
+- When the workspace is dirty and the task is large, ask whether to create an isolated worktree. Never nest worktrees.
 
-## During Work
+## During work
 
-- Keep changes scoped to the requested behavior. Avoid mixing formatting churn with behavior changes.
+- Keep changes scoped to the requested behavior, with formatting churn out of a behavior change.
 - Review `git diff` before finishing significant work.
 
 ## Commits
 
-Commit only when the user asks. When the conversation shifts to a new domain with unstaged changes from the previous work, suggest committing first.
+Commit when the user asks. When the conversation shifts to a new domain with unstaged work from the last one, suggest committing first.
 
-One logical change per commit. Before committing:
-- Review `git diff --staged`. No debug logs, commented-out code, hardcoded secrets, or unrelated files.
-- Conventional commits: `<type>(<scope>): <short description>` with optional body.
-  - Use `(<scope>)` for module or path context: `feat(auth): add token refresh`. Never use em-dashes or other separators.
-  - Types: `feat`, `fix`, `chore`, `refactor`, `test`, `docs`, `ci`, `perf`.
-  - Description: lowercase, imperative, no period at the end.
-  - Never include issue or PR numbers in the commit message.
+One logical change per commit. Before committing, review `git diff --staged` so it carries only the intended change, with no debug logs, commented-out code, secrets, or unrelated files. Write the message in conventional-commit form:
 
-## Pull Requests
-
-Before opening or updating a PR:
-- Review the full branch diff, not only the latest commit.
-- Include a concise summary and test plan. Mention important risks, migrations, or follow-up work.
-- Ask before posting review comments or PR comments on the user's behalf.
+- `<type>(<scope>): <short description>`, with an optional body. Types: `feat`, `fix`, `chore`, `refactor`, `test`, `docs`, `ci`, `perf`.
+- `<scope>` is module or path context, as in `feat(auth): add token refresh`, separated by the colon alone with no other punctuation.
+- Description stays lowercase, imperative, no trailing period, and carries no issue or PR number.

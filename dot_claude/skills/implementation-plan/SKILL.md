@@ -1,51 +1,43 @@
 ---
 name: implementation-plan
-description: "Create tracker work items of any type (feature, bug, perf, refactor) before implementation. Loads the per-type template on demand and tags each item so the implementation loop can dispatch it."
+description: Turn approved requirements into tracker work items: typed, shaped from a template, ready for the implementation loop to dispatch.
 ---
 
 # Implementation Plan
 
-Use this skill to create tracker work items. It is the single creation point for every item type; the **implementation** loop then executes them, dispatching each to its agent by type. Do not implement code here.
+The single creation point for every work item the **implementation** loop executes. Shape items here; write no code.
 
-## Item Types
+## Item types
 
-Each item carries a type, encoded in its title prefix. The type decides the template and the executor:
+An item's type lives in its title prefix, which picks its template and its executor:
 
-| Type | Title prefix | Template | Executor |
+| Type | Prefix | Template | Executor |
 |---|---|---|---|
 | Feature | `feat(<scope>):` | `reference/feature.md` | implement-item |
 | Refactor | `refactor(<scope>):` | `reference/refactor.md` | implement-item (behavior frozen) |
 | Bug | `fix(<scope>):` | `reference/bug.md` | debug |
 | Performance | `perf(<scope>):` | `reference/perf.md` | perf |
 
-Read the matching template only for the type you are creating. Do not load all four.
+Load only the template for the type you are creating. `<scope>` is the domain, layer, or module in lowercase (`auth`, `api`, `db`, `ui`); the description is lowercase and imperative. Good: `feat(auth): rotate refresh token and detect replay`.
 
-`<scope>` is the domain, layer, or module in lowercase with no spaces (`auth`, `api`, `db`, `ui`). The description is lowercase, imperative, no period, no em-dash. Good: `feat(auth): rotate refresh token and detect replay`. Bad: `auth: refresh token rotation and replay`.
+## Working through the tracker
 
-## Principles
+Every item, field, and link goes through the tracker MCP, mapped to whatever it exposes, never a hardcoded provider name, URL, or field name. Reach for native fields before labels: status, priority, size, iteration, type, assignee, sub-items, relationships. Labels carry only durable cross-cutting classification.
 
-- Drive every work-item, field, and link operation through the tracker MCP. Never hardcode provider names, URL schemes, or field names; map to whatever the tracker exposes.
-- Use native tracker fields before labels: status, priority, estimate or size, iteration or cycle, release grouping, type, assignee, sub-items, relationships. Set the item type in a native type field when the tracker has one; otherwise the title prefix is authoritative.
-- Use labels only for durable cross-cutting classification from the repository taxonomy.
-- **Implementation Surface is load-bearing** on every type: the loop compares surfaces to decide what runs in parallel. An item that touches a file must list it, or two agents may edit the same file at once.
-- Requirements are already settled upstream. By this phase the SRS is approved and grill-me is done, so this skill translates locked requirements into executable tasks. It does not refine, re-prioritize, or re-scope them. If a requirement still feels ambiguous, stop and go back to the SRS; do not resolve it here.
-- Work items carry the approved spec forward; they do not redefine SRS, architecture, or ADRs. Reference requirement IDs; do not restate them.
-- Decompose and sequence by technical structure: implementation surface, dependencies, and execution order from blocking relationships, not from business priority, which the SRS already fixed.
-- Do not create repo plan files.
+**Implementation Surface** is load-bearing: the loop compares each item's declared files or modules to decide what runs in parallel, so an item that touches a file lists it. Items that share a surface carry a relationship, which serializes them.
+
+Requirements arrive settled: the SRS is approved and grill-me is done. Translate them into tasks; leave refining, re-scoping, and re-prioritizing upstream. Reference requirement IDs; the SRS keeps their text. Sequence by technical structure (surface, dependencies, blocking order), since the SRS already fixed business priority.
 
 ## Process
 
-1. **Identify the type and scope** of what is being planned. A feature follows an approved architecture; a bug, perf, or refactor can be filed reactively.
-2. **Reuse** existing parent or child items when possible instead of duplicating.
-3. **Gather only targeted evidence** for this item: relevant SRS, architecture, or ADR sections, or the repro or symptom for a bug. Do not scan the whole project.
-4. **Read the matching template** from `reference/` and fill it. Leave the fields marked "filled by the agent" blank; for bug and perf, the empirical discovery (root cause, bottleneck) happens at execution.
-5. **Define the Implementation Surface** at module or folder level for every item, so the loop can judge parallel-safety.
-6. **Build requirement source links** (feature items) from the host, repo, and default branch in the tracker context, never a hardcoded domain. If the tracker exposes no browsable URL, fall back to the repo-relative path `docs/srs.md#<req-id>`.
-7. **Create the items.** For a feature, create the parent, then child items only when a piece has its own PR or commit scope, dependency, risk, or discussion. Split a large refactor into refactor child items. Otherwise a single item suffices.
-8. **Set native tracker fields** (type, priority, size, iteration) when available.
-9. **Set relationships** (blocked, blocking, related, duplicate) through the tracker, not by listing numbers in the body. Items sharing an Implementation Surface should carry a relationship so the loop serializes them.
-10. **Present** the resulting items, their types, and the next unblocked item.
+1. Identify the type and scope of what is being planned.
+2. Reuse an existing parent or child item before creating a duplicate.
+3. Gather only the evidence this item needs: the SRS, architecture, or ADR sections it touches, or a bug's repro.
+4. Read the matching template and fill it, leaving the fields marked for the agent blank.
+5. Create the items. For a feature, a parent plus a child only where a piece has its own PR, commit scope, dependency, or risk; otherwise one item. Split a large refactor into refactor children.
+6. Set native fields and relationships, and build each requirement source link from the tracker's host and repo, falling back to `docs/srs.md#<req-id>` when it exposes no browsable URL.
+7. Present the items, their types, and the next unblocked one.
 
 ## Done When
 
-The backlog has each item typed, shaped from its template, given native fields and relationships, with an accurate Implementation Surface, ready for the implementation loop to dispatch.
+Every item is typed, shaped from its template, and carries an accurate Implementation Surface, native fields, and relationships, ready for the loop to dispatch.

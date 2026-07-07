@@ -1,17 +1,16 @@
 ---
 name: adr
-description: "Use when documenting an architecture decision: creating, updating, or superseding ADRs after a significant technical choice is approved."
+description: "Record an architecture decision: create, update, or supersede an ADR after a significant, costly-to-reverse technical choice is approved."
 ---
 
 # ADR (Architecture Decision Record)
 
-Use when a significant technical decision needs to be recorded: one that is costly to reverse or that materially affects system boundaries, data ownership, public APIs, infrastructure, auth or security posture, or migration strategy.
+Record a committed decision that is costly to reverse or that materially shapes system boundaries, data ownership, public APIs, infrastructure, auth or security posture, or migration strategy. An ADR captures a decision, not a discussion, so routine implementation details and tentative ideas stay out.
 
-Do not create ADRs for routine implementation details or tentative ideas. An ADR documents a committed decision, not a discussion.
+## When to create
 
-## When To Create
+On the user's request, or proactively when **architecture-design** or **grill-me** approves a decision affecting:
 
-Create when the user asks, or proactively suggest it when **architecture-design** or **grill-me** approves a decision affecting:
 - Service or module boundaries.
 - Data ownership or persistence model.
 - Public API or event contracts.
@@ -19,15 +18,9 @@ Create when the user asks, or proactively suggest it when **architecture-design*
 - Authentication, authorization, or security posture.
 - Migration or backwards-compatibility strategy.
 
-## File Convention
+## File convention
 
-Follow the repo's existing ADR convention when one exists. Otherwise:
-
-```
-docs/adr/NNNN-short-title.md
-```
-
-Choose the next available four-digit sequence. Never renumber existing ADRs.
+Follow the repo's existing ADR convention. Absent one, use `docs/adr/NNNN-short-title.md` with the next four-digit sequence; existing ADRs keep their numbers.
 
 ## Template
 
@@ -38,25 +31,24 @@ Choose the next available four-digit sequence. Never renumber existing ADRs.
 - Date: YYYY-MM-DD
 
 ## Context
-Why this decision is needed. The forces at play, constraints, and what would happen without a decision.
+Why the decision is needed: the forces at play, constraints, and what happens without it.
 
 ## Decision
-What was chosen. Be direct, in one paragraph.
+What was chosen, in one direct paragraph.
 
 ## Alternatives Considered
-Required. Each viable alternative and why it was not selected.
-If only one option existed, explain why no other approach was viable.
+Required. Each viable alternative and why it lost. If only one option existed, why no other was viable.
 
 ## Consequences
-Positive outcomes, costs, risks, and follow-up work this decision creates.
+Positive outcomes, costs, risks, and the follow-up work this creates.
 
 ## Traceability
-- Requirements: [RF-XXX.N links from docs/srs.md, or "none" if not requirement-driven]
-- Tracker: [issue or PR number, or "none" if not tied to a work item]
+- Requirements: [RF-XXX.N links from docs/srs.md, or "none"]
+- Tracker: [work item reference, or "none"]
 ```
 
 ## Lifecycle
 
-- `Proposed`: decision recommended but not yet approved.
+- `Proposed`: recommended, not yet approved.
 - `Accepted`: approved and in effect.
-- `Superseded`: replaced by a newer ADR. Update this record's status to `Superseded by [NNNN](link)` and mark the new ADR as `Accepted`. Never delete superseded ADRs.
+- `Superseded`: replaced by a newer ADR. Set this record's status to `Superseded by [NNNN](link)`, mark the new one `Accepted`, and keep both.

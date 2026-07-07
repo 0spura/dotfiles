@@ -1,45 +1,40 @@
 ---
 name: srs
-description: "Use after brainstorming is approved: formalize what the system must do into a versioned requirements specification before architecture design begins."
+description: "Formalize an approved design into a versioned requirements specification (what the system must do, for whom, under which constraints) before architecture."
 allowed-tools: Read, Grep, Glob, Write, Edit
 ---
 
 # SRS (Software Requirements Specification)
 
-Use after the brainstorming design is approved. The goal is to translate the approved design into a versioned requirements specification: what the system must do, for whom, and under which constraints. The SRS defines the *what*. Architecture design defines the *how*.
+The SRS defines the *what*; architecture defines the *how*. Translate the approved brainstorming design into versioned, verifiable requirements.
 
-A single `docs/srs.md` covers the entire product, organized by domain. When adding a new feature, append new RF-XXX domain sections rather than creating separate files. Once the file stops being easy to scan, keep `docs/srs.md` as an index and split domains into `docs/requirements/<domain>.md`.
+A single `docs/srs.md` covers the product, organized by domain, appending new RF-XXX domain sections per feature. Once it stops being easy to scan, keep `docs/srs.md` as an index and split domains into `docs/requirements/<domain>.md`.
 
 ## Scope boundary
 
-The SRS states observable system behavior only. Before writing any requirement, check that it does not belong elsewhere:
+State observable system behavior only. Each requirement earns its place here by not belonging elsewhere:
 
-- Screens, navigation, gestures, visual states, and flow between screens go to `docs/design/`.
-- How it is built (data model, APIs, protocols, sync, retries) goes to `docs/architecture.md`.
-- A costly-to-reverse decision and its alternatives go to `docs/adr/`.
-
-If you are describing what the user sees or taps, stop: that is design, not a requirement. When unsure whether content is a requirement or belongs in design or architecture, read `reference/boundaries.md`.
+- Screens, navigation, gestures, visual states, and flow between screens → `docs/design/`.
+- How it is built (data model, APIs, protocols, sync, retries) → `docs/architecture.md`.
+- A costly-to-reverse decision and its alternatives → `docs/adr/`.
 
 ## Conventions
 
-- **IDs:** Functional requirements use `RF-XXX.N` (a 2 to 4 letter domain code plus sequence). Non-functional use `RNF-XXX.N`. Never renumber or delete; deprecated requirements get `~~strikethrough~~` and a note.
-- **Priority (MoSCoW):** Must Have, Should Have, Could Have, Won't Have. Cap Must Have at about 60%.
-- **Status:** `Draft`, then `Accepted`, then `Deprecated`.
-- **Linking:** Always reference requirements with a markdown link, never plain text: `[RF-ANC.1](#rf-anc1)`.
-- **Verifiability:** If a QA engineer cannot write a test without asking a follow-up question, the requirement is not done. Avoid vague language ("easy", "fast", "reasonable") and use measurable criteria.
-- **Sequencing:** MoSCoW priority reflects business value, not implementation order. Do not assign or suggest delivery phases; that belongs in the tracker backlog.
+- **IDs:** functional `RF-XXX.N` (a 2 to 4 letter domain code plus sequence), non-functional `RNF-XXX.N`. IDs are permanent; a deprecated requirement keeps its number and gains `~~strikethrough~~` with a note.
+- **Priority (MoSCoW):** Must, Should, Could, Won't Have. Cap Must Have near 60%. Priority is business value, not delivery order; phases live in the tracker backlog.
+- **Status:** `Draft` → `Accepted` → `Deprecated`.
+- **Linking:** reference a requirement as a markdown link, never plain text: `[RF-ANC.1](#rf-anc1)`.
+- **Verifiability:** a QA engineer writes a test from the requirement without a follow-up question. Use measurable criteria, not "easy", "fast", or "reasonable".
 
 ## Process
 
-1. Read `docs/product/vision.md` if it exists and extract the Principles and Anti-goals, which are hard filters. Any requirement that contradicts a principle is a blocking issue: flag it and resolve with the user before writing it. Do not silently soften a principle to fit a requirement.
-2. Check whether `docs/srs.md` exists.
-   - **Does not exist:** read `docs/product/discovery.md` if it exists. If no prior docs exist, proceed from the approved brainstorming design and state explicitly which inputs are missing and what assumptions fill the gap.
-   - **Exists:** read the existing document, identify the new domains affected by the current feature, and append the new RF-XXX sections. Do not rewrite or reorganize existing requirements.
+1. Read `docs/product/vision.md` if present; its Principles and Anti-goals are hard filters. A requirement that contradicts one is a blocking issue, so resolve it with the user before writing, rather than softening the principle to fit.
+2. On a fresh `docs/srs.md`, read `docs/product/discovery.md` if present, else proceed from the approved design and name the missing inputs and the assumptions filling them. On an existing one, read it, then append the new feature's RF-XXX sections and leave existing requirements as they are.
 3. Identify actors, use cases, constraints, non-goals, and decisions already made.
-4. Group functional requirements into domains (RF-XXX). Keep non-functional ones in a separate section (RNF-XXX).
-5. Write each requirement as observable system behavior, not implementation. One rule per bullet, with edge cases and limits inline. Apply the Scope boundary above to every requirement.
-6. To create the initial document, read `reference/template.md`. Save `docs/srs.md`.
+4. Group functional requirements into domains (RF-XXX); keep non-functional ones in their own RNF-XXX section.
+5. Write each requirement as one observable behavior per bullet, edge cases and limits inline, checked against the Scope boundary.
+6. For the initial document, read `reference/template.md`. Save `docs/srs.md`.
 
 ## Done When
 
-Document saved and approved. Suggest **architecture-design** to define how the requirements will be implemented. For products with significant UI, also suggest the **ui-design agent** to define interface structure and flows in parallel.
+Saved and approved. Suggest **architecture-design** for the *how*, and the **ui-design agent** in parallel when the UI is significant.
