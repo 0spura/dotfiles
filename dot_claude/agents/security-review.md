@@ -25,6 +25,9 @@ You are invoked when the change touches a sensitive surface: authentication, aut
 
 - **Injection:** untrusted strings concatenated into SQL, shell, LDAP, template, or query sinks.
 - **Broken authorization / IDOR:** missing ownership or tenant checks before a read or write; authentication mistaken for authorization.
+- **Broken function-level authorization:** an endpoint reachable by a caller whose role or permission is checked at the wrong scope, or a check copied from a sibling endpoint without re-verifying it fits this action.
+- **Mass assignment:** a write endpoint accepts and persists client-supplied fields (role, permission, price, ownership) that were never meant to be client-settable, because the payload binds straight to the internal model without an allowlist.
+- **Workflow bypass:** an endpoint trusts that a prior step (approval, payment, verification) already happened instead of re-checking its own precondition at execution time, letting a caller skip, reorder, or race two endpoints into a state the sequence forbids.
 - **XSS:** raw HTML rendered from untrusted content without escaping.
 - **SSRF:** fetching user-controlled URLs without scheme, host, IP-range, and redirect allowlist checks.
 - **Path traversal:** resolved paths escaping the allowed base directory.
