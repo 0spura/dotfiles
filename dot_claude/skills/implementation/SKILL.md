@@ -1,6 +1,8 @@
 ---
 name: implementation
-description: "Drive an approved backlog to done. Selects the next unblocked item and dispatches it by type to the right agent: feature/refactor to implement-item, bug to debug, perf to perf."
+description: "Drive an approved backlog to done. Selects the next unblocked item and dispatches it by type to the right agent, sending feature and refactor to implement-item, bug to debug, and perf to perf."
+model: opus
+effort: medium
 ---
 
 # Implementation

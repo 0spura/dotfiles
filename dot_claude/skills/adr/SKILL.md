@@ -1,6 +1,8 @@
 ---
 name: adr
-description: "Record an architecture decision: create, update, or supersede an ADR after a significant, costly-to-reverse technical choice is approved."
+description: "Record an architecture decision by creating, updating, or superseding an ADR after a significant, costly-to-reverse technical choice is approved."
+model: sonnet
+effort: low
 ---
 
 # ADR (Architecture Decision Record)

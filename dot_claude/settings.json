@@ -63,6 +63,7 @@
   "disableRemoteControl": true,
   "disableClaudeAiConnectors": true,
   "disableArtifact": true,
+  "awaySummaryEnabled": false,
   "hooks": {
     "PreToolUse": [
       {

@@ -1,6 +1,6 @@
 ---
 name: code-standards
-description: The quality bar for code — simplicity, clarity, tests, and secure-by-construction.
+description: The quality bar for code, covering simplicity, clarity, tests, and secure-by-construction.
 user-invocable: false
 ---
 

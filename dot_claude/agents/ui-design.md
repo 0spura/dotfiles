@@ -3,6 +3,7 @@ name: ui-design
 description: Use after SRS to define interface structure or per-feature interaction flows. Produces docs/design/ so UI structure has a home and never drifts into the SRS. Invoke for structure (navigation model, surfaces) or flow (one feature's interaction steps).
 tools: Read, Grep, Glob, Write, Edit, WebSearch, WebFetch
 model: sonnet
+effort: medium
 permissionMode: acceptEdits
 skills:
   - design-principles

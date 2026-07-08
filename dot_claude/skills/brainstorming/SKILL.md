@@ -2,6 +2,8 @@
 name: brainstorming
 description: "Explore how something should work before building it (product philosophy, component design, or feature behavior) and converge on an approved design."
 allowed-tools: Read, Grep, Glob, Write, Edit
+model: opus
+effort: high
 ---
 
 # Brainstorming

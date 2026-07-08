@@ -1,6 +1,8 @@
 ---
 name: pull-request
-description: "Use after implementation is committed on a branch: open or update a PR, write the PR body, link work items, monitor checks, and handle CI feedback. Works for a feature or a standalone fix/perf/refactor."
+description: "Use after implementation is committed on a branch to open or update a PR, write the PR body, link work items, monitor checks, and handle CI feedback. Works for a feature or a standalone fix/perf/refactor."
+model: sonnet
+effort: medium
 ---
 
 # Pull Request
@@ -13,7 +15,7 @@ Use after a branch has committed work: a feature, or a standalone fix, perf, or 
 2. Review the full branch diff, not just the latest commit.
 3. Run the full verification suite (formatter, linter, static analysis, tests, and the build command from `docs/project.md`), using the work item's Verification command as the baseline. Open only on green.
 4. Run the review loop until it converges. Reviewer and fixer are separate agents so the review judgment stays independent of the fix:
-   - Delegate to the **code-reviewer agent**. On a sensitive diff (auth, authorization, user data, payments, secrets, uploads, file access, external URLs, input handling), also delegate to the **security-review agent** and merge the findings.
+   - Delegate to the **code-reviewer agent**. On a sensitive diff (auth, authorization, user data, payments, secrets, uploads, file access, external URLs, input handling), also delegate to the **security-review agent**. When the item carries a spec (SRS requirements or a PRD), also delegate to the **spec-review agent** for fidelity to what was asked. Merge the findings before handing them on.
    - Hand the critical and warning findings to the **apply-review agent**, which fixes them, re-runs verification, and commits fixups; a fix that breaks a test is caught in the same delegation.
    - Re-delegate to the reviewer, targeting regressions from the fixes, not fresh nitpicks. The loop ends when the reviewer returns no critical or warning findings; suggestions never block it.
    - A finding apply-review cannot fix (structural decision, out of scope, reviewer misread) goes to the user or into the PR body **Notes**; the loop moves on rather than spinning on it.

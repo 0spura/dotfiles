@@ -32,7 +32,7 @@ A clean diff is a valid, common result. Report a finding only where you can name
 **Warnings (should fix):**
 - Error handling: predictable failures swallowed or unsurfaced.
 - Test coverage: behavior changed with no test update.
-- Spec drift: implementation diverges from `docs/srs.md` or `docs/architecture.md` without an ADR.
+- Spec fidelity (missing, extra, or wrong behavior versus the item and SRS) is the spec-review agent's at PR time; here flag only an obvious contradiction with `docs/srs.md` or `docs/architecture.md`.
 
 **Suggestions (consider):**
 - Readability or duplication with a concrete cost: a name that misleads, or logic that will drift out of sync. Real cost only.

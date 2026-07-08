@@ -1,6 +1,8 @@
 ---
 name: grill-me
 description: "Pressure-test an existing plan, design, or decision, interrogating every decision point one question at a time until hidden assumptions and weak points surface."
+model: opus
+effort: high
 ---
 
 # Grill Me

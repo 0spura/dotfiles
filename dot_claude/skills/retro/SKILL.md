@@ -1,7 +1,9 @@
 ---
 name: retro
-description: "Turn a recurring failure or repeated correction into a durable fix: mine the pattern, propose one bounded edit to a rule, skill, or agent, and apply it only after approval."
+description: "Turn a recurring failure or repeated correction into a durable fix by mining the pattern, proposing one bounded edit to a rule, skill, or agent, and applying it only after approval."
 allowed-tools: Read, Grep, Glob, Edit, Write
+model: opus
+effort: high
 ---
 
 # Retro

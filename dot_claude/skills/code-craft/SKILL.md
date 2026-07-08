@@ -1,6 +1,6 @@
 ---
 name: code-craft
-description: Discipline for running a code-changing task — scope, spec alignment, verification, and clean handoff.
+description: Discipline for running a code-changing task, covering scope, spec alignment, verification, and clean handoff.
 user-invocable: false
 ---
 

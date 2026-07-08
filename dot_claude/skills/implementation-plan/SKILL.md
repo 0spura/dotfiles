@@ -1,6 +1,8 @@
 ---
 name: implementation-plan
-description: Turn approved requirements into tracker work items: typed, shaped from a template, ready for the implementation loop to dispatch.
+description: Turn approved requirements into typed tracker work items, shaped from a template and ready for the implementation loop to dispatch.
+model: opus
+effort: medium
 ---
 
 # Implementation Plan
@@ -28,13 +30,23 @@ Every item, field, and link goes through the tracker MCP, mapped to whatever it 
 
 Requirements arrive settled: the SRS is approved and grill-me is done. Translate them into tasks; leave refining, re-scoping, and re-prioritizing upstream. Reference requirement IDs; the SRS keeps their text. Sequence by technical structure (surface, dependencies, blocking order), since the SRS already fixed business priority.
 
+## Slicing the work
+
+Cut a feature into **vertical tracer bullets**: each item a thin path through every layer it touches (schema, service, API, UI, test), verifiable on its own rather than a horizontal slice of one layer. A child item exists where a slice has its own PR or commit scope, dependency, or risk; otherwise the feature stays one item with a checklist. Prefactor first, making the change easy before making the easy change, as its own slice when the groundwork is worth isolating.
+
+A **wide refactor** is the exception, since one mechanical change (rename a column, retype a shared symbol) fans across the codebase and no vertical slice lands green. Sequence it as **expand-contract**:
+
+1. **Expand:** add the new form beside the old so nothing breaks.
+2. **Migrate:** move call sites over in batches sized by blast radius, per package or directory, each batch its own item blocked by the expand, keeping CI green because the old form still exists.
+3. **Contract:** delete the old form once no caller remains, in an item blocked by every migrate batch.
+
 ## Process
 
 1. Identify the type and scope of what is being planned.
 2. Reuse an existing parent or child item before creating a duplicate.
 3. Gather only the evidence this item needs: the SRS, architecture, or ADR sections it touches, or a bug's repro.
 4. Read the matching template and fill it, leaving the fields marked for the agent blank.
-5. Create the items. For a feature, a parent plus a child only where a piece has its own PR, commit scope, dependency, or risk; otherwise one item. Split a large refactor into refactor children.
+5. Slice per "Slicing the work" and create the items, each carrying its Implementation Surface.
 6. Set native fields and relationships, and build each requirement source link from the tracker's host and repo, falling back to `docs/srs.md#<req-id>` when it exposes no browsable URL.
 7. Present the items, their types, and the next unblocked one.
 
