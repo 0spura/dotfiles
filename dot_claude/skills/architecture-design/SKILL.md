@@ -2,17 +2,20 @@
 name: architecture-design
 description: "Define how approved requirements will be implemented (service boundaries, APIs, data model, integrations, failure modes, technical contracts) before coding."
 allowed-tools: Read, Grep, Glob, Write, Edit
+model: opus
+effort: high
 ---
 
 # Architecture Design
 
 The SRS defines the *what*; this defines the *how*. Produce a technical contract of decisions and constraints, not behavior. Describing what the system does means writing SRS content, so reference the requirement ID instead. UI flows live in `docs/design/`; an unclear requirement goes back to the SRS before design.
 
-A single `docs/architecture.md` covers the product, merging each feature into the sections it affects rather than appending feature-named ones. Once it stops being easy to scan, keep it as an index and split concerns into `docs/architecture/<concern>.md`.
+A single `docs/architecture.md` covers the product, merging each feature into the sections it affects rather than appending feature-named ones. Past the split threshold (engineering-defaults.md), keep it as an index and split concerns into `docs/architecture/<concern>.md`.
 
 ## The bar
 
 - The simplest design that satisfies the requirements. A new service, abstraction, queue, or event bus earns its place by solving a concrete requirement.
+- Place each module boundary to hide the most behind the least; `reference/deep-modules.md` carries the vocabulary for making a module deep.
 - Reference, never repeat: a decision already in `project.md`, `vision.md`, or an ADR gets one line pointing there.
 - Design settles before implementation starts.
 

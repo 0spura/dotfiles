@@ -2,13 +2,15 @@
 name: srs
 description: "Formalize an approved design into a versioned requirements specification (what the system must do, for whom, under which constraints) before architecture."
 allowed-tools: Read, Grep, Glob, Write, Edit
+model: opus
+effort: medium
 ---
 
 # SRS (Software Requirements Specification)
 
 The SRS defines the *what*; architecture defines the *how*. Translate the approved brainstorming design into versioned, verifiable requirements.
 
-A single `docs/srs.md` covers the product, organized by domain, appending new RF-XXX domain sections per feature. Once it stops being easy to scan, keep `docs/srs.md` as an index and split domains into `docs/requirements/<domain>.md`.
+A single `docs/srs.md` covers the product, organized by domain, appending new RF-XXX domain sections per feature. Past the split threshold (engineering-defaults.md), keep `docs/srs.md` as an index and split domains into `docs/requirements/<domain>.md`.
 
 ## Scope boundary
 

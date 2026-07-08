@@ -7,3 +7,4 @@ Docs reflect the current state of the system, not the original design. When a co
 - If a task changes the data model, security model, or integration pattern: update `docs/architecture.md`.
 - If a task invalidates or changes a requirement: update `docs/srs.md` (mark deprecated requirements as `~~strikethrough~~`, never delete).
 - If a decision that affects system boundaries or public APIs changes: create a new ADR superseding the old one.
+- Past ~500 lines or 6 top-level sections, a single-file doc (architecture, SRS) stops being appended to: convert it into an index and split concerns into `docs/<area>/<concern>.md`.
