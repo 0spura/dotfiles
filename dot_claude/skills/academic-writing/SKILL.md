@@ -50,7 +50,7 @@ Related work placement. Decide where it sits. Holding it until after the idea ha
 
 C-C-C and chaining. The three-beat shape of context, content, and conclusion holds at the paper, the section, and each paragraph. Each assertion's lead-out sets up the next assertion's lead-in, so the argument flows as a chain you can check now.
 
-Citation scaffolding. Slot candidate references under the assertion each one supports, so every claim has its evidence located before prose begins and related work becomes a matrix rather than an afterthought.
+Citation scaffolding. Slot candidate references under the assertion each one supports, so every claim has its evidence located before prose begins and related work becomes a matrix rather than an afterthought. When source documents are organized in a directory, key each citation to an anchor there, the citation key plus the page or section, so **paper-review** can later verify the claim against the source directly instead of searching the full text.
 
 **Done when** the user approves the full assertion outline, every paragraph carries one assertion, the funnel is intact, the chain flows end to end, and each empirical assertion has a citation or a result slotted.
 
