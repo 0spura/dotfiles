@@ -32,6 +32,8 @@ What does the contribution enable that was not possible before, meaning the new 
 
 A proof of concept is where the paper starts, not where it ends. A demonstration that stops at "it works" reads as unfinished exactly where it should have begun. When the contribution itself is contested rather than just unclear, hand off to **grill-me** for a full interrogation, then return here.
 
+Ground the gap before claiming it. Dispatch **literature-search** in broad recon mode with the working gap statement, and check its landscape before asserting the niche is open. A gap claimed without checking the literature first is the so-what a reviewer challenges hardest.
+
 State the contributions as a bulleted list, each one a claim the paper will back and phrased so a skeptical reader can check it. This is the spine the rest of the paper hangs on, and later each bullet earns a forward reference to the section that delivers it.
 
 Phrase the one-paragraph claim in the ABT shape. Context (and), then tension (but), then resolution (therefore). It is the compact form of the motivation funnel used in the skeleton, and the same shape carries the abstract.
@@ -50,7 +52,7 @@ Related work placement. Decide where it sits. Holding it until after the idea ha
 
 C-C-C and chaining. The three-beat shape of context, content, and conclusion holds at the paper, the section, and each paragraph. Each assertion's lead-out sets up the next assertion's lead-in, so the argument flows as a chain you can check now.
 
-Citation scaffolding. Slot candidate references under the assertion each one supports, so every claim has its evidence located before prose begins and related work becomes a matrix rather than an afterthought. When source documents are organized in a directory, key each citation to an anchor there, the citation key plus the page or section, so **paper-review** can later verify the claim against the source directly instead of searching the full text.
+Citation scaffolding. For each empirical assertion, dispatch **literature-search** in targeted lookup mode with the assertion and the sources directory. It finds the citation and writes the export anchored there, the citation key plus the page or section, so every claim has its evidence located before prose begins and related work becomes a matrix rather than an afterthought. When it flags an assertion the literature does not support, rewrite or drop the assertion here, before it costs a skeleton rebuild rather than a sentence. The anchor is also what lets **paper-review** verify the claim against the source directly instead of searching the full text.
 
 **Done when** the user approves the full assertion outline, every paragraph carries one assertion, the funnel is intact, the chain flows end to end, and each empirical assertion has a citation or a result slotted.
 
