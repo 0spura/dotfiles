@@ -39,4 +39,4 @@ State observable system behavior only. Each requirement earns its place here by 
 
 ## Done When
 
-Saved and approved. Suggest **architecture-design** for the *how*, and the **ui-design agent** in parallel when the UI is significant.
+Saved and approved. Suggest **architecture-design** for the *how*, and the **ux-design agent** in parallel when the UI is significant.

@@ -14,7 +14,7 @@ A skill-and-agent system that carries a change from idea to shipped PR, spec-dri
 | 2 | **brainstorming** | Approved design; `docs/product/vision.md` at product scope |
 | 3 | **grill-me** (optional) | Pressure-tested design, only for costly-to-reverse decisions |
 | 4 | **srs** | `docs/srs.md`, versioned requirements (the *what*) |
-| 5 | **architecture-design** | `docs/architecture.md` + ADRs (the *how*); **ui-design** (agent) runs in parallel for significant UI |
+| 5 | **architecture-design** | `docs/architecture.md` + ADRs (the *how*); **ux-design** (agent) runs in parallel for significant UI |
 | 6 | **implementation-plan** | Typed tracker work items, sliced as vertical tracer bullets |
 | 7 | **implementation** | Backlog drained, each item dispatched and committed |
 | 8 | **pull-request** | PR open, reviewed, checks green |
@@ -58,7 +58,7 @@ Some skills exist only to be preloaded into an agent's context via its `skills:`
 
 - **code-craft**: how to run a code-changing task (scope, spec alignment, verification). Loaded by implement-item, debug, perf, apply-review.
 - **code-standards**: the quality bar for code (simplicity, tests, secure-by-construction). Loaded by the same agents plus code-reviewer.
-- **design-principles**: empirical HCI/UX guidelines. Loaded by ui-design.
+- **design-principles**: empirical HCI/UX guidelines. Loaded by ux-design.
 
 ## Model and effort
 

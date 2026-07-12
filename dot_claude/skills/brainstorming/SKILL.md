@@ -16,7 +16,7 @@ Converge on an approved design, not a large document. Explore how something shou
 |---|---|---|---|
 | **Product** | `docs/product/discovery.md` | saves `docs/product/vision.md` | **srs** |
 | **Component** | `docs/product/vision.md`, `docs/architecture.md`, component code | conversational, no file | **grill-me** (if data model, public API, or irreversible infra), else **architecture-design** |
-| **Feature** | `docs/product/vision.md`, relevant `docs/srs.md` section | conversational, no file | **grill-me** (if auth, data model, or external contracts), else **srs**; **ui-design agent** (flow scope) if significant UI |
+| **Feature** | `docs/product/vision.md`, relevant `docs/srs.md` section | conversational, no file | **grill-me** (if auth, data model, or external contracts), else **srs**; **ux-design agent** (flow scope) if significant UI |
 
 - **Product:** philosophy, north star, principles, for a new product or a change of direction.
 - **Component:** a module, plugin, integration, or service, with its boundaries, interfaces, responsibilities, tech choices.
