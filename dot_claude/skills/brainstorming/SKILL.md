@@ -27,7 +27,9 @@ When an idea crosses a scope, like a feature that introduces a new boundary or a
 ## How to explore
 
 - Stay inside the stated scope; surface adjacent concerns only when asked.
+- When the user signals unfamiliarity with the domain or this part of the codebase, open with a blind-spot pass: name what they likely don't know to ask before interviewing them on it.
 - Read the repo before asking what the code already answers, and ask one question at a time, multiple-choice where it helps.
+- When a preference resists words (visual taste, an interaction feel), ask for a reference instead, existing code, a library, a similar feature, and read it rather than extracting a description.
 - Explore the direction the user pointed at rather than manufacturing alternatives. Offer 2 to 3 options only when the decision is genuinely open, each with what it is, when it fits, and its main tradeoff and risk, recommendation first.
 - Roadmap position, phase, and delivery order belong in the tracker backlog.
 - Source stays untouched here, with no code, scaffolding, or edits. With no product context yet (competitors, market, ICP), suggest the **product-discovery agent** first.
