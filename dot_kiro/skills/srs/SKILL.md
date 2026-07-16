@@ -31,9 +31,9 @@ State observable system behavior only. Each requirement earns its place here by 
 2. On a fresh `docs/srs.md`, read `docs/product/discovery.md` if present, else proceed from the approved design and name the missing inputs and the assumptions filling them. On an existing one, read it, then append the new feature's RF-XXX sections and leave existing requirements as they are.
 3. Identify actors, use cases, constraints, non-goals, and decisions already made.
 4. Group functional requirements into domains (RF-XXX); keep non-functional ones in their own RNF-XXX section.
-5. Write each requirement as one observable behavior per bullet, edge cases and limits inline.
-6. Save `docs/srs.md`.
+5. Write each requirement as one observable behavior per bullet, edge cases and limits inline, checked against the Scope boundary.
+6. For the initial document, read `reference/template.md`. Save `docs/srs.md`.
 
 ## Done When
 
-Saved and approved. Suggest **architecture-design** for the *how*.
+Saved and approved. Suggest **architecture-design** for the *how*, and the **ux-design agent** in parallel when the UI is significant.

@@ -18,15 +18,15 @@ Reserve it for decisions expensive to reverse: data model changes, public API co
 
 ## Process
 
-1. Read `docs/product/vision.md` if present. Its Principles and Anti-goals are absolute, so a decision that violates one is a blocking issue, not a trade-off.
+1. Read `docs/product/vision.md` if present. Its Principles and Anti-goals are absolute, so a decision that violates one is a blocking issue, not a trade-off. Start there if any violation exists.
 2. Derive the decision areas that matter from the artifact itself and the Principles, not a fixed checklist.
-3. Start with the most load-bearing decision and follow its branch. Format each question:
+3. Start with the most load-bearing decision, the one that invalidates the most downstream choices if wrong, and follow its branch. Format each question:
    > **[Topic]:** [Question]
    >
    > Recommended: [recommendation, or "no strong preference"]
-4. When an answer surfaces a new contradiction or dependency, re-enter step 3 there automatically.
-5. Summarize: decisions solid, assumptions validated, risks or gaps still open.
-6. Ask whether to proceed, revise, or dig deeper.
+4. When an answer surfaces a new contradiction, dependency, or principle violation, re-enter step 3 there automatically until nothing new surfaces.
+5. Summarize: decisions solid, assumptions validated, risks or gaps still open, and what needs deciding before proceeding.
+6. Ask whether to proceed, revise, or dig deeper. On revision, re-enter at the affected point rather than restarting.
 
 ## Done When
 
