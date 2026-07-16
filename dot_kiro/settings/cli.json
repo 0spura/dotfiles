@@ -1,0 +1,17 @@
+{
+  "chat.enableKnowledge": false,
+  "chat.enableTodoList": false,
+  "chat.greeting.enabled": false,
+  "chat.modelDefaults": {
+    "claude-opus-4.7": {
+      "output_config": {
+        "effort": "high"
+      }
+    },
+    "claude-sonnet-5": {
+      "output_config": {
+        "effort": "medium"
+      }
+    }
+  }
+}
