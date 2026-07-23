@@ -50,7 +50,7 @@
   "enabledPlugins": {
     "playwright@claude-plugins-official": true
   },
-  "effortLevel": "high",
+  "effortLevel": "medium",
   "autoUpdatesChannel": "stable",
   "showThinkingSummaries": true,
   "showTurnDuration": true,
