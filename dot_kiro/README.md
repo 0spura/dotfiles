@@ -14,7 +14,7 @@ ln -sf ~/Projects/personal/dotfiles/dot_kiro ~/.kiro
 dot_kiro/
 ├── steering/              # Always loaded into every session (default agent auto-loads these)
 │   ├── working-approach.md    # Scope, output format, security floor
-│   ├── prose-voice.md         # Natural writing cadence
+│   ├── simplified-technical-english.md  # ASD-STE100 writing style
 │   ├── engineering-defaults.md # Living docs, tracker discipline
 │   ├── git-workflow.md        # Commits, branches, workspace safety
 │   ├── code-craft.md         # Task discipline: scope, verify, report
