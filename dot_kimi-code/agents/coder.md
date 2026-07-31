@@ -12,6 +12,7 @@ tools:
   - Edit
   - Write
   - Agent
+  - Skill
   - mcp__mcp-tracker__*
 subagents:
   - explore

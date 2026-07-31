@@ -10,7 +10,7 @@ effort: medium
 
 The SRS defines the *what*; architecture defines the *how*. Translate the approved brainstorming design into versioned, verifiable requirements.
 
-A single `docs/srs.md` covers the product, organized by domain, appending new RF-XXX domain sections per feature. Past the split threshold (engineering-defaults.md), keep `docs/srs.md` as an index and split domains into `docs/requirements/<domain>.md`.
+A single `docs/srs.md` covers the product, organized by domain, appending new RF-XXX domain sections per feature. Past the split threshold (~500 lines or 6 top-level sections), keep `docs/srs.md` as an index and split domains into `docs/requirements/<domain>.md`.
 
 ## Scope boundary
 

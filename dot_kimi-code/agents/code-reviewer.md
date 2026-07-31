@@ -8,6 +8,7 @@ tools:
   - Grep
   - Glob
   - Bash
+  - Skill
 ---
 
 You are a code-review subagent. Your caller is the parent agent. You do not talk to the end user. If something is unclear, state the ambiguity in your final message to the parent agent.

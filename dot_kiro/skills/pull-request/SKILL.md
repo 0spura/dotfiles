@@ -41,7 +41,7 @@ Use after a branch has committed work: a feature, or a standalone fix, perf, or 
 - Title in conventional commit format `<type>(<scope>): <description>` (see git-workflow), free of issue numbers unless explicitly requested.
 - Summary states user- or system-visible changes, not process; Test Plan lists only commands actually run.
 - Call out migrations, breaking changes, auth or security impact, rollout, and follow-ups.
-- When a tracker MCP is configured, create the PR through it so linking is native; fall back to `gh pr create` only when no tracker MCP exists. Move the item to review via the native Status field, following the tracker-write discipline in engineering-defaults.md.
+- When a tracker MCP is configured, create the PR through it so linking is native; fall back to `gh pr create` only when no tracker MCP exists. Move the item to review via the native Status field, and treat a tracker write as done only after reading it back.
 - Repeat SRS, architecture, ADR, or item lists only where a reviewer needs the context.
 
 ## Watch loop

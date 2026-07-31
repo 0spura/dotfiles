@@ -7,7 +7,7 @@ description: Define how approved requirements will be implemented (service bound
 
 The SRS defines the *what*; this defines the *how*. Produce a technical contract of decisions and constraints, not behavior. Describing what the system does means writing SRS content, so reference the requirement ID instead. UI flows live in `docs/design/`; an unclear requirement goes back to the SRS before design.
 
-A single `docs/architecture.md` covers the product, merging each feature into the sections it affects rather than appending feature-named ones. Past the split threshold (engineering-defaults.md), keep it as an index and split concerns into `docs/architecture/<concern>.md`.
+A single `docs/architecture.md` covers the product, merging each feature into the sections it affects rather than appending feature-named ones. Past the split threshold (~500 lines or 6 top-level sections), keep it as an index and split concerns into `docs/architecture/<concern>.md`.
 
 ## The bar
 
