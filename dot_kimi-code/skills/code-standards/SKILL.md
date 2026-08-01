@@ -1,7 +1,7 @@
 ---
 name: code-standards
-description: The quality bar for code, covering simplicity, clarity, tests, and secure-by-construction.
-disableModelInvocation: true
+description: "The quality bar for code: simplicity, clarity, tests, error handling, and secure-by-construction. Loaded by code-changing and reviewing agents."
+whenToUse: "Load before writing or reviewing code. Preloaded by coder, debug, perf, apply-review, code-reviewer."
 ---
 
 # Code Standards

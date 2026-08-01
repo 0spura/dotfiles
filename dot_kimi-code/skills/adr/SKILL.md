@@ -1,55 +1,52 @@
 ---
 name: adr
-description: Record an architecture decision by creating, updating, or superseding an ADR after a significant, costly-to-reverse technical choice is approved.
-whenToUse: Use when architecture-design or grill-me approves a decision affecting service boundaries, data ownership, public APIs, infrastructure, auth, security posture, or migration strategy.
+description: "Record an architecture decision by creating, updating, or superseding an ADR after a significant, costly-to-reverse technical choice is approved."
+whenToUse: "Use when architecture-design or grill-me approves a decision affecting service boundaries, data ownership, public APIs, infrastructure, auth, security posture, or migration strategy."
 ---
 
 # ADR (Architecture Decision Record)
 
-Record a committed decision that is costly to reverse or that materially shapes system boundaries, data ownership, public APIs, infrastructure, auth or security posture, or migration strategy. An ADR captures a decision, not a discussion, so routine implementation details and tentative ideas stay out.
+Record a decision that is costly to reverse. Write it once, pin it, and supersede it instead of editing it later. An ADR captures a decision, not a discussion, so routine implementation details and tentative ideas stay out.
 
-## When to create
+## When to write
 
-On the user's request, or proactively when **architecture-design** or **grill-me** approves a decision affecting:
+Write an ADR when a decision:
 
-- Service or module boundaries.
-- Data ownership or persistence model.
-- Public API or event contracts.
-- Infrastructure and deployment topology.
-- Authentication, authorization, or security posture.
-- Migration or backwards-compatibility strategy.
+- Affects service boundaries, data ownership, or public APIs.
+- Changes infrastructure, auth, or security posture.
+- Chooses between alternatives that are hard to revisit.
+- Has consequences that outlive the current task.
 
-## File convention
+## Structure
 
-Follow the repo's existing ADR convention. Absent one, use `docs/adr/NNNN-short-title.md` with the next four-digit sequence; existing ADRs keep their numbers.
-
-## Template
+Use this structure in the body:
 
 ```markdown
-# NNNN: Decision title
+# <Decision title>
 
-- Status: Proposed | Accepted | Superseded by [NNNN](#link)
-- Date: YYYY-MM-DD
+**Status:** accepted   <!-- proposed | accepted | superseded by [[decisions/other]] -->
 
 ## Context
-Why the decision is needed: the forces at play, constraints, and what happens without it.
+What situation forced a decision; the constraints that mattered.
 
 ## Decision
-What was chosen, in one direct paragraph.
-
-## Alternatives Considered
-Required. Each viable alternative and why it lost. If only one option existed, why no other was viable.
+What was decided, stated as a fact.
 
 ## Consequences
-Positive outcomes, costs, risks, and the follow-up work this creates.
+What becomes easier, what becomes harder, what was given up.
+Rejected alternatives and WHY, so future sessions don't re-propose them.
 
 ## Traceability
-- Requirements: [RF-XXX.N links from docs/srs.md, or "none"]
+- Requirements: [RF-XXX links from docs/srs.md, or "none"]
 - Tracker: [work item reference, or "none"]
 ```
 
-## Lifecycle
+## Process
 
-- `Proposed`: recommended, not yet approved.
-- `Accepted`: approved and in effect.
-- `Superseded`: replaced by a newer ADR. Set this record's status to `Superseded by [NNNN](link)`, mark the new one `Accepted`, and keep both.
+1. If one exists and the decision changes, write a NEW page and set the old page's status line to `superseded by [[decisions/<new>]]`. Never edit the old decision's substance.
+2. Write the new ADR with `memory_write_page` under `decisions/<short-slug>.md`, `pinned: true`.
+3. Reference the ADR from `docs/architecture.md` when the decision affects the architecture document.
+
+## Done When
+
+The ADR is written, pinned, and linked from the relevant docs. Future agents can find it via memory query.

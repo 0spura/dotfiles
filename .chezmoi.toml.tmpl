@@ -1,3 +1,96 @@
+{{- $agentChoices := list "kimi-code" "claude" "codex" -}}
+{{- $enabledAgents := promptMultichoiceOnce . "enabledAgents" "AI agent configs to apply on this machine" $agentChoices -}}
+
+{{- $aiMemoryUrl := promptStringOnce . "aiMemoryUrl" "ai-memory server URL (where this machine's agents connect)" "http://127.0.0.1:49374" -}}
+{{- $aiMemoryRunServer := promptBoolOnce . "aiMemoryRunServer" "Run the ai-memory server container on this machine?" false -}}
+
+{{- $aiMemoryShareOnNetwork := false -}}
+{{- $aiMemoryAuthToken := "" -}}
+{{- $aiMemoryLlmProvider := "none" -}}
+{{- $aiMemoryEmbeddingProvider := "none" -}}
+{{- $ollamaEnabled := false -}}
+{{- $anthropicApiKey := "" -}}
+{{- $openaiApiKey := "" -}}
+{{- $voyageApiKey := "" -}}
+{{- $geminiApiKey := "" -}}
+{{- $aiMemoryLlmModel := "" -}}
+{{- $aiMemoryEmbedModel := "" -}}
+{{- $aiMemoryBaseUrl := "" -}}
+{{- $aiMemoryEmbedBaseUrl := "" -}}
+{{- $aiMemoryEmbedDim := "" -}}
+
+{{- if $aiMemoryRunServer -}}
+{{-   $aiMemoryShareOnNetwork = promptBoolOnce . "aiMemoryShareOnNetwork" "Expose the ai-memory container to the local network (not just this machine)?" false -}}
+
+{{-   if $aiMemoryShareOnNetwork -}}
+{{-     if hasKey . "aiMemoryAuthToken" -}}
+{{-       $aiMemoryAuthToken = .aiMemoryAuthToken -}}
+{{-     else -}}
+{{-       $aiMemoryAuthToken = randAlphaNum 32 -}}
+{{-     end -}}
+{{-   end -}}
+
+{{-   $aiMemoryLlmProvider = promptChoiceOnce . "aiMemoryLlmProvider" "ai-memory LLM provider" (list "none" "anthropic" "anthropic-oauth" "openai" "openai-oauth" "copilot" "gemini" "openai-compat") -}}
+{{-   $aiMemoryEmbeddingProvider = promptChoiceOnce . "aiMemoryEmbeddingProvider" "ai-memory embedding provider" (list "none" "openai" "voyage" "google" "gemini" "openai-compat") -}}
+
+{{-   if eq $aiMemoryLlmProvider "anthropic" -}}
+{{-     $anthropicApiKey = promptStringOnce . "anthropicApiKey" "ANTHROPIC_API_KEY (stays only in the local chezmoi config, never in git)" -}}
+{{-     $aiMemoryLlmModel = promptStringOnce . "aiMemoryLlmModel" "LLM model (ex: claude-haiku-4-5)" -}}
+{{-   else if eq $aiMemoryLlmProvider "openai" -}}
+{{-     $openaiApiKey = promptStringOnce . "openaiApiKey" "OPENAI_API_KEY (stays only in the local chezmoi config, never in git)" -}}
+{{-     $aiMemoryLlmModel = promptStringOnce . "aiMemoryLlmModel" "LLM model (ex: gpt-5.5)" -}}
+{{-   else if eq $aiMemoryLlmProvider "gemini" -}}
+{{-     $geminiApiKey = promptStringOnce . "geminiApiKey" "GEMINI_API_KEY (stays only in the local chezmoi config, never in git)" -}}
+{{-     $aiMemoryLlmModel = promptStringOnce . "aiMemoryLlmModel" "LLM model (ex: gemini-2.5-flash)" -}}
+{{-   else if eq $aiMemoryLlmProvider "openai-compat" -}}
+{{-     $aiMemoryBaseUrl = promptStringOnce . "aiMemoryBaseUrl" "LLM base URL, OpenAI-compatible (ex: http://host.docker.internal:11434/v1)" -}}
+{{-     $aiMemoryLlmModel = promptStringOnce . "aiMemoryLlmModel" "LLM model name (ex: qwen3:14b)" -}}
+{{-   end -}}
+
+{{-   if eq $aiMemoryEmbeddingProvider "openai" -}}
+{{-     $openaiApiKey = promptStringOnce . "openaiApiKey" "OPENAI_API_KEY (stays only in the local chezmoi config, never in git)" -}}
+{{-     $aiMemoryEmbedModel = promptStringOnce . "aiMemoryEmbedModel" "Embedding model (ex: text-embedding-3-small)" -}}
+{{-   else if eq $aiMemoryEmbeddingProvider "voyage" -}}
+{{-     $voyageApiKey = promptStringOnce . "voyageApiKey" "VOYAGE_API_KEY (stays only in the local chezmoi config, never in git)" -}}
+{{-     $aiMemoryEmbedModel = promptStringOnce . "aiMemoryEmbedModel" "Embedding model (ex: voyage-3)" -}}
+{{-   else if eq $aiMemoryEmbeddingProvider "google" -}}
+{{-     $geminiApiKey = promptStringOnce . "geminiApiKey" "GEMINI_API_KEY (stays only in the local chezmoi config, never in git)" -}}
+{{-     $aiMemoryEmbedModel = promptStringOnce . "aiMemoryEmbedModel" "Embedding model (ex: gemini-embedding-001)" -}}
+{{-   else if eq $aiMemoryEmbeddingProvider "gemini" -}}
+{{-     $geminiApiKey = promptStringOnce . "geminiApiKey" "GEMINI_API_KEY (stays only in the local chezmoi config, never in git)" -}}
+{{-     $aiMemoryEmbedModel = promptStringOnce . "aiMemoryEmbedModel" "Embedding model (ex: gemini-embedding-001)" -}}
+{{-   else if eq $aiMemoryEmbeddingProvider "openai-compat" -}}
+{{-     $aiMemoryEmbedBaseUrl = promptStringOnce . "aiMemoryEmbedBaseUrl" "Embedding base URL, OpenAI-compatible (ex: http://host.docker.internal:11434/v1)" -}}
+{{-     $aiMemoryEmbedModel = promptStringOnce . "aiMemoryEmbedModel" "Embedding model name (ex: nomic-embed-text)" -}}
+{{-     $aiMemoryEmbedDim = promptStringOnce . "aiMemoryEmbedDim" "Embedding dimension (ex: 768)" -}}
+{{-   end -}}
+
+{{-   $ollamaEnabled = promptBoolOnce . "ollamaEnabled" "Install Ollama on this machine?" (or (eq $aiMemoryLlmProvider "openai-compat") (eq $aiMemoryEmbeddingProvider "openai-compat")) -}}
+{{- else -}}
+{{-   if hasKey . "aiMemoryAuthToken" -}}
+{{-     $aiMemoryAuthToken = .aiMemoryAuthToken -}}
+{{-   else -}}
+{{-     $aiMemoryAuthToken = promptStringOnce . "aiMemoryAuthToken" "ai-memory auth token (leave blank if the server does not require one)" "" -}}
+{{-   end -}}
+{{- end -}}
+
 [data]
   name = "Luis Lima"
   email = "luisflima2020@gmail.com"
+  enabledAgents = [{{ range $i, $a := $enabledAgents }}{{ if $i }}, {{ end }}{{ $a | quote }}{{ end }}]
+  aiMemoryUrl = {{ $aiMemoryUrl | quote }}
+  aiMemoryRunServer = {{ $aiMemoryRunServer }}
+  aiMemoryShareOnNetwork = {{ $aiMemoryShareOnNetwork }}
+  aiMemoryAuthToken = {{ $aiMemoryAuthToken | quote }}
+  aiMemoryLlmProvider = {{ $aiMemoryLlmProvider | quote }}
+  aiMemoryEmbeddingProvider = {{ $aiMemoryEmbeddingProvider | quote }}
+  aiMemoryLlmModel = {{ $aiMemoryLlmModel | quote }}
+  aiMemoryEmbedModel = {{ $aiMemoryEmbedModel | quote }}
+  aiMemoryBaseUrl = {{ $aiMemoryBaseUrl | quote }}
+  aiMemoryEmbedBaseUrl = {{ $aiMemoryEmbedBaseUrl | quote }}
+  aiMemoryEmbedDim = {{ $aiMemoryEmbedDim | quote }}
+  anthropicApiKey = {{ $anthropicApiKey | quote }}
+  openaiApiKey = {{ $openaiApiKey | quote }}
+  voyageApiKey = {{ $voyageApiKey | quote }}
+  geminiApiKey = {{ $geminiApiKey | quote }}
+  ollamaEnabled = {{ $ollamaEnabled }}

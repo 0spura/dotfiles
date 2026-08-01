@@ -1,7 +1,7 @@
 ---
 name: implementation-plan
-description: Turn approved requirements into typed tracker work items, shaped from a template and ready for the implementation loop to dispatch.
-whenToUse: Use after srs and architecture-design are approved, before implementation begins.
+description: "Turn approved requirements into typed tracker work items, shaped from a template and ready for the implementation loop to dispatch."
+whenToUse: "Use after srs and architecture-design are approved, before implementation begins."
 ---
 
 # Implementation Plan

@@ -1,0 +1,30 @@
+{{ if ne .chezmoi.os "windows" -}}
+#!/bin/sh
+# Builds the mcp-tracker external clone. Runs on every chezmoi apply, but only
+# rebuilds when the clone's HEAD moved (stamp file). On Windows use WSL2.
+set -eu
+
+repo="$HOME/.local/share/mcp-tracker"
+stamp="$HOME/.local/state/mcp-tracker-build.sha"
+
+[ -d "$repo/.git" ] || exit 0
+
+if ! command -v npm >/dev/null 2>&1; then
+  echo "npm not found; skipping mcp-tracker build" >&2
+  exit 0
+fi
+
+new_hash="$(git -C "$repo" rev-parse HEAD)"
+old_hash="$(cat "$stamp" 2>/dev/null || true)"
+if [ "$new_hash" = "$old_hash" ] && [ -f "$repo/dist/index.js" ]; then
+  exit 0
+fi
+
+cd "$repo"
+npm ci
+npm run build
+
+mkdir -p "$(dirname "$stamp")"
+echo "$new_hash" > "$stamp"
+echo "mcp-tracker: built $new_hash"
+{{ end -}}

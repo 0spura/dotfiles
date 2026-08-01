@@ -1,7 +1,7 @@
 ---
 name: srs
-description: Formalize an approved design into a versioned requirements specification — what the system must do, for whom, under which constraints — before architecture.
-whenToUse: Use after brainstorming produces an approved design and before architecture-design begins.
+description: "Formalize an approved design into a versioned requirements specification — what the system must do, for whom, under which constraints — before architecture."
+whenToUse: "Use after brainstorming produces an approved design and before architecture-design begins."
 ---
 
 # SRS (Software Requirements Specification)
@@ -16,7 +16,7 @@ State observable system behavior only. Each requirement earns its place here by 
 
 - Screens, navigation, gestures, visual states, and flow between screens → `docs/design/`.
 - How it is built (data model, APIs, protocols, sync, retries) → `docs/architecture.md`.
-- A costly-to-reverse decision and its alternatives → `docs/adr/`.
+- A costly-to-reverse decision and its alternatives → an ADR in memory under `decisions/`, via the **adr** skill.
 
 ## Conventions
 
@@ -28,7 +28,7 @@ State observable system behavior only. Each requirement earns its place here by 
 
 ## Process
 
-1. Read `docs/product/vision.md` if present; its Principles and Anti-goals are hard filters. A requirement that contradicts one is a blocking issue, so resolve it with the user before writing.
+1. Read `docs/product/vision.md` if present; its Principles and Anti-goals are hard filters. A requirement that contradicts one is a blocking issue, so resolve it with the user before writing. The same holds for a contradiction with a prior requirement found in memory.
 2. On a fresh `docs/srs.md`, read `docs/product/discovery.md` if present, else proceed from the approved design and name the missing inputs and assumptions. On an existing one, read it, then append the new feature's RF-XXX sections and leave existing requirements as they are.
 3. Identify actors, use cases, constraints, non-goals, and decisions already made.
 4. Group functional requirements into domains (RF-XXX); keep non-functional ones in their own RNF-XXX section.
@@ -37,4 +37,4 @@ State observable system behavior only. Each requirement earns its place here by 
 
 ## Done When
 
-Saved and approved. Suggest **architecture-design** for the *how*, and the **ux-design agent** in parallel when the UI is significant.
+Saved and approved, durable requirements are in memory. Suggest **architecture-design** for the *how*, and the **ux-design agent** in parallel when the UI is significant.

@@ -1,14 +1,14 @@
 # Review Loop Graph Example
 
-This is a concrete graph for the PR review-fix loop. It uses `AgentSwarm` for parallel reviews and `Agent` for fix application.
+This is a concrete graph for the PR review-fix loop. It fans out review nodes as background `Agent` calls and applies fixes with a foreground `Agent` call.
 
 ## Nodes
 
-- **N1 review swarm**: runs `code-reviewer`, `security-review`, and `spec-review` in parallel over the same diff.
-- **N2 merge findings**: parent merges the three reports into one prioritized list.
+- **N1 review fan-out**: dispatches `code-reviewer`, `security-review`, and `spec-review` as three background `Agent` calls over the same diff.
+- **N2 merge findings**: parent merges the three reports into one prioritized list, once all three notifications or `TaskOutput` calls resolve.
 - **N3 gate**: if no critical or warning findings, exit.
-- **N4 apply fixes**: `apply-review` receives the merged findings and the diff.
-- **N5 re-review swarm**: runs the same reviewers again, scoped to regressions only.
+- **N4 apply fixes**: `apply-review` (foreground `Agent` call) receives the merged findings and the diff.
+- **N5 re-review fan-out**: runs the same three reviewers again, scoped to regressions only.
 
 ## Edges
 
@@ -20,21 +20,31 @@ N3 --(clean)--> exit
 
 ## Guard
 
-Max 3 iterations. After the third, report remaining findings to the user instead of looping.
+Max 3 iterations. After the third, report remaining findings to the user instead of looping. If a review node is still running when the guard trips, cancel it with `TaskStop`.
 
-## AgentSwarm template for N1
+## Dispatch for N1 / N5
+
+Three background `Agent` calls, each with a profile-specific prompt over the same diff:
 
 ```
-prompt_template: |
-  Review the current branch diff for {{item}} issues.
+Agent(subagent_type: code-reviewer, run_in_background: true, prompt: "
+  Review the current branch diff for bugs and design problems.
   Return findings grouped by priority (critical / warning / suggestion).
   Do not modify files.
-items:
-  - "bugs and design problems"
-  - "security vulnerabilities (only if the diff touches auth, data, payments, secrets, uploads, file access, URLs, or input handling)"
-  - "spec fidelity to docs/srs.md and any cited ADRs"
-subagent_type: code-reviewer
-model: primary
+")
+
+Agent(subagent_type: security-review, run_in_background: true, prompt: "
+  Review the current branch diff for security vulnerabilities, only if it
+  touches auth, data, payments, secrets, uploads, file access, URLs, or
+  input handling. Otherwise say so and stop.
+")
+
+Agent(subagent_type: spec-review, run_in_background: true, prompt: "
+  Review the current branch diff for fidelity to docs/srs.md and any
+  cited ADRs.
+")
 ```
 
-Use `security-review` and `spec-review` profiles instead of routing all through `code-reviewer` when you want specialized tools.
+Collect each result from its completion notification, or from `TaskOutput` if you need to check a task that has gone quiet. Do not block on one before dispatching the others.
+
+For N5, add "target regressions from the fixes only, not fresh nitpicks" to each prompt.

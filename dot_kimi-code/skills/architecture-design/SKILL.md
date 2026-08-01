@@ -1,7 +1,7 @@
 ---
 name: architecture-design
-description: Define how approved requirements will be implemented — service boundaries, APIs, data model, integrations, failure modes, and technical contracts — before coding.
-whenToUse: Use after SRS is approved and before implementation-plan, to produce docs/architecture.md and any required ADRs.
+description: "Define how approved requirements will be implemented — service boundaries, APIs, data model, integrations, failure modes, and technical contracts — before coding."
+whenToUse: "Use after SRS is approved and before implementation-plan, to produce docs/architecture.md and any required ADRs."
 ---
 
 # Architecture Design
@@ -15,6 +15,7 @@ A single `docs/architecture.md` covers the product, merging each feature into th
 - The simplest design that satisfies the requirements. A new service, abstraction, queue, or event bus earns its place by solving a concrete requirement.
 - Place each module boundary to hide the most behind the least; `reference/deep-modules.md` carries the vocabulary for making a module deep.
 - Reference, never repeat: a decision already in `project.md`, `vision.md`, or an ADR gets one line pointing there.
+- Do not contradict a prior ADR without superseding it.
 - Design settles before implementation starts.
 
 ## Process
@@ -36,4 +37,4 @@ A single `docs/architecture.md` covers the product, merging each feature into th
 
 ## Done When
 
-Saved and approved. Suggest **grill-me** to pressure-test before implementation.
+Saved and approved, durable decisions are in memory. Suggest **grill-me** to pressure-test before implementation.

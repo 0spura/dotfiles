@@ -1,0 +1,49 @@
+{{ if ne .chezmoi.os "windows" -}}
+#!/bin/sh
+# Seeds the global ai-memory rules from ai-memory/rules/ into the reserved
+# _global scope. Runs on every chezmoi apply, but only writes when the rules
+# content actually changed (stamp file). On Windows use WSL2 instead.
+set -eu
+
+export PATH="$HOME/.local/bin:$PATH"
+
+rules_dir="{{ .chezmoi.sourceDir }}/ai-memory/rules"
+stamp="$HOME/.local/state/ai-memory-rules.sha256"
+
+if command -v sha256sum >/dev/null 2>&1; then
+  new_hash="$(cat "$rules_dir"/*.md | sha256sum | awk '{ print $1 }')"
+else
+  new_hash="$(cat "$rules_dir"/*.md | shasum -a 256 | awk '{ print $1 }')"
+fi
+old_hash="$(cat "$stamp" 2>/dev/null || true)"
+if [ "$new_hash" = "$old_hash" ]; then
+  exit 0
+fi
+
+command -v ai-memory >/dev/null 2>&1 || { echo "ai-memory CLI not found" >&2; exit 1; }
+
+# Wait for the server (the container may have just been started).
+i=0
+until ai-memory status >/dev/null 2>&1; do
+  i=$((i + 1))
+  if [ "$i" -ge 30 ]; then
+    echo "ai-memory server unreachable" >&2
+    exit 1
+  fi
+  sleep 1
+done
+
+n=0
+for f in "$rules_dir"/*.md; do
+  ai-memory write-page \
+    --workspace default --project _global \
+    --path "rules/$(basename "$f")" \
+    --kind rule --tier semantic --pinned \
+    --body - < "$f" >/dev/null
+  n=$((n + 1))
+done
+
+mkdir -p "$(dirname "$stamp")"
+echo "$new_hash" > "$stamp"
+echo "ai-memory: seeded $n global rules"
+{{ end -}}

@@ -1,7 +1,7 @@
 ---
 name: grill-me
-description: Stress-test an existing plan, design, or decision by systematically interrogating every decision point until a shared understanding is reached.
-whenToUse: Use before costly-to-reverse decisions or when a design feels under-specified. Stop when the design survives the questions or when gaps force a return to brainstorming or architecture-design.
+description: "Stress-test an existing plan, design, or decision by systematically interrogating every decision point until a shared understanding is reached."
+whenToUse: "Use before costly-to-reverse decisions or when a design feels under-specified. Stop when the design survives the questions or when gaps force a return to brainstorming or architecture-design."
 ---
 
 # Grill Me
@@ -17,7 +17,7 @@ Pressure-test a plan, design, or decision. Ask one question at a time. The goal 
 ## Process
 
 1. Read the artifact to test: `docs/product/vision.md`, `docs/srs.md`, `docs/architecture.md`, or an ADR.
-2. Identify the load-bearing decisions: assumptions, constraints, tradeoffs, and interfaces.
+2. Identify the load-bearing decisions: assumptions, constraints, tradeoffs, and interfaces. Skip a question memory already answered unless new evidence exists.
 3. For each decision, ask:
    - What would make this wrong?
    - What evidence supports it?

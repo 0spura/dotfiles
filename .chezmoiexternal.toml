@@ -1,0 +1,4 @@
+[".local/share/mcp-tracker"]
+    type = "git-repo"
+    url = "https://github.com/0spura/mcp-tracker.git"
+    refreshPeriod = "168h"

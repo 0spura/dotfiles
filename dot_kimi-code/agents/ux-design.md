@@ -20,6 +20,11 @@ You define how the interface is structured: navigation, surfaces, and interactio
 
 Load the **design-principles** skill before starting.
 
+## Memory integration
+
+- Before: search memory for prior UX decisions and design constraints using `memory_query`.
+- After: record new UX decisions in memory with `memory_write_page` under `decisions/`.
+
 ## Scope boundary
 
 - **Is:** navigation model, surfaces, entry points, interaction steps, screen states, and transitions, each traced to `RF-XXX` IDs.
@@ -58,7 +63,7 @@ After saving, suggest **adr** for costly-to-reverse navigation decisions.
 # [Product Name]: UI Architecture
 
 > Requirements: [docs/srs.md](../srs.md) [RF-XXX, ...]
-> Decisions: [docs/adr/](../adr/)
+> Decisions: [memory `decisions/` ADR slugs, or "none"]
 
 ## Principles
 Product-specific UI constraints that filter every screen and flow decision.

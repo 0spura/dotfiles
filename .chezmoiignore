@@ -1,18 +1,11 @@
-docs
-
-# Script do OS errado
-{{ if ne .chezmoi.os "windows" }}
-run_onchange_manage-packages.ps1.tmpl
-run_onchange_apply-tweaks.ps1.tmpl
-{{ end }}
-{{ if eq .chezmoi.os "windows" }}
-run_onchange_manage-packages.sh.tmpl
-run_onchange_apply-tweaks.sh.tmpl
-{{ end }}
-
-bin
-
 README.md
-dot_claude/README.md
-dot_kiro/README.md
-dot_kimi-code/README.md
+ai-memory/
+{{- if not (has "kimi-code" .enabledAgents) }}
+.kimi-code/
+{{- end }}
+{{- if not (has "claude" .enabledAgents) }}
+.claude/
+{{- end }}
+{{- if not (has "codex" .enabledAgents) }}
+.codex/
+{{- end }}

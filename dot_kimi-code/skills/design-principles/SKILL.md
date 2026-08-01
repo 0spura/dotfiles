@@ -1,7 +1,7 @@
 ---
 name: design-principles
-description: Empirical HCI and UX guidelines for making interface decisions.
-disableModelInvocation: true
+description: "Empirical HCI/UX guidelines. Loaded by ux-design."
+whenToUse: "Load before designing user interfaces or interaction flows. Preloaded by ux-design."
 ---
 
 # Design Principles

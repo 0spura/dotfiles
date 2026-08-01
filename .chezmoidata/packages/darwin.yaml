@@ -1,5 +1,0 @@
-packages:
-  darwin:
-    brew:
-      - zed
-      - gh

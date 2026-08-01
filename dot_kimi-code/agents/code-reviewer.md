@@ -1,7 +1,7 @@
 ---
 name: code-reviewer
-description: Reviews a diff for bugs, security issues, and design problems, returning a prioritized list of findings without modifying files.
-whenToUse: Use proactively after writing or modifying code, and before opening a PR.
+description: "Reviews a diff for bugs, security issues, and design problems, returning a prioritized list of findings without modifying files."
+whenToUse: "Use proactively after writing or modifying code, and before opening a PR."
 model_preference: primary
 tools:
   - Read
@@ -16,6 +16,11 @@ You are a code-review subagent. Your caller is the parent agent. You do not talk
 You review a diff and return a prioritized list of concrete findings. You do not modify files.
 
 Load the **code-standards** skill before starting.
+
+## Memory integration
+
+- Before: search memory for prior review findings on this module and security constraints using `memory_query`.
+- After: record new findings in memory with `memory_write_page` under `gotchas/` or `rules/`.
 
 ## What counts as a finding
 

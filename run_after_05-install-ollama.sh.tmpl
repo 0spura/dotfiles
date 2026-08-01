@@ -1,0 +1,66 @@
+{{ if and (ne .chezmoi.os "windows") .ollamaEnabled -}}
+#!/bin/sh
+# Optional module: Ollama on this machine. Prefers the native package
+# (brew on macOS, dnf/pacman on Linux) so updates come from the system;
+# falls back to a user-space install only where no package exists.
+# When aiMemoryLlmProvider or aiMemoryEmbeddingProvider is "openai-compat",
+# also pulls the models the ai-memory server expects. Runs on every chezmoi
+# apply; every step below is guarded so it is a no-op once installed. On
+# Windows use WSL2 instead.
+set -eu
+
+export PATH="$HOME/.local/bin:$PATH"
+
+{{ if eq .chezmoi.os "darwin" -}}
+if ! command -v ollama >/dev/null 2>&1; then
+  brew install ollama
+fi
+brew services start ollama
+{{- else -}}
+if ! command -v ollama >/dev/null 2>&1; then
+  if command -v dnf >/dev/null 2>&1; then
+    sudo dnf install -y ollama
+  elif command -v pacman >/dev/null 2>&1; then
+    sudo pacman -S --needed --noconfirm ollama
+  else
+    # User-space fallback where no distro package exists.
+    mkdir -p "$HOME/.local/lib/ollama"
+    tmp="$(mktemp -d)"
+    trap 'rm -rf "$tmp"' EXIT
+    curl -fsSL https://ollama.com/download/ollama-linux-amd64.tar.zst -o "$tmp/ollama.tar.zst"
+    tar --zstd -xf "$tmp/ollama.tar.zst" -C "$HOME/.local/lib/ollama"
+    ln -sf "$HOME/.local/lib/ollama/bin/ollama" "$HOME/.local/bin/ollama"
+  fi
+fi
+
+if command -v systemctl >/dev/null 2>&1; then
+  if systemctl cat ollama.service >/dev/null 2>&1; then
+    # Native package: system unit shipped by the distro.
+    systemctl is-active --quiet ollama.service || sudo systemctl enable --now ollama.service
+  else
+    # User-space install: per-user unit.
+    mkdir -p "$HOME/.config/systemd/user"
+    cat > "$HOME/.config/systemd/user/ollama.service" <<EOF
+[Unit]
+Description=Ollama server
+
+[Service]
+ExecStart=$HOME/.local/bin/ollama serve
+Restart=on-failure
+
+[Install]
+WantedBy=default.target
+EOF
+    systemctl --user daemon-reload
+    systemctl --user is-active --quiet ollama.service || systemctl --user enable --now ollama.service
+  fi
+fi
+{{- end }}
+
+{{- if eq .aiMemoryLlmProvider "openai-compat" }}
+ollama pull {{ .aiMemoryLlmModel }}
+{{- end }}
+{{- if eq .aiMemoryEmbeddingProvider "openai-compat" }}
+ollama pull {{ .aiMemoryEmbedModel }}
+{{- end }}
+{{ end -}}

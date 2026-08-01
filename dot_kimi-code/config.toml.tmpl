@@ -1,0 +1,299 @@
+default_model = "kimi-code/k3-256k"
+default_permission_mode = "manual"
+default_plan_mode = false
+merge_all_available_skills = true
+telemetry = true
+
+[providers."managed:kimi-code"]
+type = "kimi"
+api_key = ""
+base_url = "https://api.kimi.com/coding/v1"
+
+[providers."managed:kimi-code".oauth]
+storage = "file"
+key = "oauth/kimi-code"
+
+[models."kimi-code/k3-256k"]
+provider = "managed:kimi-code"
+model = "k3-256k"
+max_context_size = 262144
+capabilities = [ "thinking", "always_thinking", "image_in", "tool_use" ]
+display_name = "K3-256k"
+support_efforts = [ "low", "high", "max" ]
+default_effort = "high"
+
+[models."kimi-code/k3"]
+provider = "managed:kimi-code"
+model = "k3"
+max_context_size = 1048576
+capabilities = [ "thinking", "always_thinking", "image_in", "video_in", "tool_use" ]
+display_name = "K3"
+support_efforts = [ "low", "high", "max" ]
+default_effort = "high"
+
+[models."kimi-code/kimi-for-coding"]
+provider = "managed:kimi-code"
+model = "kimi-for-coding"
+max_context_size = 262144
+capabilities = [ "thinking", "always_thinking", "image_in", "video_in", "tool_use" ]
+display_name = "K2.7 Coding"
+
+[models."kimi-code/kimi-for-coding-highspeed"]
+provider = "managed:kimi-code"
+model = "kimi-for-coding-highspeed"
+max_context_size = 262144
+capabilities = [ "thinking", "always_thinking", "image_in", "video_in", "tool_use" ]
+display_name = "K2.7 Coding Highspeed"
+
+# Secondary model used by subagents when the secondary-model experiment is enabled.
+# Cheap, fast model for execution-heavy agents (coder, apply-review, etc.).
+[secondary_model]
+model = "kimi-code/kimi-for-coding"
+default_effort = "low"
+
+[thinking]
+enabled = true
+effort = "high"
+keep = "all"
+
+[services.moonshot_search]
+base_url = "https://api.kimi.com/coding/v1/search"
+api_key = ""
+
+[services.moonshot_search.oauth]
+storage = "file"
+key = "oauth/kimi-code"
+
+[services.moonshot_fetch]
+base_url = "https://api.kimi.com/coding/v1/fetch"
+api_key = ""
+
+[services.moonshot_fetch.oauth]
+storage = "file"
+key = "oauth/kimi-code"
+
+[loop_control]
+max_retries_per_step = 10
+reserved_context_size = 50000
+
+[background]
+# Bumped to support parallel subagents dispatched in the background
+# (Agent with run_in_background: true, see the graph-orchestrate skill).
+max_running_tasks = 8
+keep_alive_on_exit = false
+bash_auto_background_on_timeout = true
+bash_task_timeout_s = 600
+
+[subagent]
+# 2 hours default; set to 0 for no timeout in long-running background fan-out.
+timeout_ms = 7200000
+
+[tools]
+disabled = []
+
+# Permission rules converted from Claude Code settings.json permissions.allow/deny/ask
+[[permission.rules]]
+decision = "allow"
+pattern = "Bash(git status)"
+
+[[permission.rules]]
+decision = "allow"
+pattern = "Bash(git diff *)"
+
+[[permission.rules]]
+decision = "allow"
+pattern = "Bash(git log *)"
+
+[[permission.rules]]
+decision = "allow"
+pattern = "Bash(git add *)"
+
+[[permission.rules]]
+decision = "allow"
+pattern = "Bash(git commit *)"
+
+[[permission.rules]]
+decision = "allow"
+pattern = "Bash(npm run *)"
+
+[[permission.rules]]
+decision = "allow"
+pattern = "Bash(pnpm run *)"
+
+[[permission.rules]]
+decision = "allow"
+pattern = "Bash(npx *)"
+
+[[permission.rules]]
+decision = "allow"
+pattern = "Bash(ls *)"
+
+[[permission.rules]]
+decision = "allow"
+pattern = "Bash(cat *)"
+
+[[permission.rules]]
+decision = "allow"
+pattern = "Bash(echo *)"
+
+[[permission.rules]]
+decision = "allow"
+pattern = "mcp__mcp-tracker__*"
+
+[[permission.rules]]
+decision = "deny"
+pattern = "Read(./.env)"
+
+[[permission.rules]]
+decision = "deny"
+pattern = "Read(./.env.*)"
+
+[[permission.rules]]
+decision = "deny"
+pattern = "Read(~/.ssh/**)"
+
+[[permission.rules]]
+decision = "deny"
+pattern = "Read(~/.aws/**)"
+
+[[permission.rules]]
+decision = "deny"
+pattern = "Bash(rm -rf /)"
+
+[[permission.rules]]
+decision = "deny"
+pattern = "Bash(rm -rf ~*)"
+
+[[permission.rules]]
+decision = "deny"
+pattern = "Bash(shutdown *)"
+
+[[permission.rules]]
+decision = "deny"
+pattern = "Bash(reboot *)"
+
+[[permission.rules]]
+decision = "deny"
+pattern = "Bash(sudo rm *)"
+
+[[permission.rules]]
+decision = "deny"
+pattern = "Bash(dd *)"
+
+[[permission.rules]]
+decision = "ask"
+pattern = "Bash(git push *)"
+
+[[permission.rules]]
+decision = "ask"
+pattern = "Bash(git push)"
+
+[[permission.rules]]
+decision = "ask"
+pattern = "Bash(git fetch *)"
+
+[[permission.rules]]
+decision = "ask"
+pattern = "Bash(git checkout *)"
+
+[[permission.rules]]
+decision = "ask"
+pattern = "Bash(git stash *)"
+
+[[permission.rules]]
+decision = "ask"
+pattern = "Bash(git merge *)"
+
+[[permission.rules]]
+decision = "ask"
+pattern = "Bash(git rebase *)"
+
+[[permission.rules]]
+decision = "ask"
+pattern = "Bash(git branch -d *)"
+
+[[permission.rules]]
+decision = "ask"
+pattern = "Bash(git branch -D *)"
+
+[[permission.rules]]
+decision = "ask"
+pattern = "Bash(git reset *)"
+
+[[permission.rules]]
+decision = "ask"
+pattern = "Bash(rm *)"
+
+[[permission.rules]]
+decision = "ask"
+pattern = "Bash(mv *)"
+
+[[hooks]]
+event = "PreToolUse"
+matcher = "Bash"
+command = "input=$(cat); cmd=$(echo \"$input\" | jq -r '.command // \"\"' 2>/dev/null || echo ''); if echo \"$cmd\" | grep -qE '(npm (install|run|test|build)|pnpm (install|run|test|build)|cargo (build|test|run)|pytest|jest|vitest)'; then [ -z \"$TMUX\" ] && echo '[Hook] Long-running command: consider tmux for session persistence' >&2; fi; true"
+timeout = 5
+
+[[hooks]]
+event = "PostToolUse"
+matcher = "Edit"
+command = "input=$(cat); f=$(echo \"$input\" | jq -r '.file_path // \"\"' 2>/dev/null || echo ''); if [ -n \"$f\" ] && echo \"$f\" | grep -qE '\\.(js|ts|jsx|tsx|mjs|cjs)$' && [ -f \"$f\" ]; then n=$(grep -c 'console\\.log' \"$f\" 2>/dev/null || echo 0); [ \"$n\" -gt 0 ] && echo \"[Hook] $n console.log in $(basename \"$f\"): remove before committing\" >&2; fi; true"
+timeout = 5
+
+[[hooks]]
+event = "PostToolUse"
+matcher = "Write"
+command = "input=$(cat); f=$(echo \"$input\" | jq -r '.file_path // \"\"' 2>/dev/null || echo ''); if [ -n \"$f\" ] && echo \"$f\" | grep -qE '\\.(js|ts|jsx|tsx|mjs|cjs)$' && [ -f \"$f\" ]; then n=$(grep -c 'console\\.log' \"$f\" 2>/dev/null || echo 0); [ \"$n\" -gt 0 ] && echo \"[Hook] $n console.log in $(basename \"$f\"): remove before committing\" >&2; fi; true"
+timeout = 5
+
+# Sub-agent lifecycle hooks: log start/stop for observability and cost tracking.
+[[hooks]]
+event = "SubagentStart"
+command = "input=$(cat); name=$(echo \"$input\" | jq -r '.subagent_name // \"unknown\"' 2>/dev/null || echo 'unknown'); echo \"[subagent] started: $name\" >&2; true"
+timeout = 2
+
+[[hooks]]
+event = "SubagentStop"
+command = "input=$(cat); name=$(echo \"$input\" | jq -r '.subagent_name // \"unknown\"' 2>/dev/null || echo 'unknown'); status=$(echo \"$input\" | jq -r '.status // \"unknown\"' 2>/dev/null || echo 'unknown'); echo \"[subagent] stopped: $name ($status)\" >&2; true"
+timeout = 2
+
+# ai-memory lifecycle hooks: capture sanitized session observations for cross-session continuity.
+[[hooks]]
+event = "SessionStart"
+command = "AI_MEMORY_HOOK_URL={{ .aiMemoryUrl }} {{ .chezmoi.homeDir }}/.local/share/ai-memory/hooks/kimi-code/session-start.sh"
+
+[[hooks]]
+event = "UserPromptSubmit"
+command = "AI_MEMORY_HOOK_URL={{ .aiMemoryUrl }} {{ .chezmoi.homeDir }}/.local/share/ai-memory/hooks/kimi-code/user-prompt-submit.sh"
+
+[[hooks]]
+event = "PreToolUse"
+command = "AI_MEMORY_HOOK_URL={{ .aiMemoryUrl }} {{ .chezmoi.homeDir }}/.local/share/ai-memory/hooks/kimi-code/pre-tool-use.sh"
+
+[[hooks]]
+event = "PostToolUse"
+command = "AI_MEMORY_HOOK_URL={{ .aiMemoryUrl }} {{ .chezmoi.homeDir }}/.local/share/ai-memory/hooks/kimi-code/post-tool-use.sh"
+
+[[hooks]]
+event = "PostToolUseFailure"
+command = "AI_MEMORY_HOOK_URL={{ .aiMemoryUrl }} {{ .chezmoi.homeDir }}/.local/share/ai-memory/hooks/kimi-code/post-tool-use.sh"
+
+[[hooks]]
+event = "PreCompact"
+command = "AI_MEMORY_HOOK_URL={{ .aiMemoryUrl }} {{ .chezmoi.homeDir }}/.local/share/ai-memory/hooks/kimi-code/pre-compact.sh"
+
+[[hooks]]
+event = "Stop"
+command = "AI_MEMORY_HOOK_URL={{ .aiMemoryUrl }} {{ .chezmoi.homeDir }}/.local/share/ai-memory/hooks/kimi-code/stop.sh"
+
+[[hooks]]
+event = "SessionEnd"
+command = "AI_MEMORY_HOOK_URL={{ .aiMemoryUrl }} {{ .chezmoi.homeDir }}/.local/share/ai-memory/hooks/kimi-code/session-end.sh"
+
+[[hooks]]
+event = "SubagentStart"
+command = "AI_MEMORY_HOOK_URL={{ .aiMemoryUrl }} {{ .chezmoi.homeDir }}/.local/share/ai-memory/hooks/kimi-code/subagent-start.sh"
+
+[[hooks]]
+event = "SubagentStop"
+command = "AI_MEMORY_HOOK_URL={{ .aiMemoryUrl }} {{ .chezmoi.homeDir }}/.local/share/ai-memory/hooks/kimi-code/subagent-stop.sh"

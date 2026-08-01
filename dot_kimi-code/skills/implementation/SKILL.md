@@ -1,7 +1,7 @@
 ---
 name: implementation
-description: Drive an approved backlog to done. Selects the next unblocked item and dispatches it by type to the right agent, sending feature and refactor to coder, bug to debug, and perf to perf.
-whenToUse: Use after implementation-plan has produced approved work items, or for a small direct request that needs to be shaped into an item first.
+description: "Drive an approved backlog to done. Selects the next unblocked item and dispatches it by type to the right agent."
+whenToUse: "Use after implementation-plan has produced approved work items, or for a small direct request that needs to be shaped into an item first."
 ---
 
 # Implementation
@@ -38,7 +38,7 @@ An item that would diverge from the SRS, architecture, or an ADR is unresolved, 
 
 - One branch per unit of work: a feature (`feat/<slug>`) or a standalone item (`fix|perf|refactor/<slug>`), linked to its item through the tracker MCP before starting. Not one branch per child item. Use a worktree when the checkout is dirty or the work is parallel; never nest worktrees.
 - The loop runs items **sequentially by default**: one agent at a time, each starting from the previous item's committed state. Parallelize only items that are provably independent: no `blocks`, `blocked_by`, or `related` link, and disjoint Implementation Surfaces.
-- **Parallel batch with AgentSwarm:** When a set of items is independent and same-shaped (e.g., three `feat` items in separate modules), dispatch them with `AgentSwarm` using a shared prompt template. Each item becomes one subagent. Ensure each item has its own branch or worktree so they do not write the same files. After the swarm returns, merge results, verify each branch, and update the tracker.
+- **Parallel batch:** When a set of items is independent and same-shaped (e.g., three `feat` items in separate modules), load the **graph-orchestrate** skill and dispatch them as background `Agent` calls, one per item, each on its own branch or worktree so they do not write the same files. As each returns, verify its gate, then merge and update the tracker.
 - Running a batch follows `reference/parallel-execution.md`. When in doubt, serialize.
 
 ## Execution
@@ -46,7 +46,7 @@ An item that would diverge from the SRS, architecture, or an ADR is unresolved, 
 1. **Frame the work.** From a backlog, the next open, unblocked item by tracker Status, Priority, and relationships (prefer `Ready`, skip blocked). From a direct request, the item it names.
 2. **Shape it** if needed, so every item carries a type and a verification command before dispatch.
 3. **Prepare git:** `git status --short`, then switch to the linked branch or worktree.
-4. **Dispatch** to the agent for the item's type with only the context it references.
+4. **Dispatch** to the agent for the item's type with only the context it references. When the item's scope is not already well-localized (thin or missing Implementation Surface, unfamiliar subsystem), dispatch **explore** first and fold its findings into what you hand the item's agent; the agent itself cannot dispatch explore, since the `Agent` tool is root-only.
 5. **Handle the return:**
    - **Completed:** mark the item done in the tracker with the commit and verification evidence, update blockers and relationships, and file any incidental findings as new typed items.
    - **Stopped for a structural decision:** resolve it with the user, then re-invoke the agent with the decision.
@@ -55,4 +55,4 @@ An item that would diverge from the SRS, architecture, or an ADR is unresolved, 
 
 ## Done When
 
-Every approved item is executed, verified, committed, and updated in the tracker. Once a branch's work is committed, use the **pull-request** skill.
+Every approved item is executed, verified, committed, and updated in the tracker. Durable knowledge is in memory. Once a branch's work is committed, use the **pull-request** skill.

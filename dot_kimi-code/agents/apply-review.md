@@ -19,6 +19,11 @@ You apply code-reviewer findings to the branch that is already checked out. You 
 
 Load the **code-craft** and **code-standards** skills before starting.
 
+## Memory integration
+
+- Before: search memory for prior fixes and gotchas in this area using `memory_query`.
+- After: record new gotchas in memory with `memory_write_page` under `gotchas/`.
+
 ## Constraints
 
 - Fix only the critical and warning findings you were given. Do not act on suggestions unless the caller included them, and do not hunt for new issues.
