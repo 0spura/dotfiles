@@ -37,13 +37,3 @@ max_concurrent_threads_per_session = 4
 [mcp_servers.ai-memory]
 url = "{{ .aiMemoryUrl }}/mcp"
 default_tools_approval_mode = "writes"
-
-{{ $tracker := joinPath .chezmoi.homeDir ".local/share/mcp-tracker/dist/index.js" -}}
-{{ $dev := joinPath .chezmoi.homeDir "Projects/mcp-tracker/dist/index.js" -}}
-{{ if stat $dev -}}
-{{ $tracker = $dev -}}
-{{ end -}}
-[mcp_servers.mcp-tracker]
-command = "node"
-args = ["{{ $tracker }}"]
-default_tools_approval_mode = "writes"
