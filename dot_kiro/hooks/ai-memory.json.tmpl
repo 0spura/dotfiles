@@ -1,0 +1,46 @@
+{{ $hookDir := joinPath .chezmoi.homeDir ".local/share/ai-memory/hooks/kiro-cli" -}}
+{
+  "version": "v1",
+  "hooks": [
+    {
+      "name": "ai-memory-session-start",
+      "description": "Forwards session start to ai-memory and fetches pending handoff",
+      "trigger": "SessionStart",
+      "action": { "type": "command", "command": "AI_MEMORY_HOOK_URL={{ .aiMemoryUrl }} bash {{ $hookDir }}/session-start.sh" },
+      "timeout": 5,
+      "enabled": true
+    },
+    {
+      "name": "ai-memory-user-prompt",
+      "description": "Captures user prompt for ai-memory observation",
+      "trigger": "UserPromptSubmit",
+      "action": { "type": "command", "command": "AI_MEMORY_HOOK_URL={{ .aiMemoryUrl }} bash {{ $hookDir }}/user-prompt-submit.sh" },
+      "timeout": 2,
+      "enabled": true
+    },
+    {
+      "name": "ai-memory-pre-tool-use",
+      "description": "Captures pre-tool-use for ai-memory observation",
+      "trigger": "PreToolUse",
+      "action": { "type": "command", "command": "AI_MEMORY_HOOK_URL={{ .aiMemoryUrl }} bash {{ $hookDir }}/pre-tool-use.sh" },
+      "timeout": 2,
+      "enabled": true
+    },
+    {
+      "name": "ai-memory-post-tool-use",
+      "description": "Captures post-tool-use for ai-memory observation",
+      "trigger": "PostToolUse",
+      "action": { "type": "command", "command": "AI_MEMORY_HOOK_URL={{ .aiMemoryUrl }} bash {{ $hookDir }}/post-tool-use.sh" },
+      "timeout": 2,
+      "enabled": true
+    },
+    {
+      "name": "ai-memory-stop",
+      "description": "Captures session stop for ai-memory finalization",
+      "trigger": "Stop",
+      "action": { "type": "command", "command": "AI_MEMORY_HOOK_URL={{ .aiMemoryUrl }} bash {{ $hookDir }}/stop.sh" },
+      "timeout": 3,
+      "enabled": true
+    }
+  ]
+}

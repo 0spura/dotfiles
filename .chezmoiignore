@@ -9,3 +9,6 @@ ai-memory/
 {{- if not (has "codex" .enabledAgents) }}
 .codex/
 {{- end }}
+{{- if not (has "kiro-cli" .enabledAgents) }}
+.kiro/
+{{- end }}

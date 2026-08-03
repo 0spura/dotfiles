@@ -1,0 +1,54 @@
+rules:
+  - capability: shell
+    effect: allow
+    match:
+      - "git status"
+      - "git diff *"
+      - "git log *"
+      - "git add *"
+      - "git commit *"
+      - "npm run *"
+      - "pnpm run *"
+      - "npx *"
+      - "ls *"
+      - "cat *"
+      - "echo *"
+
+  - capability: mcp
+    effect: allow
+    match:
+      - "mcp-tracker/*"
+
+  - capability: fs_read
+    effect: deny
+    match:
+      - "./.env"
+      - "./.env.*"
+      - "~/.ssh/**"
+      - "~/.aws/**"
+
+  - capability: shell
+    effect: deny
+    match:
+      - "rm -rf /"
+      - "rm -rf ~*"
+      - "shutdown *"
+      - "reboot *"
+      - "sudo rm *"
+      - "dd *"
+
+  - capability: shell
+    effect: ask
+    match:
+      - "git push"
+      - "git push *"
+      - "git fetch *"
+      - "git checkout *"
+      - "git stash *"
+      - "git merge *"
+      - "git rebase *"
+      - "git branch -d *"
+      - "git branch -D *"
+      - "git reset *"
+      - "rm *"
+      - "mv *"

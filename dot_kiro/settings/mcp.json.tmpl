@@ -1,0 +1,16 @@
+{{ $tracker := joinPath .chezmoi.homeDir ".local/share/mcp-tracker/dist/index.js" -}}
+{{ $dev := joinPath .chezmoi.homeDir "Projects/mcp-tracker/dist/index.js" -}}
+{{ if stat $dev -}}
+{{ $tracker = $dev -}}
+{{ end -}}
+{
+  "mcpServers": {
+    "ai-memory": {
+      "url": "{{ .aiMemoryUrl }}/mcp"
+    },
+    "mcp-tracker": {
+      "command": "node",
+      "args": ["{{ $tracker }}"]
+    }
+  }
+}

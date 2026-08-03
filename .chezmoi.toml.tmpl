@@ -1,4 +1,4 @@
-{{- $agentChoices := list "kimi-code" "claude" "codex" -}}
+{{- $agentChoices := list "kimi-code" "claude" "codex" "kiro-cli" -}}
 {{- $enabledAgents := promptMultichoiceOnce . "enabledAgents" "AI agent configs to apply on this machine" $agentChoices -}}
 
 {{- $aiMemoryUrl := promptStringOnce . "aiMemoryUrl" "ai-memory server URL (where this machine's agents connect)" "http://127.0.0.1:49374" -}}
