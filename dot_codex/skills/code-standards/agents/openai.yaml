@@ -1,0 +1,4 @@
+interface:
+  display_name: "Code Standards"
+  short_description: "Apply the repository quality bar"
+  default_prompt: "Use $code-standards to review this code change."

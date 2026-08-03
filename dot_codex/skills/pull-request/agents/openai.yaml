@@ -1,0 +1,4 @@
+interface:
+  display_name: "Pull Request"
+  short_description: "Prepare and review a verified PR"
+  default_prompt: "Use $pull-request to prepare this branch for review."

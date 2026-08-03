@@ -1,0 +1,10 @@
+{
+  "hooks": {
+    "SessionStart": [{ "matcher": "", "hooks": [{ "type": "command", "command": "AI_MEMORY_HOOK_URL={{ .aiMemoryUrl }} {{ .chezmoi.homeDir }}/.local/share/ai-memory/hooks/codex/session-start.sh" }] }],
+    "UserPromptSubmit": [{ "matcher": "", "hooks": [{ "type": "command", "command": "AI_MEMORY_HOOK_URL={{ .aiMemoryUrl }} {{ .chezmoi.homeDir }}/.local/share/ai-memory/hooks/codex/user-prompt-submit.sh" }] }],
+    "PreToolUse": [{ "matcher": "", "hooks": [{ "type": "command", "command": "AI_MEMORY_HOOK_URL={{ .aiMemoryUrl }} {{ .chezmoi.homeDir }}/.local/share/ai-memory/hooks/codex/pre-tool-use.sh" }] }],
+    "PostToolUse": [{ "matcher": "", "hooks": [{ "type": "command", "command": "AI_MEMORY_HOOK_URL={{ .aiMemoryUrl }} {{ .chezmoi.homeDir }}/.local/share/ai-memory/hooks/codex/post-tool-use.sh" }] }],
+    "PreCompact": [{ "matcher": "", "hooks": [{ "type": "command", "command": "AI_MEMORY_HOOK_URL={{ .aiMemoryUrl }} {{ .chezmoi.homeDir }}/.local/share/ai-memory/hooks/codex/pre-compact.sh" }] }],
+    "Stop": [{ "matcher": "", "hooks": [{ "type": "command", "command": "AI_MEMORY_HOOK_URL={{ .aiMemoryUrl }} {{ .chezmoi.homeDir }}/.local/share/ai-memory/hooks/codex/stop.sh" }] }]
+  }
+}

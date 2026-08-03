@@ -1,0 +1,4 @@
+interface:
+  display_name: "Design Principles"
+  short_description: "Apply accessible UX design defaults"
+  default_prompt: "Use $design-principles to design this interface flow."

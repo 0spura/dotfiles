@@ -133,19 +133,18 @@ echo "ai-memory: run 'ai-memory auth login {{ .aiMemoryLlmProvider }}' to finish
 {{- end }}
 {{- end }}
 
-# 4. Hook scripts for the agents selected in enabledAgents. chezmoi already
-# wrote each agent's config file (e.g. dot_kimi-code/config.toml.tmpl) by
-# the time this run_after_ script runs, hooks block included. install-hooks
-# mainly materializes the actual hook scripts under
-# ~/.local/share/ai-memory/hooks/<agent>/, which chezmoi does not manage;
-# any config edit it makes on top is expected to be idempotent on repeated
-# runs (same hook entries chezmoi already wrote), not an ever-growing diff.
+# 4. Hook scripts for the agents selected in enabledAgents. chezmoi owns every
+# agent configuration file, so install-hooks receives a disposable config path:
+# it stages fresh hook scripts under ~/.local/share/ai-memory/hooks/<agent>/
+# without rewriting the managed config or hooks file.
 #
 # kiro-cli is not natively supported by ai-memory install-hooks, so its
 # hook scripts are managed by chezmoi directly (see run_after_20-seed-ai-memory-rules.sh).
 {{ range .enabledAgents }}
 {{- if ne . "kiro-cli" }}
-ai-memory install-hooks --agent "{{ . }}" --apply
+hook_config_dir="$(mktemp -d)"
+ai-memory install-hooks --agent "{{ . }}" --apply --config-file "$hook_config_dir/config"
+rm -rf "$hook_config_dir"
 {{- end }}
 {{ end -}}
 

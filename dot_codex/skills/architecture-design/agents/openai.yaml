@@ -1,0 +1,4 @@
+interface:
+  display_name: "Architecture Design"
+  short_description: "Design technical contracts before coding"
+  default_prompt: "Use $architecture-design to design this approved feature."

@@ -1,0 +1,4 @@
+interface:
+  display_name: "Implementation Loop"
+  short_description: "Dispatch verified work safely"
+  default_prompt: "Use $implementation to execute the next approved work item."

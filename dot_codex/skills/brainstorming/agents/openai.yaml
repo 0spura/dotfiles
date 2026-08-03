@@ -1,0 +1,4 @@
+interface:
+  display_name: "Brainstorming"
+  short_description: "Converge on an approved product design"
+  default_prompt: "Use $brainstorming to explore this product idea."

@@ -1,0 +1,4 @@
+interface:
+  display_name: "Code Craft"
+  short_description: "Implement one verified change cleanly"
+  default_prompt: "Use $code-craft to execute this approved code task."

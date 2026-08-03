@@ -1,0 +1,4 @@
+interface:
+  display_name: "Pressure Test"
+  short_description: "Challenge costly technical decisions"
+  default_prompt: "Use $grill-me to pressure-test this architecture decision."

@@ -1,0 +1,4 @@
+interface:
+  display_name: "Architecture Decision Record"
+  short_description: "Record durable architecture decisions"
+  default_prompt: "Use $adr to record this accepted architecture decision."

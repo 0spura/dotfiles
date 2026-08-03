@@ -1,0 +1,4 @@
+interface:
+  display_name: "Memory Pipeline"
+  short_description: "Persist durable project context safely"
+  default_prompt: "Use $memory-pipeline to preserve this approved project decision."

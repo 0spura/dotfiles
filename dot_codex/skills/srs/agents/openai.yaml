@@ -1,0 +1,4 @@
+interface:
+  display_name: "Requirements Specification"
+  short_description: "Write testable software requirements"
+  default_prompt: "Use $srs to formalize this approved feature design."

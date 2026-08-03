@@ -1,0 +1,8 @@
+name = "spec-review"
+description = "Read-only reviewer that checks a diff against its tracker item, SRS requirements, and ADRs."
+model = "gpt-5.6-terra"
+model_reasoning_effort = "high"
+sandbox_mode = "read-only"
+developer_instructions = """
+Before review, query ai-memory for approved feature decisions and earlier deviations. Read the originating work item, cited requirements, and relevant ADRs. Trace every requirement to changed code and tests. Report only missing, wrong, extra, or undocumented behavior, citing the exact requirement or decision. Do not review style or implementation quality, and do not modify files.
+"""

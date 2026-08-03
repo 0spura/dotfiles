@@ -1,0 +1,4 @@
+interface:
+  display_name: "Product Discovery"
+  short_description: "Research a market or internal process"
+  default_prompt: "Use $product-discovery to research this product opportunity."

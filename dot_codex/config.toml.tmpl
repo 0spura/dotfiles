@@ -1,0 +1,49 @@
+# Shared Codex defaults. Project repositories can add trusted .codex/config.toml
+# layers for settings that must not apply globally.
+model = "gpt-5.6-luna"
+model_reasoning_effort = "medium"
+model_reasoning_summary = "concise"
+model_verbosity = "low"
+
+# Keep side effects contained while allowing normal repository work. Codex asks
+# before a sandbox escape or an operation that its policy cannot safely allow.
+approval_policy = "on-request"
+sandbox_mode = "workspace-write"
+web_search = "cached"
+
+[sandbox_workspace_write]
+network_access = true
+
+[shell_environment_policy]
+# Do not forward secret-like environment variables to commands by default.
+ignore_default_excludes = false
+
+[features]
+apps = false
+fast_mode = true
+goals = false
+hooks = true
+memories = false
+multi_agent = true
+shell_snapshot = true
+unified_exec = true
+
+[agents]
+enabled = true
+default_subagent_model = "gpt-5.6-luna"
+default_subagent_reasoning_effort = "low"
+max_concurrent_threads_per_session = 4
+
+[mcp_servers.ai-memory]
+url = "{{ .aiMemoryUrl }}/mcp"
+default_tools_approval_mode = "writes"
+
+{{ $tracker := joinPath .chezmoi.homeDir ".local/share/mcp-tracker/dist/index.js" -}}
+{{ $dev := joinPath .chezmoi.homeDir "Projects/mcp-tracker/dist/index.js" -}}
+{{ if stat $dev -}}
+{{ $tracker = $dev -}}
+{{ end -}}
+[mcp_servers.mcp-tracker]
+command = "node"
+args = ["{{ $tracker }}"]
+default_tools_approval_mode = "writes"

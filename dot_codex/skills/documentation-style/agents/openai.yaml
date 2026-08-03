@@ -1,0 +1,4 @@
+interface:
+  display_name: "Documentation Style"
+  short_description: "Write concise durable technical docs"
+  default_prompt: "Use $documentation-style to rewrite this technical document."

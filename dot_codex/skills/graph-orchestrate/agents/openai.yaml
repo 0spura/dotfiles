@@ -1,0 +1,4 @@
+interface:
+  display_name: "Agent Orchestration"
+  short_description: "Coordinate bounded multi-agent workflows"
+  default_prompt: "Use $graph-orchestrate to plan this review workflow."
