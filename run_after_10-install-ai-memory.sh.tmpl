@@ -137,39 +137,11 @@ echo "ai-memory: run 'ai-memory auth login {{ .aiMemoryLlmProvider }}' to finish
 # agent configuration file, so install-hooks receives a disposable config path:
 # it stages fresh hook scripts under ~/.local/share/ai-memory/hooks/<agent>/
 # without rewriting the managed config or hooks file.
-#
-# kiro-cli is not natively supported by ai-memory install-hooks, so its
-# hook scripts are managed by chezmoi directly (see run_after_20-seed-ai-memory-rules.sh).
 {{ range .enabledAgents }}
 {{- if ne . "kiro-cli" }}
 hook_config_dir="$(mktemp -d)"
-ai-memory install-hooks --agent "{{ . }}" --apply --config-file "$hook_config_dir/config"
+ai-memory install-hooks --agent "{{ if eq . "claude" }}claude-code{{ else }}{{ . }}{{ end }}" --apply --config-file "$hook_config_dir/config"
 rm -rf "$hook_config_dir"
 {{- end }}
-{{ end -}}
-
-# kiro-cli: not supported by install-hooks, stage manually from chezmoi source.
-{{ if has "kiro-cli" .enabledAgents -}}
-kiro_hooks="$HOME/.local/share/ai-memory/hooks/kiro-cli"
-mkdir -p "$kiro_hooks"
-# Copy _lib.sh from a supported agent's staged hooks (always fresh after
-# install-hooks above) so the kiro-cli hooks get the same version.
-for peer_dir in claude-code kimi-code codex cursor gemini-cli; do
-  peer="$HOME/.local/share/ai-memory/hooks/$peer_dir/_lib.sh"
-  if [ -f "$peer" ]; then
-    cp "$peer" "$kiro_hooks/_lib.sh"
-    break
-  fi
-done
-# Copy kiro-cli hook scripts from the chezmoi source directory.
-chezmoi_src="{{ .chezmoi.sourceDir }}/ai-memory/hooks/kiro-cli"
-if [ -d "$chezmoi_src" ]; then
-  for f in "$chezmoi_src"/*.sh; do
-    [ -f "$f" ] || continue
-    fname=$(basename "$f")
-    [ "$fname" = "_lib.sh" ] && continue
-    install -m 0755 "$f" "$kiro_hooks/$fname"
-  done
-fi
 {{ end -}}
 {{ end -}}
