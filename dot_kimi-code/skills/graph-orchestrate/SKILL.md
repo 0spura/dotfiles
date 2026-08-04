@@ -10,6 +10,8 @@ Model agent workflows as graphs. Nodes are subagent dispatches; edges are contro
 
 **Hard constraint:** a dispatched subagent cannot itself call `Agent` — nesting is blocked by the platform, not just discouraged. Orchestration only happens at the parent (or a dedicated orchestrator skill like **implementation**), never inside a subagent you dispatched.
 
+The parent also owns tracker tool calls. Subagents receive the item context they need, but do not independently change tracker status, relationships, branches, or PR state unless the parent explicitly delegates that bounded operation.
+
 ## When to graph
 
 - Multiple independent reviews of the same artifact (fan-out, fan-in).
@@ -65,8 +67,8 @@ Always cap loops. A loop without a max iteration guard is a runaway graph; use `
 
 ## State discipline
 
-- Immutable inputs: pass the full context each node needs; do not let nodes read each other's scratch state.
-- Shared output: the parent owns aggregation. Nodes return, they do not coordinate.
+- Immutable inputs: pass only the smallest context each node needs; prefer identifiers, summaries, and file paths over full documents, issue bodies, session history, or duplicated diffs. Do not let nodes read each other's scratch state.
+- Shared output: the parent owns aggregation. Nodes return compact findings, not raw tool output or full documents, and they do not coordinate.
 - No side effects in fan-out: background nodes must not write to the same files or branch. A node that writes runs on its own worktree (see `implementation`'s `reference/parallel-execution.md`); a node that only reads (reviewers) has nothing to collide over.
 
 ## Choosing foreground vs background

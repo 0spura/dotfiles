@@ -19,6 +19,8 @@ Use after a branch has committed work: a feature, or a standalone fix, perf, or 
    - A finding apply-review cannot fix (structural decision, out of scope, reviewer misread) goes to the user or into the PR body **Notes**; the loop moves on rather than spinning on it.
 5. Confirm the tracker items this PR delivers are updated, and identify which it closes or references: parent and children for a feature, the single item otherwise.
 
+Pass reviewers the branch or base reference, changed paths, and requirement IDs; let them inspect the diff themselves. Do not paste the full issue, session history, or duplicate diff into every reviewer prompt. Fan-in keeps only compact findings with priority, location, failure mode, and correction.
+
 ## PR body
 
 ```markdown
@@ -42,6 +44,8 @@ Use after a branch has committed work: a feature, or a standalone fix, perf, or 
 - Summary states user- or system-visible changes, not process; Test Plan lists only commands actually run.
 - Call out migrations, breaking changes, auth or security impact, rollout, and follow-ups.
 - When a tracker MCP is configured, create the PR through it so linking is native; fall back to `gh pr create` only when no tracker MCP exists. Move the item to review via the native Status field, and treat a tracker write as done only after reading it back.
+
+All work-item and PR operations go through the tracker MCP when available. Use native fields and relationships before labels, load each item once, and read every write back before treating it as complete.
 - Repeat SRS, architecture, ADR, or item lists only where a reviewer needs the context.
 
 ## Watch loop

@@ -39,3 +39,14 @@ The pipeline carries a change from idea to shipped PR. Read the relevant skill's
 | Review | **pull-request** | Open PR |
 
 **Memory integration:** every phase searches memory before deciding and writes durable knowledge after producing it. See **memory-pipeline** for patterns and namespaces.
+
+## Tracker discipline
+
+- Route work-item, relationship, status, branch-link, and PR operations through the configured tracker MCP when available.
+- Discover tracker capabilities and native fields before writing; do not guess provider-specific tool names, URLs, or field names.
+- Load each item once by its identifier. Use its accepted goal, Implementation Surface, and Verification as the execution contract.
+- Read every tracker write back and verify the result before advancing or reporting completion.
+- Subagents return evidence; the parent owns tracker status transitions and bookkeeping unless it explicitly delegates one bounded tracker operation.
+- The coordinator selects work from summaries: identifier, title, type, status, priority, relationships, and blocking state. It does not fetch or paste full issue bodies during selection or dispatch.
+- Dispatch only the identifier, type, and a bounded routing note. The execution subagent reads the full issue once and follows its referenced context.
+- Retain only compact results, commits, verification evidence, and the tracker summary needed to confirm writes. Fetch the full issue again only after a confirmed contract change or unresolved contradiction.

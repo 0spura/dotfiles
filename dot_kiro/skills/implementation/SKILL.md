@@ -26,6 +26,8 @@ An item's type, from its title prefix or native type field, picks the agent:
 
 Feature and refactor are known changes, so implement-item applies them. Bug and perf need empirical discovery at runtime (reproduce the defect, profile the bottleneck), so they route to their own agents.
 
+The parent owns tracker orchestration. Use the tracker MCP for item lookup, branch/work-item linking, status changes, relationships, and completion evidence. Do not replace tracker operations with a host CLI shortcut when the MCP exposes the operation.
+
 ## Shaping before dispatch
 
 An item is ready when it has a type and enough spec to hand over: a goal, a verification command, and the Implementation Surface it may touch. Backlog items arrive ready. A direct issue does not, so shaping it is the loop's first step:
@@ -43,15 +45,19 @@ An item that would diverge from the SRS, architecture, or an ADR is unresolved, 
 
 ## Execution
 
-1. **Frame the work.** From a backlog, the next open, unblocked item by tracker Status, Priority, and relationships (prefer `Ready`, skip blocked). From a direct request, the item it names. Provably independent items can go as a parallel batch.
+1. **Frame the work.** From tracker summaries, select the next open, unblocked item by Status, Priority, and relationships (prefer `Ready`, skip blocked). Do not fetch full item bodies during selection. From a direct request, use the named item identifier. Provably independent items can go as a parallel batch.
 2. **Shape it** if needed, so every item carries a type and a verification command before dispatch.
 3. **Prepare git:** `git status --short`, then switch to the linked branch or worktree.
-4. **Dispatch** to the agent for the item's type with only the context it references.
+4. **Dispatch** only the item identifier, type, and bounded routing note to the agent for its type. The execution agent owns the single full item read and its referenced context.
 5. **Handle the return:**
    - **Completed:** mark the item done in the tracker with the commit and verification evidence, update blockers and relationships, and file any incidental findings as new typed items.
    - **Stopped for a structural decision:** resolve it with the user, then re-invoke the agent with the decision.
    - **Stopped for a blocking defect:** record the failed approach on the item so a re-attempt skips it, file a `fix` for the debug agent, and re-invoke the original once fixed.
 6. **Move on** to the next unblocked item or batch.
+
+Do not reread the full item after dispatch. Before moving on, verify the returned commit, tests, and verification evidence, update the item through the tracker MCP, and read back only the compact tracker summary needed to confirm the write. Never mark an item complete from an agent summary alone.
+
+Fetch the full item again only when the tracker confirms that its contract changed or the result exposes a contradiction that cannot be resolved from the retained summary.
 
 ## Done When
 

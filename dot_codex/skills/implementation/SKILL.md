@@ -9,9 +9,9 @@ The parent orchestrates; the dispatched agent implements. Shape direct requests 
 
 ## Workflow
 
-1. Inspect repository status and select the next unblocked item from tracker summaries by status, priority, and relationships.
+1. Inspect repository status and select the next unblocked item from tracker summaries by status, priority, and relationships. Do not fetch the full item body during selection.
 2. Prepare the linked branch directly from the issue number.
-3. Dispatch the issue number; the selected execution agent owns the single full item read and its referenced context.
+3. Dispatch only the issue number, item type, and any bounded routing note; the selected execution agent owns the single full item read and its referenced context.
 4. Verify the returned commit before selecting another item.
 
 | Item | Agent | Completion gate |
@@ -25,4 +25,6 @@ Serialize writes by default. Use [reference/parallel-execution.md](reference/par
 
 Stop for a structural decision, security choice, blocking defect, dirty unrelated worktree, or missing verification command. Do not silently change scope.
 
-On completion, retain the commit and verification evidence for handoff. If the agent stops for a structural decision, resolve it with the user before re-invoking. If it stops for a blocking defect, report the failed approach and create a separate fix item.
+On completion, retain only the compact result, commit, and verification evidence for handoff. If the agent stops for a structural decision, resolve it with the user before re-invoking. If it stops for a blocking defect, report the failed approach and create a separate fix item.
+
+The orchestrator must not reread the full item after dispatch. Consult it again only when the tracker confirms that its contract changed or when the returned result exposes a contradiction that cannot be resolved from the retained summary.

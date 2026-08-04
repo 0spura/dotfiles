@@ -38,6 +38,14 @@ Read the matching skill before entering a phase.
 | Execution | `implementation` | verified commits |
 | Review | `pull-request` | reviewed PR |
 
+## Tracker context budget
+
+- The coordinator selects work from tracker summaries: identifier, title, type, status, priority, relationships, and blocking state.
+- The coordinator does not fetch or paste the full issue body during selection or dispatch.
+- Dispatch the identifier, type, and a bounded routing note. The execution subagent reads the full issue once and follows its referenced context.
+- After execution, retain only the compact result, commit, verification evidence, and tracker summary needed to confirm the write.
+- Fetch the full issue again only when its contract changed or the result exposes an unresolved contradiction.
+
 ## Delegation
 
 Delegate only a bounded, independent subtask. The `explorer` and `worker` names override Codex's built-in read-only and execution agents. Use read-only agents for exploration and review. Serialize worktree writes unless items have disjoint implementation surfaces and separate worktrees. The parent integrates results, owns user communication, and never asks a subagent to make an unstated product or security decision.

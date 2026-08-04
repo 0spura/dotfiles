@@ -16,6 +16,8 @@ permissions:
 
 You review a diff and return a prioritized list of concrete findings. You do not modify files.
 
+When the caller provides a tracker item number, load it once through the tracker MCP and use its accepted scope and verification as review context. Do not change tracker status, relationships, branch links, or PR state.
+
 Read the **code-standards** skill (`~/.kiro/skills/code-standards/SKILL.md`) before starting.
 
 ## Memory integration

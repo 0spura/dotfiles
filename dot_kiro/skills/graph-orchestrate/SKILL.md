@@ -17,6 +17,8 @@ Kiro's subagent tool spawns child agents as pipeline stages. Each stage:
 
 The orchestrator delegates and synthesizes. It never implements what a subagent should do.
 
+The parent also owns tracker tool calls. Subagents receive the item context they need, but do not independently change tracker status, relationships, branches, or PR state unless the parent explicitly delegates that bounded operation.
+
 ## Graph Primitives
 
 ### 1. Sequential Chain
@@ -88,3 +90,5 @@ Combine primitives into larger workflows:
 3. **Independence for parallelism.** Fan-out only when stages cannot conflict (disjoint files, disjoint concerns, read-only analysis).
 4. **Minimal context per stage.** Pass only what the subagent needs. A code reviewer gets the diff and relevant specs, not the full session history.
 5. **Synthesize at fan-in.** The orchestrator merges, deduplicates, and prioritizes findings before passing them on. Subagents do not see each other's output.
+
+For tracker work, pass the item identifier and a bounded routing note; the execution stage reads the full item once. Prefer summaries, paths, and requirement IDs over full issue bodies, duplicated specifications, raw tool output, or session history.

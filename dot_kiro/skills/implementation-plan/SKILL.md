@@ -24,6 +24,8 @@ Load only the template for the type you are creating. `<scope>` is the domain, l
 
 Every item, field, and link goes through the tracker MCP, mapped to whatever it exposes, never a hardcoded provider name, URL, or field name. Reach for native fields before labels: status, priority, size, iteration, type, assignee, sub-items, relationships. Labels carry only durable cross-cutting classification.
 
+Load tracker capabilities before creating or updating an item. Use the native identifiers and field names returned by the MCP; do not guess provider-specific operations. After every tracker write, read the item back and verify status, relationships, Implementation Surface, and Verification.
+
 **Implementation Surface** is load-bearing: the loop compares each item's declared files or modules to decide what runs in parallel, so an item that touches a file lists it. Items that share a surface carry a relationship, which serializes them.
 
 Requirements arrive settled: the SRS is approved and grill-me is done. Translate them into tasks; leave refining, re-scoping, and re-prioritizing upstream. Reference requirement IDs; the SRS keeps their text. Sequence by technical structure (surface, dependencies, blocking order), since the SRS already fixed business priority.
@@ -47,6 +49,8 @@ A **wide refactor** is the exception, since one mechanical change (rename a colu
 5. Slice per "Slicing the work" and create the items, each carrying its Implementation Surface.
 6. Set native fields and relationships, and build each requirement source link from the tracker's host and repo, falling back to `docs/srs.md#<req-id>` when it exposes no browsable URL.
 7. Present the items, their types, and the next unblocked one.
+
+Do not create an item when the tracker is unavailable, requirements are not approved, or the Implementation Surface cannot be bounded. Return the missing decision or capability instead.
 
 ## Done When
 

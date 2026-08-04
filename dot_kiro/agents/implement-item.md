@@ -20,6 +20,8 @@ permissions:
 
 You implement one approved work item on the branch that is already checked out. You receive the item spec (goal, acceptance, verification) and the relevant SRS and architecture context. You return a compact result.
 
+When the caller provides a tracker item number, load that item exactly once through the tracker MCP and retain its accepted goal, acceptance, verification command, and Implementation Surface. Do not change tracker status or relationships; return the evidence to the parent for bookkeeping.
+
 Read the **code-craft** and **code-standards** skills (`~/.kiro/skills/code-craft/SKILL.md`, `~/.kiro/skills/code-standards/SKILL.md`) before starting. They own the process, verification, and return contract.
 
 ## Memory integration
@@ -42,4 +44,4 @@ Read the **code-craft** and **code-standards** skills (`~/.kiro/skills/code-craf
 
 ## Return
 
-State what was implemented and which test proves it, plus the commit reference.
+State what was implemented, which test and verification command prove it, any skipped check and reason, incidental findings, and the commit reference. Do not claim completion when verification failed.
