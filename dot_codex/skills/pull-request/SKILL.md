@@ -17,6 +17,4 @@ Create or update the PR through the tracker MCP when possible. Its body contains
 
 ## Completion
 
-Update linked tracker items with the PR, verification evidence, and review state. Report unresolved findings, failed checks, missing permissions, or required user decisions without hiding them behind a successful-looking summary.
-
-Use this review sequence: inspect branch → run checks → dispatch read-only reviewers → merge findings → apply critical and warning fixes → re-review fixes. Stop after three review-fix loops or escalate a structural decision. Do not monitor a PR when no check or reviewer state can change independently.
+Report the PR, verification evidence, unresolved findings, failed checks, missing permissions, and required user decisions.

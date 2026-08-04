@@ -19,4 +19,4 @@ Link settled requirement IDs and ADRs rather than restating them. Return the cre
 
 Stop when the tracker is unavailable, a dependency is unresolved, or the implementation surface cannot be bounded. Return the missing decision instead of creating vague work.
 
-Every item must include goal, type, priority, dependencies, implementation surface, verification command, and completion gate. Prefer vertical slices over layer-only tasks. For refactors use expand → migrate in batches → contract, keeping every stage green.
+Every item must include goal, type, priority, dependencies, implementation surface, verification command, and completion gate.

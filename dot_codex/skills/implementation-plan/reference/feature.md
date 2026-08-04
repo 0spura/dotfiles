@@ -12,7 +12,7 @@ A feature is decomposed into a parent (the feature boundary) and child items onl
 
 ## Requirements
 The SRS requirement IDs this feature delivers, each linked. Priority (MoSCoW) and acceptance already live in the SRS; reference them, do not restate or re-prioritize.
-- [RF-XXX.N](<link built from tracker context>): [one line: what it delivers]
+- [RF-XXX.N](<requirement link>): [one line: what it delivers]
 
 ## Implementation Surface
 - `[path/module]`: [responsibility]

@@ -21,6 +21,8 @@ This project uses ai-memory for cross-session continuity. Before non-trivial wor
 
 Standing user/team preferences live in the reserved `_global` scope. Default memory reads surface global-scope pages in every project automatically.
 
+For a direct `memory_read_page` of a global rule, explicitly pass `workspace: default` and `project: _global`; otherwise use the current project scope.
+
 ## Development Pipeline
 
 The pipeline carries a change from idea to shipped PR. Read the relevant skill's `SKILL.md` when entering each phase.
