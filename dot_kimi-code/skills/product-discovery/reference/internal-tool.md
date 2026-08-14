@@ -1,38 +1,65 @@
-# Internal Tool Reference
+# Internal Tool Research Template
 
-Template and research axes for a tool used by specific teams, with no market, no competitors, and no revenue model.
+## Research Axes
 
-## Research axes
+### 1. Current Process
+- Steps in the current workflow (manual or automated)
+- Tools currently used (scripts, spreadsheets, SaaS, CLI)
+- Time spent per occurrence
+- Frequency (daily, weekly, per-event)
+- Error rate or failure modes
 
-One brief per research agent, each returned with sources:
+### 2. Users
+- Teams and roles that use the process
+- Primary user (does it most often)
+- Secondary users (occasional or downstream consumers)
+- Pain points per role
+- Workarounds already built
 
-- **Best practices and standards:** how leading players and public standards solve this class of problem — for an IdP, for example: agent permissions, CIBA, PIM. What is worth adopting, and what is overkill for the team's size.
-- **Current process:** the workflow or workaround the tool replaces, read from the codebase and existing docs.
-- **Integrations and constraints:** systems it connects to, data ownership, organizational or technical limits.
+### 3. Scope and Boundaries
+- What the tool replaces (and what it does not)
+- Adjacent processes it must not disrupt
+- Data it consumes and produces
+- Lifecycle: one-off build or ongoing maintenance
 
-## Template
+### 4. Integrations and Constraints
+- Systems it reads from or writes to
+- Authentication and access control requirements
+- Data sensitivity (PII, secrets, compliance)
+- Environment constraints (cloud, on-prem, CI, local)
+- Existing libraries or internal platforms to build on
+
+### 5. Success Criteria
+- Measurable outcome (time saved, errors eliminated, latency reduced)
+- Adoption signal (who uses it within what timeframe)
+- Maintenance budget (acceptable ongoing cost)
+
+## Output Structure
 
 ```markdown
-# [Tool Name]: Internal Tool Brief
+# Product Discovery: [Name]
 
 ## Purpose
-What the tool does and why it exists. The problem it solves in one paragraph.
+[One paragraph: what it does and why it exists.]
 
 ## Users
-Which teams or roles use it. What they do today without it (current workaround or manual process).
+[Teams, roles, frequency of use.]
 
 ## Scope
-What the tool covers. What is explicitly out of scope.
+[What it covers, explicit non-goals.]
+
+## Current Process
+[Steps, tools, pain, time cost.]
 
 ## Integrations
-Systems it connects to, depends on, or replaces. Data flows and ownership.
+[Systems, APIs, data flows.]
 
 ## Constraints
-Technical, organizational, compliance, or budget constraints that shape the solution.
+[Technical, security, organizational.]
 
 ## Success Criteria
-How we know it is working. Measurable or observable indicators.
+[Measurable outcomes.]
 
 ## Assumptions
-What we are taking as true that would change the direction if wrong. Riskiest assumption first.
+[What must be true for this to work.]
 ```

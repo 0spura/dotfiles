@@ -1,52 +1,39 @@
 ---
 name: adr
-description: "Record an architecture decision by creating, updating, or superseding an ADR after a significant, costly-to-reverse technical choice is approved."
-whenToUse: "Use when architecture-design or grill-me approves a decision affecting service boundaries, data ownership, public APIs, infrastructure, auth, security posture, or migration strategy."
+description: "Record an approved, costly-to-reverse architecture decision."
+whenToUse: "Use after a decision is approved and only when it is costly to reverse or affects boundaries, data ownership, public contracts, infrastructure, security, or migration strategy."
 ---
 
 # ADR (Architecture Decision Record)
 
-Record a decision that is costly to reverse. Write it once, pin it, and supersede it instead of editing it later. An ADR captures a decision, not a discussion, so routine implementation details and tentative ideas stay out.
+Create an ADR only after the decision is approved. Use the repository convention; otherwise create `docs/adr/NNNN-short-title.md` with the next sequence.
 
-## When to write
+## Workflow
 
-Write an ADR when a decision:
+1. Read relevant requirements, architecture, existing ADRs, and decision approval.
+2. Confirm that the choice is costly to reverse or affects boundaries, data ownership, public contracts, infrastructure, security, or migration.
+3. If the decision is not approved, present options and stop; do not turn a proposal into an accepted ADR.
+4. Create a new ADR for a changed decision. Do not rewrite the substance of an accepted ADR.
 
-- Affects service boundaries, data ownership, or public APIs.
-- Changes infrastructure, auth, or security posture.
-- Chooses between alternatives that are hard to revisit.
-- Has consequences that outlive the current task.
-
-## Structure
-
-Use this structure in the body:
+Include:
 
 ```markdown
-# <Decision title>
+# NNNN: Decision title
 
-**Status:** accepted   <!-- proposed | accepted | superseded by [[decisions/other]] -->
+- Status: Proposed | Accepted | Superseded by [NNNN](#link)
+- Date: YYYY-MM-DD
 
 ## Context
-What situation forced a decision; the constraints that mattered.
-
 ## Decision
-What was decided, stated as a fact.
-
+## Alternatives Considered
 ## Consequences
-What becomes easier, what becomes harder, what was given up.
-Rejected alternatives and WHY, so future sessions don't re-propose them.
-
 ## Traceability
-- Requirements: [RF-XXX links from docs/srs.md, or "none"]
-- Tracker: [work item reference, or "none"]
 ```
 
-## Process
+Link requirement IDs and tracker work where they exist. Supersede rather than overwrite a prior accepted ADR.
 
-1. If one exists and the decision changes, write a NEW page and set the old page's status line to `superseded by [[decisions/<new>]]`. Never edit the old decision's substance.
-2. Write the new ADR with `memory_write_page` under `decisions/<short-slug>.md`, `pinned: true`.
-3. Reference the ADR from `docs/architecture.md` when the decision affects the architecture document.
+Use `Proposed` only while approval is pending and `Accepted` only after explicit approval. When superseding an ADR, update the old status and link to the replacement; do not edit its historical decision or consequences.
 
 ## Done When
 
-The ADR is written, pinned, and linked from the relevant docs. Future agents can find it via memory query.
+The ADR has an unambiguous status, decision, rejected alternatives, consequences, traceability, and links from affected architecture or requirement documents.

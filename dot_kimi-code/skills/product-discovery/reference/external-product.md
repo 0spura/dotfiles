@@ -1,47 +1,69 @@
-# External Product Reference
+# External Product Research Template
 
-Template and research axes for a consumer or B2B product with a market and competition.
+## Research Axes
 
-## Research axes
+### 1. Market Landscape
+- Direct competitors (same problem, same audience)
+- Adjacent solutions (related problem or overlapping audience)
+- Open-source alternatives
+- Market size and growth signals
 
-One brief per research agent, each returned with sources:
+### 2. Competitor Analysis (per competitor)
+- Name and URL
+- What it does (one sentence)
+- Target audience
+- Pricing model
+- Key differentiators
+- Weaknesses and common complaints (from reviews, forums, social)
+- Technical approach (if observable)
 
-- **Direct competitors:** what each does, who it targets, pricing model, key differentiators, known weaknesses.
-- **Adjacent solutions and workarounds:** what users resort to today when no product fits.
-- **User sentiment:** consistent complaints and praised patterns across reviews, forums, and social threads.
-- **Best practices:** how category leaders and public standards solve the hard parts of this domain, worth adopting even when no competitor maps one-to-one.
+### 3. User Segments
+- Primary ICP (Ideal Customer Profile)
+- Secondary segments
+- Jobs to be done per segment
+- Current alternatives per segment
+- Willingness to pay signals
 
-## Template
+### 4. Gaps and Opportunities
+- Unmet needs (what users ask for that nobody provides)
+- Consistent pain across competitors (bad UX, missing feature, poor reliability)
+- Underserved segments
+- Emerging trends or shifts (regulatory, technical, behavioral)
+
+### 5. Positioning
+- Most defensible niche (where you win against all competitors)
+- Key differentiator (one sentence: why this over alternatives)
+- What winning looks like (metric or outcome)
+
+## Output Structure
 
 ```markdown
-# [Product Name]
+# Product Discovery: [Name]
 
 ## What It Is
-Clear description: what it does, the core mechanic, and why it exists.
-Enough for someone with no prior context to understand deeply.
+[One paragraph.]
 
 ## Problem
-Specific problem it solves. Who feels it, when, and what they do today instead.
+[Who has it, how painful, what they do today.]
 
 ## Target Users
-The specific profile of the person who gets the most value and is most likely to pay.
+[Primary ICP, secondary segments, jobs to be done.]
 
 ## Design Principles
-Non-negotiable constraints that shape every product decision. Filters, not aspirations.
-1. **[Principle]:** why it exists and what it rules out
+[3-5 principles derived from the research, not aspirational.]
 
-## Market
-Main competitors and adjacent solutions: what each covers, pricing model, known weaknesses, user sentiment.
+## Market Landscape
+[Table or list of competitors with key attributes.]
 
-## Gaps
-What the market consistently fails to deliver. Where users are underserved or resort to workarounds.
+## Gaps and Opportunities
+[What the market misses.]
 
-## Position
-What this product does differently and why it wins in its niche. Defined against a specific alternative.
+## Positioning
+[Niche, differentiator, what winning looks like.]
 
 ## Business Model
-How it makes money. Pricing model, value metric, freemium versus paid, key monetization decisions.
+[Pricing, revenue, unit economics hypothesis.]
 
-## Assumptions
-What we are taking as true that would change the strategy if wrong. Riskiest assumption first.
+## Assumptions and Risks
+[What must be true, what could kill it.]
 ```

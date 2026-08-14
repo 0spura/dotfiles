@@ -1,36 +1,22 @@
 ---
 name: code-standards
-description: "The quality bar for code: simplicity, clarity, tests, error handling, and secure-by-construction. Loaded by code-changing and reviewing agents."
-whenToUse: "Load before writing or reviewing code. Preloaded by coder, debug, perf, apply-review, code-reviewer."
+description: "Apply the repository quality bar: minimal changes, explicit errors, observable tests, secure boundaries, and maintainable structure."
+whenToUse: "Load before writing or reviewing code."
 ---
 
 # Code Standards
 
-## Write it clean the first time
+Apply these rules to changed code and review findings. Prefer repository conventions when they are stricter.
 
-You are the simplification pass, not its input. Code ships already legible, so a change that would need a rewrite to be read is unfinished. Clarity never alters what the code does.
+- Prefer the smallest solution in existing patterns. Use the standard library and existing helpers before dependencies or abstractions.
+- Use early returns and explicit control flow. A comment explains a non-obvious rule, constraint, algorithm, or external quirk; it never narrates code.
+- Give each file one responsibility. Stop for a new boundary the specification does not settle.
+- Validate untrusted values at trust boundaries. Use allowlists, parameterized APIs, output escaping, and normalized paths constrained to an approved base.
+- Authenticate and authorize each resource action separately. Missing checks fail closed. Never log credentials, raw personal data, authentication headers, or session IDs.
+- Handle predictable failures explicitly. User errors are safe and actionable; internal logs contain diagnostic context without secrets.
+- Test observable changed behavior and meaningful edge cases. Mock only external dependencies such as time, network, filesystem, or third-party services.
+- A review finding needs a concrete failure mode or measurable cost. Do not report style preferences as defects.
 
-## Simplicity
+Before reporting completion, inspect the diff, test changed behavior and meaningful edge cases, and report any skipped check with its reason.
 
-- The smallest change that solves the problem, in the project's existing patterns. Abstraction waits for a present use.
-- Explicit over clever: early returns over deep nesting, an if/else chain or switch over nested ternaries. A comment earns its place on a non-obvious rule, algorithm, constraint, or external quirk.
-- Add a dependency through the package manager (`pnpm add`, `cargo add`, `uv add`, `go get`), never a hand-written version, and code against the installed API. Reach for the standard library and existing helpers first.
-- Settle a file's layout before it sprawls: one domain per file, split at the boundary when concerns mix. Specs follow the same rule, so a growing one becomes a directory with an index.
-
-## Error handling
-
-Validate external input at the boundary and handle predictable failures explicitly. A missing or failed value defaults silently only where the domain defines a safe fallback. User-facing errors stay safe and actionable; boundary responses carry enough structured context to explain the failure while internals stay hidden.
-
-## Tests
-
-Cover changed behavior, fixed bugs, and real edge cases. Assert observable behavior, mocking only external dependencies: network, filesystem, time, randomness, third-party services. A failing test means the implementation is wrong unless the test demonstrably is.
-
-## Secure by construction
-
-Build so the flaw never enters; the security-review agent traces input to sink for whatever slips past.
-
-- Validate untrusted input at the boundary, and allowlist the accepted values, hosts, types, and actions.
-- Every client-provided value (IDs, roles, prices, paths, URLs, ownership) is untrusted, and a missing check fails closed.
-- Authentication is not authorization: authorize the specific resource and action, and confirm ownership or tenant scope before every read and write.
-- Parameterize queries and use structured APIs; escape on output; keep resolved paths within an allowed base; validate external URLs by scheme, host, and redirect allowlist.
-- Background jobs and service accounts run on least-privilege credentials.
+When adding a dependency, use the repository package manager and installed API. Do not hand-write versions or introduce an abstraction without a present use. Keep one domain responsibility per file and split a growing specification at the same structural thresholds used by the relevant document skill.

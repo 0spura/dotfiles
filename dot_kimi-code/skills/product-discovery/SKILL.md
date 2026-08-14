@@ -1,22 +1,29 @@
 ---
 name: product-discovery
-description: "Research the market, competitors, and product space to establish shared context before exploring what to build."
-whenToUse: "Use before brainstorming features or designing a new product: research the market, competitors, and product space to establish shared context."
+description: "Research the market or current internal process, then synthesize evidence into docs/product/discovery.md."
+whenToUse: "Use before product brainstorming."
 ---
 
 # Product Discovery
 
-Establish shared context before deciding what to build. You own `docs/product/discovery.md`; the **product-discovery agent** owns research and returns findings.
+Determine whether the idea is an external product or an internal tool. Query memory for prior research, then assign independent research axes to read-only `product-discovery` subagents when parallelism helps.
 
-## Process
+## Workflow
 
-1. Read `docs/product/discovery.md` if present; update beats rewrite.
-2. Settle with the user what this does, who uses it, and the problem it solves. Decide the type here, with the user: **external product** (customers, market, revenue) or **internal tool** (a team's tool, no market). Ambiguity stops at this step, not inside an agent.
-3. Read the matching reference: `reference/external-product.md` or `reference/internal-tool.md`.
-4. Dispatch product-discovery research agents, one angle per agent from the reference's research axes. Internal tools still get web research: how leading players and standards solve this class of problem drives the design, even without a market.
-5. Read the returned findings and dispatch a follow-up wave of background `Agent` calls (see **graph-orchestrate**) for the emerged topics that matter, deciding the fan-out from the content. Cap at two follow-up waves; a topic that still has not paid off is out of scope.
-6. Write or update `docs/product/discovery.md` from the reference template, synthesizing every wave. Cite the source for each market or best-practice claim.
+1. State the problem, users, current process, constraints, and decision the research must inform.
+2. Read the matching reference and use primary sources for market, standards, and competitor claims.
+3. Separate observed facts, sourced claims, assumptions, and recommendations.
+4. Update rather than overwrite `docs/product/discovery.md`; cite evidence near each material claim.
+
+- For an external product, use [reference/external-product.md](reference/external-product.md): competitors, users, gaps, positioning, business model, and risks.
+- For an internal tool, use [reference/internal-tool.md](reference/internal-tool.md): current process, users, integrations, constraints, and measurable success criteria.
+
+Prefer primary sources and distinguish observed facts from assumptions. Synthesize the findings into `docs/product/discovery.md`, persist its durable summary to memory, and recommend `brainstorming` next.
+
+Stop when the evidence cannot answer the decision without a user choice, and state that gap explicitly.
+
+Do not present assumptions as findings. Cite every material external claim, record the research date, and separate competitors, users, gaps, positioning, business model, and risks for an external product. For an internal tool, record the current process, users, integrations, constraints, and measurable success criteria.
 
 ## Done When
 
-Discovery is saved with sources, durable decisions are in memory, and the next step is **brainstorming**.
+Discovery is saved with sources, durable decisions are in memory, and the next step is `brainstorming`.

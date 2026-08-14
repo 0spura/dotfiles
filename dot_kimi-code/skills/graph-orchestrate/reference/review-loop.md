@@ -1,50 +1,70 @@
-# Review Loop Graph Example
+# PR Review Loop Graph
 
-This is a concrete graph for the PR review-fix loop. It fans out review nodes as background `Agent` calls and applies fixes with a foreground `Agent` call.
+The concrete graph for reviewing a PR before opening it. Used by the **pull-request** skill.
 
-## Nodes
-
-- **N1 review fan-out**: dispatches `code-reviewer`, `security-review`, and `spec-review` as three background `Agent` calls over the same diff.
-- **N2 merge findings**: parent merges the three reports into one prioritized list, once all three notifications or `TaskOutput` calls resolve.
-- **N3 gate**: if no critical or warning findings, exit.
-- **N4 apply fixes**: `apply-review` (foreground `Agent` call) receives the merged findings and the diff.
-- **N5 re-review fan-out**: runs the same three reviewers again, scoped to regressions only.
-
-## Edges
+## Graph Shape
 
 ```
-N1 --(findings)--> N2 --(merged findings)--> N3
-N3 --(has blockers)--> N4 --(fixed diff)--> N5 --(findings)--> N2
-N3 --(clean)--> exit
+                    ┌→ [code-reviewer agent]
+[Prepare Diff] ────┼→ [security-review agent]  (if sensitive)
+                    └→ [spec-review agent]      (if spec exists)
+                              │
+                    [Fan-In: merge findings]
+                              │
+                    [apply-review agent: fix critical + warning]
+                              │
+                    [Re-review: code-reviewer targets regressions]
+                              │
+                    findings? ─── yes → [apply-review] → [Re-review] (max 3 total)
+                         │
+                         no
+                         │
+                    [Done: PR ready]
 ```
 
-## Guard
+## Stage Details
 
-Max 3 iterations. After the third, report remaining findings to the user instead of looping. If a review node is still running when the guard trips, cancel it with `TaskStop`.
+### Stage 1: Fan-Out Reviews
 
-## Dispatch for N1 / N5
+Delegate in parallel:
 
-Three background `Agent` calls, each with a profile-specific prompt over the same diff:
+1. **code-reviewer agent** — always. Receives: branch diff, project conventions.
+2. **security-review agent** — when the diff touches auth, authorization, user data, payments, secrets, uploads, file access, external URLs, or input handling. Receives: branch diff, security-relevant context.
+3. **spec-review agent** — when the work item carries a spec (SRS requirements or PRD). Receives: branch diff, relevant spec sections.
 
-```
-Agent(subagent_type: code-reviewer, run_in_background: true, prompt: "
-  Review the current branch diff for bugs and design problems.
-  Return findings grouped by priority (critical / warning / suggestion).
-  Do not modify files.
-")
+### Stage 2: Fan-In
 
-Agent(subagent_type: security-review, run_in_background: true, prompt: "
-  Review the current branch diff for security vulnerabilities, only if it
-  touches auth, data, payments, secrets, uploads, file access, URLs, or
-  input handling. Otherwise say so and stop.
-")
+The orchestrator collects findings from all reviewers and:
+- Deduplicates (same issue found by multiple reviewers)
+- Classifies: critical (must fix), warning (should fix), suggestion (optional)
+- Groups by file and concern
 
-Agent(subagent_type: spec-review, run_in_background: true, prompt: "
-  Review the current branch diff for fidelity to docs/srs.md and any
-  cited ADRs.
-")
-```
+### Stage 3: Apply Fixes
 
-Collect each result from its completion notification, or from `TaskOutput` if you need to check a task that has gone quiet. Do not block on one before dispatching the others.
+Delegate to **apply-review agent** with the merged critical + warning findings. The agent:
+- Fixes each finding
+- Re-runs the verification command
+- Commits fixups
+- Returns what it fixed and what it could not
 
-For N5, add "target regressions from the fixes only, not fresh nitpicks" to each prompt.
+Findings the agent cannot fix (structural decisions, out of scope, reviewer misread) return to the orchestrator for escalation.
+
+### Stage 4: Re-Review
+
+Delegate to **code-reviewer agent** targeting only:
+- Regressions introduced by the fixes
+- Whether critical findings are resolved
+
+Not: fresh nitpicks or new suggestions on unchanged code.
+
+### Loop Bound
+
+Maximum 3 review-fix iterations. After 3 rounds:
+- If critical findings remain, escalate to the user with the unresolved items.
+- Persistent suggestions that the fixer disagrees with go into the PR body **Notes** section.
+
+## Exit Conditions
+
+- Zero critical findings after re-review → PR ready
+- 3 iterations exhausted with remaining criticals → stop, report to user
+- Unfixable finding (structural, needs user decision) → note in PR body, continue with remaining findings

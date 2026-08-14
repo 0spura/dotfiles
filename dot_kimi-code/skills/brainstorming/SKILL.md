@@ -1,31 +1,26 @@
 ---
 name: brainstorming
-description: "Explore workflows, module boundaries, tech direction, edge cases, and behavior. Turn rough ideas into clear options, tradeoffs, and an approved design before implementation."
-whenToUse: "Use after product-discovery and before srs, when the problem space needs shaping into an approved design."
+description: "Explore and converge on an approved product, component, or feature design before requirements or implementation."
+whenToUse: "Use when direction is undecided, not to generate code."
 ---
 
 # Brainstorming
 
-Shape rough ideas into an approved design. Explore options, expose tradeoffs, and decide what to build before anyone writes an SRS.
+Choose one scope: product, component, or feature. Read the repository and existing product documents before asking what they already answer. Ask only questions whose answers materially change the direction.
 
-## Scope
+## Workflow
 
-- What the system must do, for whom, and under which constraints.
-- Module boundaries and interfaces at the whiteboard level.
-- Tech direction and major dependencies.
-- Edge cases and failure modes.
-- Explicit non-goals.
+1. State the problem, users, constraints, success signal, and explicit non-goals.
+2. Produce 2–3 genuinely different options only when the direction is open. Compare shape, benefits, tradeoffs, risks, and fit with existing principles.
+3. Recommend one option and identify decisions that are expensive to reverse.
+4. Ask for approval before saving an approved design or moving to requirements.
 
-Out of scope: detailed implementation, full API schemas, UI pixel details, estimates, or project planning. Those come later.
+- **Product:** read discovery; draft purpose, aspiration, users, principles, and anti-goals. Use [reference/vision-template.md](reference/vision-template.md) and save `docs/product/vision.md` only after approval.
+- **Component:** define problem, boundaries, interfaces, responsibilities, technical choices, and risks. Do not edit source.
+- **Feature:** define problem, core use case, MVP, non-goals, user flow, and risks. Route UI flows to `ux-design` when material.
 
-## Process
+Use 2–3 options only for a genuinely open decision. Recommend one with its tradeoff. Route irreversible data, API, infrastructure, or security choices through `grill-me` before architecture.
 
-1. Read `docs/product/discovery.md` if present. Identify the problem, actors, constraints, and principles.
-2. Generate at least two genuinely different options. For each, state the shape, the tradeoffs, and the main risk. Do not resurrect an option already rejected in memory without new evidence.
-3. Compare options against the principles in `docs/product/vision.md`. An option that violates a principle is discarded, not softened.
-4. Recommend one option with a one-paragraph rationale. Flag where the decision is costly to reverse.
-5. Save the approved design to `docs/product/vision.md` or update it. Read `reference/vision-template.md` on first write.
+Do not write production code, detailed API schemas, estimates, or implementation plans in this phase.
 
-## Done When
-
-The design is approved and saved, durable decisions are in memory, with clear options, a chosen path, and documented non-goals. The next step is **srs**.
+For a product scope, read `docs/product/discovery.md` and use `reference/vision-template.md`; save `docs/product/vision.md` only after approval. For a component or feature scope, do not overwrite product vision. Return the next phase and unresolved decisions.

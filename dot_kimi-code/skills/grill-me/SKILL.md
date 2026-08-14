@@ -1,30 +1,19 @@
 ---
 name: grill-me
-description: "Stress-test an existing plan, design, or decision by systematically interrogating every decision point until a shared understanding is reached."
-whenToUse: "Use before costly-to-reverse decisions or when a design feels under-specified. Stop when the design survives the questions or when gaps force a return to brainstorming or architecture-design."
+description: "Pressure-test an approved design or high-cost technical decision one question at a time."
+whenToUse: "Use before committing to data, API, infrastructure, or security choices."
 ---
 
 # Grill Me
 
-Pressure-test a plan, design, or decision. Ask one question at a time. The goal is not to win; it is to find the gaps that will matter in implementation.
+Use for decisions expensive to reverse, not routine changes. Read the artifact, product principles, and existing code first. Start with the decision that invalidates the most downstream work.
 
-## When to run
+## Workflow
 
-- Costly-to-reverse decisions: architecture boundaries, public APIs, data models, auth models, deployment topology.
-- A design that skipped alternatives or tradeoffs.
-- Before implementation-plan when the stakes are high.
+Ask one question at a time. Give a recommendation when evidence supports one. Follow each answer through its consequences, then revisit contradictions or hidden dependencies.
 
-## Process
+Finish with decisions confirmed, assumptions validated, risks accepted, open gaps, and the exact decision required before proceeding. After approval, create ADRs where appropriate and continue to `implementation-plan`.
 
-1. Read the artifact to test: `docs/product/vision.md`, `docs/srs.md`, `docs/architecture.md`, or an ADR.
-2. Identify the load-bearing decisions: assumptions, constraints, tradeoffs, and interfaces. Skip a question memory already answered unless new evidence exists.
-3. For each decision, ask:
-   - What would make this wrong?
-   - What evidence supports it?
-   - What alternatives were rejected and why?
-   - What happens at the edges (failure, scale, misuse, change over time)?
-4. Stop when the artifact is solid or when the user agrees on the gap to fix.
+Do not pressure-test settled, low-risk implementation details or substitute questioning for a missing requirement.
 
-## Output
-
-A concise record of what was tested, what held, and what needs fixing. If gaps are found, route back to the right step: brainstorming for scope issues, srs for requirement gaps, architecture-design for technical gaps.
+Record the final answer as: decision, evidence, rejected alternatives, assumptions, accepted risks, open gaps, and next action. If the user does not approve a costly choice, leave it proposed and do not route it to implementation.
