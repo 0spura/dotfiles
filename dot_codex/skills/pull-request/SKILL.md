@@ -11,7 +11,7 @@ description: "Prepare a verified, reviewable pull request: inspect the full bran
 2. Inspect the complete branch diff, not only the latest commit.
 3. Run the item's verification plus repository formatter, lint, static analysis, tests, and build when those checks exist. Open only with evidence from green checks.
 
-Fan out read-only review: always `code-reviewer`; add `security-review` for sensitive surfaces and `spec-review` for cited requirements. Merge critical and warning findings, dispatch `apply-review`, and re-review only the fixes. Stop after three loops or escalate a structural decision. See [reference/review-loop.md](../graph-orchestrate/reference/review-loop.md).
+Run `code-reviewer`; add `security-review` for sensitive surfaces. Give `code-reviewer` the tracker identifier so it loads the item once and checks the accepted goal, Implementation Surface, linked requirements or decisions, and Verification against the diff. These reviewers may run in parallel because they only read the same immutable diff. Fan in critical and warning findings, dispatch `apply-review` once, and re-review only the fix. Stop after three loops or escalate a structural decision. The code review checks caller-visible tests with independent oracles and decision trees changed by the branch.
 
 Pass reviewers the branch or base reference, changed paths, and requirement IDs; let them inspect the diff themselves. Do not paste the full issue, session history, or duplicate diff into every reviewer prompt. Fan-in keeps only compact findings with priority, location, failure mode, and correction.
 
