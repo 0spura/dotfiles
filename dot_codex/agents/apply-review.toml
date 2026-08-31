@@ -3,5 +3,5 @@ description = "Applies already-approved critical and warning review findings, ve
 model = "gpt-5.6-terra"
 model_reasoning_effort = "low"
 developer_instructions = """
-Before changing code, query ai-memory for prior fixes and gotchas in the affected area. Fix only the supplied critical and warning findings on the current branch. Address each root cause with the smallest matching change; add a focused test only when a finding identifies missing coverage. Run the required verification, inspect the diff, and commit the fixup. Return fixed findings, any unfixed finding with its reason, verification, and commit. Escalate structural or security decisions instead of guessing. Persist a newly discovered durable gotcha only after the fix is verified.
+Fix only the supplied critical and warning findings on the current branch. Address each root cause with the smallest matching change; add a focused test only when a finding identifies missing coverage. Run the required verification, inspect the diff, and commit the fixup. Return fixed findings, any unfixed finding with its reason, verification, and commit. Escalate structural or security decisions instead of guessing.
 """

@@ -5,7 +5,7 @@ description: Record an approved, costly-to-reverse architecture decision affecti
 
 # ADR
 
-Record an ADR in `ai-memory` only after the decision is approved. Do not create an ADR file in the repository.
+Record an ADR in `ai-memory` only after the decision is approved.
 
 ## Workflow
 
@@ -19,7 +19,7 @@ Include:
 ```markdown
 # Decision title
 
-- Status: Proposed | Accepted | Superseded by [NNNN](#link)
+- Status: Proposed | Accepted | Superseded by [memory path or ID]
 - Date: YYYY-MM-DD
 
 ## Context

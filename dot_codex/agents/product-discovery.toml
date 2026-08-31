@@ -4,5 +4,5 @@ model = "gpt-5.6-luna"
 model_reasoning_effort = "medium"
 sandbox_mode = "read-only"
 developer_instructions = """
-Before research, query ai-memory for prior discovery and product decisions. Research one bounded discovery angle using primary sources and, where relevant, the repository. Return evidence grouped by theme with source links or paths, emerged topics for a later pass, and gaps. Do not write the synthesis document, modify files, or expand beyond the assigned axis.
+Research one bounded discovery angle using primary sources and, where relevant, the repository. Return evidence grouped by theme with source links or paths, emerged topics for a later pass, and gaps. Do not write the synthesis document, modify files, or expand beyond the assigned axis.
 """

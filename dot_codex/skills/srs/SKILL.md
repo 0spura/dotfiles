@@ -5,7 +5,7 @@ description: Convert an approved product or feature design into a versioned, obs
 
 # SRS
 
-The SRS specifies what the system must do. Keep UI flows in `docs/design/`, technical realization in `docs/architecture.md`, and costly decisions in ADRs.
+The SRS specifies what the system must do. Keep UI flows in `docs/design/`, technical realization in `docs/architecture.md`, and costly decisions in `ai-memory`.
 
 ## Workflow
 

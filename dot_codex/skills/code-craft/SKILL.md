@@ -7,7 +7,7 @@ description: Execute one approved code-changing task with tight scope, specifica
 
 ## Workflow
 
-1. Read the item and only the referenced SRS, architecture, and ADR sections. Confirm the implementation surface and verification command.
+1. Read the item and only the referenced SRS, architecture, and memory decisions. Confirm the implementation surface and verification command.
 2. Stop for an unresolved module boundary, security choice, or pre-existing blocking defect. Return the decision needed; do not guess.
 3. For new behavior, choose the public seam from the item contract and write one focused test first. Its expected result comes from an independent source: an accepted requirement, a worked example, a known literal, or an external contract. For a behavior-preserving refactor, run the relevant baseline first.
 4. Implement one vertical tracer at a time: one observable test, the smallest matching change, then the next slice. Keep unrelated behavior, contracts, and side effects frozen.

@@ -1,6 +1,6 @@
 ---
 name: code-standards
-description: "Apply the repository quality bar while writing or reviewing code: minimal changes, explicit errors, observable tests, secure boundaries, and maintainable structure."
+description: "Apply explicit code-quality checks while writing or reviewing code: focused changes, observable tests, secure boundaries, and bounded complexity."
 ---
 
 # Code Standards
@@ -17,6 +17,18 @@ Apply these rules to changed code and review findings. Prefer repository convent
 - Treat a tautological test as harmful: it recomputes the production procedure, derives its expected value from the same algorithm, or only asserts private collaboration. Replace it with a caller-visible outcome and independent oracle.
 - When changing a decision tree, audit its branch classes before adding another condition. Collapse branches with the same outcome around a shared invariant; extract a named policy only when it removes caller-visible branching. Report a material reduction in decision paths, or explain why the remaining cases differ.
 - A review finding needs a concrete failure mode or measurable cost. Do not report style preferences as defects.
+
+## Measurable signals
+
+Use repository tooling when it exists; stricter repository limits win. These are investigation thresholds, not targets to game.
+
+- A changed function above 20 cyclomatic or cognitive complexity needs simplification, a named policy, or an explanation of why its remaining cases differ.
+- A changed source file above 500 lines needs a responsibility check. Split only at a real ownership or dependency boundary; do not mechanically split a cohesive file.
+- Prove changed behavior and risk paths. Do not chase a global coverage percentage or add tautological tests to raise it.
+- When mutation testing is configured, run it for changed business, security, or data-integrity logic. A surviving mutant needs either a proving test or a documented reason it is equivalent or out of scope.
+- Remove newly unreachable, unused, or duplicated code in the changed surface. If removal crosses the task boundary, report it as follow-up rather than expanding the change.
+- `any`, `unknown`, and equivalent dynamic types may enter only at a trust boundary and must be narrowed or validated before they spread into domain logic.
+- Do not add CRAP or Halstead targets without an existing repository tool and a demonstrated decision they improve.
 
 Before reporting completion, inspect the diff, test changed behavior and meaningful edge cases, and report any skipped check with its reason.
 

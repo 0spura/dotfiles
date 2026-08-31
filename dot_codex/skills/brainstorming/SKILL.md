@@ -22,4 +22,4 @@ Use 2–3 options only for a genuinely open decision. Recommend one with its tra
 
 Do not write production code, detailed API schemas, estimates, or implementation plans in this phase.
 
-For a product scope, read `docs/product/discovery.md` and use `reference/vision-template.md`; save `docs/product/vision.md` only after approval. For a component or feature scope, do not overwrite product vision. Return the next phase and unresolved decisions.
+Return the next phase and unresolved decisions.

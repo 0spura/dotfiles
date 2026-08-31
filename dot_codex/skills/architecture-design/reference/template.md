@@ -1,6 +1,6 @@
 # Architecture Template (initial creation)
 
-Include only the sections that have non-obvious decisions. Omit sections fully covered by the SRS, stack docs, or ADRs; a reference link is sufficient.
+Include only the sections that have non-obvious decisions. Omit sections fully covered by the SRS, stack docs, or ai-memory decisions; a reference link is sufficient.
 
 ```markdown
 # Architecture: [Product Name]

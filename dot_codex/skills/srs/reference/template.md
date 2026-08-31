@@ -29,7 +29,7 @@ Use only when `docs/srs.md` does not yet exist.
 Terms with non-obvious domain meaning or multiple interpretations in the codebase. One line per term: `**Term**: definition`.
 
 # 4. References
-Links to related ADRs, discovery doc, vision doc, or external specs that informed requirements. One line per link.
+Links to related ai-memory decisions, discovery doc, vision doc, or external specs that informed requirements. One line per link.
 ```
 
 ## When the SRS grows
