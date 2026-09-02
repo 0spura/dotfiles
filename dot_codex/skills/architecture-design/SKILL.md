@@ -5,24 +5,16 @@ description: "Design how accepted requirements will be implemented: module bound
 
 # Architecture Design
 
-The SRS owns observable behavior; this skill owns its technical realization. Read the accepted requirements, product principles, existing architecture, and relevant memory decisions. On first use, also create `docs/project.md` when it is missing.
+The SRS owns observable behavior; this skill owns its technical realization. Read the accepted requirements, existing architecture, code, and relevant memory decisions. Create `docs/project.md` on first use when it is missing.
 
-## Workflow
+Design the smallest deep modules: narrow interfaces, high leverage, clear ownership, and a seam that callers and tests can cross. Read [reference/deep-modules.md](reference/deep-modules.md) when choosing a seam. Do not add an abstraction unless it hides real complexity or a second adapter/variation justifies it.
 
-1. Surface costly or unresolved choices. Present viable options and obtain approval before settling them.
-2. Define the simplest module boundaries that hide implementation complexity. Read [reference/deep-modules.md](reference/deep-modules.md) when choosing a boundary.
-3. Record data ownership, non-obvious business-rule preservation, integration failures, security trust boundaries, and deployment concerns needed to implement safely.
-4. Merge the feature into `docs/architecture.md`; split it only when the index is no longer scannable. For an initial document, use [reference/template.md](reference/template.md).
-5. Record or supersede memory decisions for costly-to-reverse choices.
+Before documenting, resolve costly choices with the user or `grill-me`; never silently choose a missing product, security, or contract decision. For each changed seam, specify only what implementation needs to know: data ownership, interfaces, dependencies, business-rule invariants, integration failure behavior, trust-boundary validation/authorization, and deployment constraints.
 
-6. Self-review the design: every boundary has an owner, every integration has failure behavior, every trust boundary has validation and authorization, and every missing value is explicit.
+Update `docs/architecture.md` and `docs/project.md` only when applicable. Reference the SRS and memory decisions instead of repeating them. Record costly-to-reverse decisions with `adr` after approval.
 
-Reference requirements instead of repeating them. Save only after decisions are approved. Return open decisions rather than silently choosing them.
-
-## Output
-
-Update `docs/architecture.md`, `docs/project.md`, and memory decisions only when applicable. Include data ownership, interfaces, dependencies, failure behavior, security constraints, deployment concerns, and requirement traceability.
+Review the result: every seam has an owner, every integration has a failure path, every trust boundary is explicit, and the design can be tested at its public seam.
 
 ## Size and structure check
 
-Keep one `docs/architecture.md` while it remains at or below approximately 500 lines and 6 top-level sections. When either threshold is exceeded, keep it as a scannable index and split concerns into `docs/architecture/<concern>.md`. Preserve links, ownership, and requirement traceability across the split.
+Keep one `docs/architecture.md` while it remains scannable (approximately 500 lines and 6 top-level sections). Otherwise keep it as an index and split concerns into `docs/architecture/<concern>.md`, preserving active links and ownership.

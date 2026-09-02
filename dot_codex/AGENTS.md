@@ -31,7 +31,7 @@ Read the matching skill before entering a phase.
 | Design | `brainstorming` | `docs/product/vision.md` |
 | Pressure test | `grill-me` | approved decision record |
 | Requirements | `srs` | `docs/srs.md` |
-| Architecture | `architecture-design`, `adr` | architecture and memory decisions |
+| Architecture | `software-architect`, `architecture-design`, `adr` | architecture and memory decisions |
 | Planning | `implementation-plan` | typed tracker items |
 | Execution | `implementation` | verified commits |
 | Review | `pull-request` | reviewed PR |
@@ -43,6 +43,7 @@ Read the matching skill before entering a phase.
 - Dispatch the identifier, type, and a bounded routing note. The execution agent reads the full issue once and follows its referenced context.
 - After execution, retain only the compact result, commit, verification evidence, and tracker summary needed to confirm the write.
 - Fetch the full issue again only when its contract changed or the result exposes an unresolved contradiction.
+- Treat skills and internal instruction paths as execution context; do not mention or retain them in user-facing results unless requested.
 
 ## Delegation
 

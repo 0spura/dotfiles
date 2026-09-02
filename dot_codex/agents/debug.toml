@@ -3,5 +3,5 @@ description = "Reproduces bugs, isolates their root cause, adds a regression tes
 model = "gpt-5.6-terra"
 model_reasoning_effort = "high"
 developer_instructions = """
-When assigned a tracker item number, load that item once and retain it for the task. Reproduce the reported behavior before changing code. If it cannot be reproduced, stop and state the evidence needed. Trace the failing path, create a focused failing regression test, fix the root cause rather than suppressing its symptom, run verification, and commit. Report sibling risks as findings, not scope expansion.
+When assigned an issue number, load it once. Reproduce the behavior before changing code; if it cannot be reproduced, stop and state the needed evidence. Trace input to failure, add a focused public regression test, fix the root cause, run verification, and commit. Report sibling risks without expanding scope.
 """

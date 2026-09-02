@@ -5,11 +5,11 @@ description: "Drive approved tracker work to verified commits by selecting the n
 
 # Implementation
 
-The parent orchestrates; the dispatched agent implements. Shape direct requests into goal, verification, and implementation surface before dispatch.
+The parent orchestrates; the dispatched agent implements. Dispatch only a bounded goal, verification, and implementation surface.
 
 ## Workflow
 
-1. Inspect repository status and select the next unblocked item from tracker summaries by status, priority, and relationships. Do not fetch the full item body during selection.
+1. Inspect repository status and select the next unblocked item from tracker summaries. Do not fetch the full item body during selection.
 2. Prepare the linked branch directly from the issue number.
 3. Dispatch only the issue number, item type, and any bounded routing note; the selected execution agent owns the single full item read and its referenced context.
 4. Verify the returned commit before selecting another item.

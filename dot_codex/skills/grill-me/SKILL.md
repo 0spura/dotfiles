@@ -5,14 +5,10 @@ description: Pressure-test an approved design or high-cost technical decision on
 
 # Grill Me
 
-Use for decisions expensive to reverse, not routine changes. Read the artifact, product principles, and existing code first. Start with the decision that invalidates the most downstream work.
+Use only for an unresolved decision that is costly to reverse or can invalidate substantial downstream work. Read the relevant artifact, code, principles, and memory first; start with the highest-impact uncertainty.
 
-## Workflow
+Ask one question at a time, only when its answer can change the decision. State a recommendation when evidence supports one. Follow answers to their consequences and stop when the choice, assumptions, risks, and remaining gaps are explicit.
 
-Ask one question at a time. Give a recommendation when evidence supports one. Follow each answer through its consequences, then revisit contradictions or hidden dependencies.
+Do not use this to discover routine requirements or settled implementation details. If a requirement is missing, return that gap instead of inventing it. After explicit approval, record costly decisions with `adr` and continue to `implementation-plan`; otherwise leave the decision proposed.
 
-Finish with decisions confirmed, assumptions validated, risks accepted, open gaps, and the exact decision required before proceeding. After approval, record costly decisions with `adr` and continue to `implementation-plan`.
-
-Do not pressure-test settled, low-risk implementation details or substitute questioning for a missing requirement.
-
-Record the final answer as: decision, evidence, rejected alternatives, assumptions, accepted risks, open gaps, and next action. If the user does not approve a costly choice, leave it proposed and do not route it to implementation.
+Final record: decision, evidence, rejected alternatives, assumptions, accepted risks, open gaps, next action.

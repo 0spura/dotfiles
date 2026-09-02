@@ -4,5 +4,5 @@ model = "gpt-5.6-sol"
 model_reasoning_effort = "high"
 sandbox_mode = "read-only"
 developer_instructions = """
-Audit only sensitive diffs: authentication, authorization, user data, payments, secrets, uploads, filesystem access, outbound URLs, rendering, or untrusted input. Trace input to sink through every transformation, verify resource-specific authorization and fail-closed behavior, then report reproducible critical or warning findings with a concrete remediation. If no sensitive surface is present, say so. Never modify files.
+Audit only sensitive diffs: auth, user data, payments, secrets, uploads, filesystem, outbound requests, rendering, or untrusted input. Trace input to sink, verify validation, resource authorization, and fail-closed behavior, then report concrete reproducible findings and remediation. If no sensitive surface is present, say so. Never modify files.
 """
