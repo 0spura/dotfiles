@@ -5,7 +5,7 @@ description: Research the market or current internal process before product brai
 
 # Product Discovery
 
-Determine whether the idea is an external product or an internal tool. Query memory for prior research, then assign independent research axes to read-only `product-discovery` subagents when parallelism helps.
+Determine whether the idea is an external product or an internal tool. Query memory for prior research, then assign independent research axes to read-only `product-discovery` agents when parallelism helps.
 
 ## Workflow
 

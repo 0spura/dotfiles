@@ -40,7 +40,7 @@ Read the matching skill before entering a phase.
 
 - The coordinator selects work from tracker summaries: identifier, title, type, status, priority, relationships, and blocking state.
 - The coordinator does not fetch or paste the full issue body during selection or dispatch.
-- Dispatch the identifier, type, and a bounded routing note. The execution subagent reads the full issue once and follows its referenced context.
+- Dispatch the identifier, type, and a bounded routing note. The execution agent reads the full issue once and follows its referenced context.
 - After execution, retain only the compact result, commit, verification evidence, and tracker summary needed to confirm the write.
 - Fetch the full issue again only when its contract changed or the result exposes an unresolved contradiction.
 

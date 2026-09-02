@@ -7,7 +7,7 @@
 {{- $aiMemoryShareOnNetwork := false -}}
 {{- $aiMemoryAuthToken := "" -}}
 {{- $aiMemoryLlmProvider := "none" -}}
-{{- $aiMemoryEmbeddingProvider := "none" -}}
+{{- $aiMemoryEmbeddingProvider := "local" -}}
 {{- $ollamaEnabled := false -}}
 {{- $anthropicApiKey := "" -}}
 {{- $openaiApiKey := "" -}}
@@ -31,7 +31,7 @@
 {{-   end -}}
 
 {{-   $aiMemoryLlmProvider = promptChoiceOnce . "aiMemoryLlmProvider" "ai-memory LLM provider" (list "none" "anthropic" "anthropic-oauth" "openai" "openai-oauth" "copilot" "gemini" "openai-compat") -}}
-{{-   $aiMemoryEmbeddingProvider = promptChoiceOnce . "aiMemoryEmbeddingProvider" "ai-memory embedding provider" (list "none" "openai" "voyage" "google" "gemini" "openai-compat") -}}
+{{-   $aiMemoryEmbeddingProvider = promptChoiceOnce . "aiMemoryEmbeddingProvider" "ai-memory embedding provider" (list "local" "none" "openai" "voyage" "google" "gemini" "openai-compat") -}}
 
 {{-   if eq $aiMemoryLlmProvider "anthropic" -}}
 {{-     $anthropicApiKey = promptStringOnce . "anthropicApiKey" "ANTHROPIC_API_KEY (stays only in the local chezmoi config, never in git)" -}}

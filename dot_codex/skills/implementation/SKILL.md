@@ -1,6 +1,6 @@
 ---
 name: implementation
-description: "Drive approved tracker work to verified commits by selecting the next unblocked item, preparing a safe branch or worktree, and dispatching the correct Codex subagent."
+description: "Drive approved tracker work to verified commits by selecting the next unblocked item, preparing a safe branch or worktree, and dispatching the correct specialized agent."
 ---
 
 # Implementation
