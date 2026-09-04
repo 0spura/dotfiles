@@ -12,7 +12,6 @@ Apply these rules to changed code and review findings. Prefer stricter repositor
 - Derive behavior from requirements and independent acceptance evidence; a green suite alone is not proof.
 - Keep responsibilities and ownership local. Prefer a small deep interface over speculative layers.
 - Preserve compatibility, idempotency, atomicity, and failure semantics when they are contractual; test them at the seam.
-
 - Prefer the smallest solution in existing patterns. Use the standard library and existing helpers before dependencies or abstractions.
 - Use early returns and explicit control flow. A comment explains a non-obvious rule, constraint, algorithm, or external quirk; it never narrates code.
 - Validate untrusted values at trust boundaries. Use allowlists, parameterized APIs, output escaping, and normalized paths constrained to an approved base.
