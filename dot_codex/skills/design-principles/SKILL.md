@@ -5,7 +5,9 @@ description: Apply practical accessibility, cognitive-load, responsive-layout, a
 
 # Design Principles
 
-Use these principles when designing or reviewing a user-facing flow. They are defaults, not evidence about users or a substitute for requirements and accessibility standards.
+Use these principles when designing or reviewing a user-facing flow. Read the
+linked tracker item. They are defaults, not evidence about users or a substitute
+for requirements and accessibility standards.
 
 - Optimize the primary user goal: show the current state, next action, feedback, and recovery path.
 - Keep choices and information proportional to the task; progressively disclose secondary detail.
@@ -15,6 +17,7 @@ Use these principles when designing or reviewing a user-facing flow. They are de
 
 Check current platform-specific behavior or standards with authoritative web sources when the decision depends on a particular OS, browser, or WCAG update.
 
-Return target users/context, primary flow, evidence, accessibility risks, and unresolved product decisions. Do not implement UI during a design-only task.
-
-Use the user's vocabulary rather than internal system terms. Show the primary action and current state clearly, progressively disclose secondary detail, preserve keyboard and screen-reader operation, and define empty, loading, error, disabled, focus, hover, touch, and narrow-screen states.
+Return target users/context, primary flow, evidence, accessibility risks, and
+unresolved product decisions. Use the user's vocabulary. Do not implement UI
+during a design-only task. Record material design evidence or open decisions
+with `record_work` using phase `design`.

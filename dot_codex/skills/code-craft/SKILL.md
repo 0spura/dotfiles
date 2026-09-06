@@ -1,21 +1,24 @@
 ---
 name: code-craft
-description: Execute one approved code-changing task with tight scope, specification alignment, focused verification, and a reviewable commit. Use for features, bug fixes, refactors, performance work, and review fixups.
+description: Implement one bounded, approved change with local-context checks and observable proof. Use for features, fixes, refactors, performance work, and review fixups; do not use for planning only.
 ---
 
 # Code Craft
 
-## Execution and proof
+Follow the default code-work rules in `AGENTS.md`. Read the linked tracker
+contract and its referenced context once. Stop for an ambiguous contract,
+missing verification, or a decision that crosses a public, security, or data
+boundary.
 
-Consume the approved SDD contract produced by requirements and planning. Implement one bounded change and prove it at a public seam. Passing tests is necessary, not sufficient: compare the final behavior with the requirement.
-
-1. Read the item and only its referenced SRS, architecture, and decisions. Stop for an ambiguous contract or missing verification.
-2. Choose the caller-visible seam. For new behavior, write a failing test from an independent acceptance criterion; for refactors, establish a baseline.
-3. Make the smallest vertical change. Test boundary/failure classes and keep unrelated behavior frozen.
-4. Run focused tests and the closest applicable static, integration, and smoke checks.
-5. Audit every acceptance criterion against independent evidence and inspect the public behavior for untested assumptions.
-6. Review operational/security effects only when the change touches them; do not add ceremony or logs without a diagnostic purpose.
-7. Inspect the staged diff, synchronize affected docs, and commit conventionally.
+1. Establish the caller-visible seam and its independent expected result.
+2. Trace the changed flow, including callers and collection/I-O behavior.
+3. After tracing the flow, choose the first adequate option: existing local
+   code, standard library, native capability, installed dependency, then the
+   minimum new code. Freeze unrelated behavior.
+4. Exercise the acceptance path and meaningful failure or boundary class.
+5. Run the focused test plus the closest static, integration, or smoke check.
+6. Inspect the diff for invented APIs, needless dependencies, duplicated logic,
+   unbounded I/O, secrets, and unrelated changes.
 
 ## Stop conditions
 
@@ -23,12 +26,13 @@ Stop and return the decision needed when the task leaves a module boundary, publ
 
 ## Done when
 
-The scoped behavior is implemented, focused verification and the closest static checks pass, the diff contains no unrelated changes, specifications are synchronized, and the commit is reviewable.
+The scoped behavior is implemented, its public outcome is evidenced, collection
+work is bounded, focused checks pass, and the diff is reviewable.
 
 Return the result, evidence, user-relevant artifacts changed, incidental findings, and commit. Do not include skill names, internal instruction paths, or raw build logs.
 
-If the task has no testable behavior, state why and run the narrowest applicable check. Do not fix adjacent bugs, clean up unrelated code, or hide a failed verification behind a passing subset.
+Record the same compact outcome with `record_work` using phase `implementation`.
 
-A test is invalid when its assertion recomputes the production procedure, repeats a production constant without an independent source, or verifies private collaboration instead of caller-visible behavior. When no public seam can express the behavior, stop and return the missing design decision instead of cementing an internal test.
-
-For a dirty workspace, leave unrelated changes untouched; use an isolated worktree only when the task is large and isolation is necessary. Never nest worktrees. Commit only the requested logical change after reviewing the staged diff for debug code, commented-out code, secrets, and unrelated files.
+If no public test is possible, state why and run the narrowest applicable check.
+Leave unrelated dirty work untouched. Commit only when requested or when the
+repository workflow requires it.

@@ -5,7 +5,11 @@ description: Explore and converge on an approved product, component, or feature 
 
 # Brainstorming
 
-Choose one scope: product, module, or feature. Read existing evidence before asking what it already answers. Separate facts, assumptions, and unknowns; ask only questions that can change the direction.
+Choose one scope: product, module, or feature. Read the active issue and
+existing evidence before asking what it already answers. Design is separate
+work only when it is independently requested or blocks other items. Separate
+facts, assumptions, and unknowns; ask only questions that can change the
+direction.
 
 ## Workflow
 
@@ -22,4 +26,5 @@ Route irreversible data, API, infrastructure, security, or scale choices through
 
 Do not write production code, detailed API schemas, estimates, or implementation plans in this phase.
 
-Return the next phase and unresolved decisions.
+Record the approved design or unresolved decision with `record_work` using phase
+`design`. Return the next phase and unresolved decisions.

@@ -1,4 +1,0 @@
-interface:
-  display_name: "Implementation Plan"
-  short_description: "Shape requirements into tracker work"
-  default_prompt: "Use $implementation-plan to create ready engineering work items."

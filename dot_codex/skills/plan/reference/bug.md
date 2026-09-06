@@ -1,8 +1,10 @@
-# Bug Item
+# Bug Delivery Item
 
-Type prefix: `fix(<scope>):`, executed by the **debug** agent.
+Type: `fix`. Route execution through `debugging`.
 
-The root cause is discovered empirically at runtime, so the plan is thin: capture the symptom and how to reproduce it, and leave Root Cause and Fix blank for the debug agent to fill in during execution. `<scope>` names the broken behavior, not the solution.
+The root cause is discovered empirically at runtime, so the plan is thin:
+capture the symptom and reproduction, then leave Root Cause and Fix for
+execution evidence. Name the broken behavior, not a presumed solution.
 
 ```markdown
 ## Problem

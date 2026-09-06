@@ -6,13 +6,16 @@ description: Write concise, durable technical documentation, architecture record
 # Documentation Style
 
 Use this skill for documentation another person or agent must use, maintain, or verify.
+When documentation is a work artifact, read its linked tracker item and record
+the canonical path and verification at the applicable phase boundary.
 
 ## Workflow
 
-1. Identify owner, audience, scope, inputs, outputs, and verification before editing.
-2. Keep only facts, decisions, procedures, constraints, and evidence that change future work. Link canonical sources instead of duplicating them.
-3. Use consistent terms, concrete statements, explicit assumptions, and measurable acceptance. Put conditional detail in references.
-4. Review links, paths, contradictions, stale claims, and missing stop conditions.
+1. Identify audience, scope, owner, and verification.
+2. Keep only facts, decisions, constraints, procedures, and evidence that
+   change future work; link canonical sources instead of copying them.
+3. Use consistent terms, explicit assumptions, and measurable acceptance.
+4. Check links, paths, contradictions, stale claims, and stop conditions.
 
 ## Codex skill rules
 

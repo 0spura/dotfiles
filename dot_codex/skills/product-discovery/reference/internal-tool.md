@@ -1,5 +1,9 @@
 # Internal Tool Research Template
 
+Research only the axes that can change the build-or-improve decision. Do not
+inventory a process, integration, or metric with no effect on scope,
+acceptance, or risk.
+
 ## Research Axes
 
 ### 1. Current Process
@@ -35,6 +39,10 @@
 - Maintenance budget (acceptable ongoing cost)
 
 ## Output Structure
+
+Keep `Purpose`, `Scope`, `Success Criteria`, and `Assumptions`. Add the other
+sections only when their evidence changes the recommendation or implementation
+constraints.
 
 ```markdown
 # Product Discovery: [Name]

@@ -34,6 +34,28 @@ default_subagent_model = "gpt-5.6-luna"
 default_subagent_reasoning_effort = "low"
 max_concurrent_threads_per_session = 4
 
+# Keep narrow, role-specific workflows out of the general skill catalog. Their
+# specialist agents re-enable the matching skill below.
+[[skills.config]]
+path = "{{ .chezmoi.homeDir }}/.codex/skills/architecture-design/SKILL.md"
+enabled = false
+
+[[skills.config]]
+path = "{{ .chezmoi.homeDir }}/.codex/skills/code-standards/SKILL.md"
+enabled = false
+
+[[skills.config]]
+path = "{{ .chezmoi.homeDir }}/.codex/skills/debugging/SKILL.md"
+enabled = false
+
+[[skills.config]]
+path = "{{ .chezmoi.homeDir }}/.codex/skills/design-principles/SKILL.md"
+enabled = false
+
+[[skills.config]]
+path = "{{ .chezmoi.homeDir }}/.codex/skills/product-discovery/SKILL.md"
+enabled = false
+
 [mcp_servers.ai-memory]
 url = "{{ .aiMemoryUrl }}/mcp"
 default_tools_approval_mode = "writes"

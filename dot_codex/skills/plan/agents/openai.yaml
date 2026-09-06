@@ -1,0 +1,4 @@
+interface:
+  display_name: "Plan"
+  short_description: "Route missing decisions and shape delivery work"
+  default_prompt: "Use $plan to decide the next planning step for this issue."

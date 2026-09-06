@@ -1,8 +1,10 @@
-# Performance Item
+# Performance Delivery Item
 
-Type prefix: `perf(<scope>):`, executed by the **perf** agent.
+Type: `perf`. Name the measured operation, not a presumed optimization.
 
-The bottleneck is discovered empirically by profiling at runtime, so leave Baseline, Bottleneck, and Change blank for the perf agent to measure and fill in. State a measurable target up front. `<scope>` names what is optimized, not the technique.
+The bottleneck is discovered empirically by profiling at runtime, so leave
+Baseline, Bottleneck, and Change blank for execution evidence. State a
+measurable target up front.
 
 ```markdown
 ## Problem

@@ -5,7 +5,11 @@ description: Research the market or current internal process before product brai
 
 # Product Discovery
 
-Determine whether the idea is an external product or an internal tool. Query memory for prior research and assign only independent, decision-relevant research axes when parallelism helps.
+Determine whether the idea is an external product or an internal tool. Read the
+active issue and query memory for prior research. Discovery is separate work
+only when it is independently requested or blocks other items; otherwise link
+its evidence to the active issue. Assign only independent, decision-relevant
+research axes when parallelism helps.
 
 ## Workflow
 
@@ -17,6 +21,9 @@ Determine whether the idea is an external product or an internal tool. Query mem
 - For an external product, use [reference/external-product.md](reference/external-product.md): competitors, users, gaps, positioning, business model, and risks.
 - For an internal tool, use [reference/internal-tool.md](reference/internal-tool.md): current process, users, integrations, constraints, and measurable success criteria.
 
-Prefer primary sources. Synthesize only evidence that changes the decision into `docs/product/discovery.md`, persist its durable summary to memory, and recommend `brainstorming` next.
+Prefer primary sources. Synthesize only evidence that changes the decision into
+`docs/product/discovery.md`, persist its durable summary to memory, and record
+the document, conclusion, and unresolved choice with `record_work` using phase
+`discovery`. Recommend `brainstorming` next.
 
 Stop when the evidence cannot answer the decision without a user choice, and state that gap explicitly.

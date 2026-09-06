@@ -1,8 +1,12 @@
-# Refactor Item
+# Refactor Delivery Item
 
-Type prefix: `refactor(<scope>):`, executed by the **worker** agent (behavior frozen).
+Type: `refactor`. Behavior is frozen unless the linked contract explicitly
+changes it.
 
-A refactor is a known change (the target structure is decided by reading the code) with a frozen-behavior gate. `worker` runs the existing tests as the baseline, restructures, and confirms the baseline is still green. For a large multi-module refactor, split it into several refactor child items so each is separately committable and parallel-safe.
+A refactor is a known change (the target structure is decided by reading the
+code) with a frozen-behavior gate. Establish the existing proof as a baseline,
+restructure, and confirm it still holds. Split only when a child has an
+independent acceptance condition or dependency.
 
 ```markdown
 ## Motivation

@@ -1,18 +1,21 @@
 # External Product Research Template
 
+Research only the axes that can change the product decision. Do not fill every
+section because a template contains it; link primary evidence near each claim.
+
 ## Research Axes
 
 ### 1. Market Landscape
 - Direct competitors (same problem, same audience)
 - Adjacent solutions (related problem or overlapping audience)
 - Open-source alternatives
-- Market size and growth signals
+- Market size or growth signals, when they affect viability
 
 ### 2. Competitor Analysis (per competitor)
 - Name and URL
 - What it does (one sentence)
 - Target audience
-- Pricing model
+- Pricing model, when it affects positioning
 - Key differentiators
 - Weaknesses and common complaints (from reviews, forums, social)
 - Technical approach (if observable)
@@ -22,7 +25,7 @@
 - Secondary segments
 - Jobs to be done per segment
 - Current alternatives per segment
-- Willingness to pay signals
+- Willingness to pay signals, when monetization is in scope
 
 ### 4. Gaps and Opportunities
 - Unmet needs (what users ask for that nobody provides)
@@ -36,6 +39,10 @@
 - What winning looks like (metric or outcome)
 
 ## Output Structure
+
+Keep `Problem`, `Target Users`, `Assumptions and Risks`, and the decision
+recommendation. Add the other sections only when research produced evidence
+that changes them.
 
 ```markdown
 # Product Discovery: [Name]
@@ -62,7 +69,7 @@
 [Niche, differentiator, what winning looks like.]
 
 ## Business Model
-[Pricing, revenue, unit economics hypothesis.]
+[Only when monetization is in scope.]
 
 ## Assumptions and Risks
 [What must be true, what could kill it.]

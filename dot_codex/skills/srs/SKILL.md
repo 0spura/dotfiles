@@ -5,7 +5,11 @@ description: Convert an approved product or feature design into a versioned, obs
 
 # SRS
 
-The SRS is the SDD contract: it specifies what the system must do and how that behavior can be accepted. Keep UI flows in `docs/design/`, technical realization in `docs/architecture.md`, and costly decisions in `ai-memory`.
+The SRS is the SDD contract: it specifies what the system must do and how that
+behavior can be accepted. Read the active issue; create separate requirements
+work only when it is independently approved or blocks delivery. Keep UI flows in
+`docs/design/`, technical realization in `docs/architecture.md`, and costly
+decisions in `ai-memory`.
 
 ## Workflow
 
@@ -21,4 +25,7 @@ The SRS is the SDD contract: it specifies what the system must do and how that b
 
 Before saving, count lines and top-level sections. Keep a single `docs/srs.md` while it remains at or below approximately 500 lines and 6 top-level sections. When either threshold is exceeded, keep `docs/srs.md` as a scannable index and move domain content to `docs/requirements/<domain>.md`. Preserve active requirement IDs and links during the split; keep supersession history outside the active contract.
 
-Save `docs/srs.md`, write its durable memory summary, and route technical design to `architecture-design`. Do not invent behavior to fill missing product decisions.
+Save `docs/srs.md`, write its durable memory summary, and record the active
+contract, verification boundaries, and open decisions with `record_work` using
+phase `requirements`. Route technical design to `architecture-design`. Do not
+invent behavior to fill missing product decisions.

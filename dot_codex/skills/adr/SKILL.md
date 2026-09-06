@@ -9,7 +9,7 @@ Record a costly, approved architecture decision in `ai-memory` as a compact, pin
 
 ## Workflow
 
-1. Read relevant requirements, architecture, existing memory decisions, and decision approval.
+1. Read the active issue, relevant requirements, existing memory decisions, and decision approval.
 2. Confirm that the choice is costly to reverse or affects boundaries, data ownership, public contracts, infrastructure, security, or migration.
 3. If the decision is not approved, present options and stop; do not turn a proposal into an accepted ADR.
 4. Write a pinned decision under `decisions/` in `ai-memory`. For a changed decision, create a new entry that supersedes the old one; do not rewrite the historical decision or copy its obsolete text into active requirements.
@@ -35,4 +35,7 @@ Use `Proposed` only while approval is pending and `Accepted` only after explicit
 
 ## Done when
 
-The pinned memory decision has an unambiguous status, decision, and consequences. Include alternatives, traceability, and links only when they clarify the decision or connect it to active requirements or architecture.
+The pinned memory decision has an unambiguous status, decision, and consequences.
+Record its path, status, and consequences with `record_work` using phase
+`architecture`. Include alternatives, traceability, and links only when they
+clarify the decision or connect it to active requirements or architecture.

@@ -20,7 +20,7 @@ What they are trying to accomplish, what frustrates them today, and what makes t
 ## Principles
 Non-negotiable constraints that filter every product and technical decision.
 If a feature or technical choice violates a principle, it does not proceed without explicit justification.
-1. **[Principle]:** what it rules out
+- **[Principle]:** what it rules out
 
 ## Anti-goals
 What this product deliberately is not. Keeps principles honest and prevents scope creep.
