@@ -5,9 +5,10 @@ description: Review changed code for concrete correctness, data-access, security
 
 # Code Standards
 
-Read the linked tracker contract. Apply the `AGENTS.md` invariants and report
-only findings with a concrete failure mode or measurable cost. Repository
-conventions and configured tooling win.
+For tracker-backed reviews, read the linked contract; otherwise use the user's
+request, the diff, and only the local context needed. Apply the `AGENTS.md`
+invariants and report only findings with a concrete failure mode or measurable
+cost. Repository conventions and configured tooling win.
 
 Keep contract and engineering findings separate: a change can faithfully meet
 its requested behavior while still be risky, or be well-crafted while solving
@@ -21,6 +22,8 @@ the wrong problem. Check the changed surface for:
   code or current documentation;
 - missing validation, authorization, idempotency, atomicity, or failure
   semantics where the contract requires them;
+- compressed expressions or control flow that hide state transitions,
+  invariants, failure paths, or responsibility boundaries from a maintainer;
 - new unreachable code, duplicate logic, needless abstraction, or complexity
   that hides branches with the same outcome.
 

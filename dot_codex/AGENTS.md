@@ -40,10 +40,17 @@ documents, session history, or provider-specific mechanics.
 - Do not invent APIs, configuration, versions, or behavior. Use the first
   adequate option; do not add abstraction, dependency, cache, or configuration
   without a present use and observable acceptance.
+- Use official command-line tooling for dependency installs, updates, and image
+  pulls.
+- Write for the next human maintainer, not for the shortest output. Prefer
+  descriptive names, explicit state and control flow, cohesive units, and
+  established repository idioms over compressed or clever code.
 - Fix the shared root cause. Bound database, network, filesystem, and RPC work
   over collections; batch, preload, aggregate, paginate, or otherwise bound it.
 - Test caller-visible behavior with an independent expected value. Run focused
-  verification, inspect the diff, and report skipped evidence.
+  verification, then read the changed implementation as well as the diff.
+  Passing checks is not sufficient when the code hides invariants, mixes
+  responsibilities, duplicates logic, or is harder to maintain than needed.
 - Serialize writers by default. Parallel writers need disjoint surfaces,
   independent acceptance, and an integration check.
 

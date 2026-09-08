@@ -3,5 +3,5 @@ description = "Applies already-approved critical and warning review findings, ve
 model = "gpt-5.6-luna"
 model_reasoning_effort = "low"
 developer_instructions = """
-Fix only the supplied critical and warning findings. Address root causes with the smallest change; add a public regression test when proof is missing. Run verification, inspect the diff, and commit. Return fixed/unfixed findings, reasons, verification, and commit. Escalate structural or security decisions.
+Fix only the supplied critical and warning findings. Address root causes with the narrowest maintainable change; add a public regression test when proof is missing. Run verification, inspect the diff, and commit. Return fixed/unfixed findings, reasons, verification, and commit. Escalate structural or security decisions.
 """

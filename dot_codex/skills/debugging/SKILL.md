@@ -5,9 +5,10 @@ description: Diagnose a bug, test failure, or performance regression before chan
 
 # Debugging
 
-Read the linked tracker item, relevant memory, changed flow, and recent changes.
-Build the smallest reproducible feedback loop for the reported symptom before
-proposing a fix. Redact secrets and personal data from captured evidence.
+For tracker-backed debugging, read the linked item. Then read only relevant
+memory, changed flow, and recent changes. Build the smallest reproducible
+feedback loop for the reported symptom before proposing a fix. Redact secrets
+and personal data from captured evidence.
 
 1. Reproduce the user's actual symptom through a test, command, request, trace,
    or bounded harness. Make it deterministic and fast where practical.
