@@ -26,6 +26,6 @@ decisions in `ai-memory`.
 Before saving, count lines and top-level sections. Keep a single `docs/srs.md` while it remains at or below approximately 500 lines and 6 top-level sections. When either threshold is exceeded, keep `docs/srs.md` as a scannable index and move domain content to `docs/requirements/<domain>.md`. Preserve active requirement IDs and links during the split; keep supersession history outside the active contract.
 
 Save `docs/srs.md`, write its durable memory summary, and record the active
-contract, verification boundaries, and open decisions with `record_work` using
-phase `requirements`. Route technical design to `architecture-design`. Do not
+contract, verification boundaries, and open decisions in the tracker. Route
+technical design to `architecture-design`. Do not
 invent behavior to fill missing product decisions.

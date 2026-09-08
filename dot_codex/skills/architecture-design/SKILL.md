@@ -25,8 +25,7 @@ Update `docs/architecture.md` and `docs/project.md` only when applicable. Refere
 
 Review the result: every seam has an owner, every integration has a failure
 path, every collection has bounded I/O, and the design can be tested publicly.
-Record the architecture artifact and unresolved choices with `record_work` using
-phase `architecture`.
+Record the architecture artifact and unresolved choices in the tracker.
 
 ## Size and structure check
 

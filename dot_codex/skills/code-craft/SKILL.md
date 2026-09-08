@@ -31,7 +31,7 @@ work is bounded, focused checks pass, and the diff is reviewable.
 
 Return the result, evidence, user-relevant artifacts changed, incidental findings, and commit. Do not include skill names, internal instruction paths, or raw build logs.
 
-Record the same compact outcome with `record_work` using phase `implementation`.
+For tracker-backed work, record the same compact outcome in the tracker.
 
 If no public test is possible, state why and run the narrowest applicable check.
 Leave unrelated dirty work untouched. Commit only when requested or when the

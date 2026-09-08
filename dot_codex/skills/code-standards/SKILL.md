@@ -32,5 +32,5 @@ Use query counts, traces, static analysis, or focused tests when available.
 Do not invent global metrics or flag style preferences. Return findings under
 `Contract` and `Engineering`, each as location, failure mode, evidence, and
 smallest correction; report clean areas only when that conclusion is supported
-by the inspected scope. Record the review outcome and blocking findings with
-`record_work` using phase `review`.
+by the inspected scope. For tracker-backed reviews, record the outcome and
+blocking findings in the tracker.

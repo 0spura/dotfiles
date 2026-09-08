@@ -20,4 +20,4 @@ Check current platform-specific behavior or standards with authoritative web sou
 Return target users/context, primary flow, evidence, accessibility risks, and
 unresolved product decisions. Use the user's vocabulary. Do not implement UI
 during a design-only task. Record material design evidence or open decisions
-with `record_work` using phase `design`.
+in the tracker.

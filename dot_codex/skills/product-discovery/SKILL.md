@@ -23,7 +23,7 @@ research axes when parallelism helps.
 
 Prefer primary sources. Synthesize only evidence that changes the decision into
 `docs/product/discovery.md`, persist its durable summary to memory, and record
-the document, conclusion, and unresolved choice with `record_work` using phase
-`discovery`. Recommend `brainstorming` next.
+the document, conclusion, and unresolved choice in the tracker. Recommend
+`brainstorming` next.
 
 Stop when the evidence cannot answer the decision without a user choice, and state that gap explicitly.

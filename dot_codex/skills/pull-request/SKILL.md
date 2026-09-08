@@ -26,5 +26,5 @@ reviewer-relevant information.
 ## Completion
 
 Record the PR, verification evidence, unresolved findings, failed checks, and
-next step with `record_work` using phase `review`. Report missing permissions
+next step in the tracker. Report missing permissions
 and required user decisions.

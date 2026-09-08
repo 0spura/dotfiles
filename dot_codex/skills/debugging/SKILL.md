@@ -22,5 +22,6 @@ Do not patch a symptom, stack speculative fixes, or claim a cause without
 evidence. For a performance regression, establish a comparable baseline and
 measure the changed operation before choosing a fix.
 
-Record the reproduction, cause, verification, and blocker with `record_work`
-using phase `implementation`; then hand the bounded fix to `code-craft`.
+For tracker-backed debugging, record the reproduction, cause, verification, and
+blocker in the tracker; then hand the bounded
+fix to `code-craft`.
