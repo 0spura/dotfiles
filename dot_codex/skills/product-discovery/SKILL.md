@@ -22,8 +22,8 @@ research axes when parallelism helps.
 - For an internal tool, use [reference/internal-tool.md](reference/internal-tool.md): current process, users, integrations, constraints, and measurable success criteria.
 
 Prefer primary sources. Synthesize only evidence that changes the decision into
-`docs/product/discovery.md`, persist its durable summary to memory, and record
-the document, conclusion, and unresolved choice in the tracker. Recommend
+`docs/product/discovery.md`, persist its durable summary to memory, and return
+the document, conclusion, and unresolved choice to the caller. Recommend
 `brainstorming` next.
 
 Stop when the evidence cannot answer the decision without a user choice, and state that gap explicitly.

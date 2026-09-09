@@ -29,6 +29,6 @@ only for proven-disjoint items in separate worktrees.
 
 Stop for a structural decision, security choice, blocking defect, dirty unrelated worktree, or missing verification command. Do not silently change scope.
 
-On completion, record the compact result, commit, verification, blocker, and
-next item in the tracker. If a structural
+On completion, return the compact result, commit, verification, blocker, and
+next item to the caller. If a structural
 decision or blocker emerges, resolve or report it before continuing.

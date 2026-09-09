@@ -6,8 +6,8 @@ description: Write concise, durable technical documentation, architecture record
 # Documentation Style
 
 Use this skill for documentation another person or agent must use, maintain, or verify.
-When documentation is a work artifact, read its linked tracker item and record
-the canonical path and verification at the applicable phase boundary.
+When documentation is a work artifact, read its linked tracker item and return
+the canonical path and verification to the caller.
 
 ## Workflow
 

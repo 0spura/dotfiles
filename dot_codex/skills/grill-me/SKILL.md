@@ -21,6 +21,6 @@ are explicit.
 Do not use this to discover routine requirements or settled implementation details. If a requirement is missing, return that gap instead of inventing it. After explicit approval, record costly decisions with `adr` and continue to `plan`; otherwise leave the decision proposed.
 
 Final record: decision, evidence, rejected alternatives, assumptions, accepted
-risks, open gaps, next action. Record that outcome in the tracker and link the
+risks, open gaps, next action. Return that outcome to the caller and link the
 ADR when one is accepted. Do not turn an open gap
 into an invented requirement.

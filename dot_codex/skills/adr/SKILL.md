@@ -36,6 +36,6 @@ Use `Proposed` only while approval is pending and `Accepted` only after explicit
 ## Done when
 
 The pinned memory decision has an unambiguous status, decision, and consequences.
-Record its path, status, and consequences in the tracker. Include alternatives,
+Return its path, status, and consequences to the caller. Include alternatives,
 traceability, and links only when they
 clarify the decision or connect it to active requirements or architecture.

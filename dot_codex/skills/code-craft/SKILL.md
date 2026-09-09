@@ -36,7 +36,7 @@ human maintainer without reconstructing the model's reasoning.
 
 Return the result, evidence, user-relevant artifacts changed, incidental findings, and commit. Do not include skill names, internal instruction paths, or raw build logs.
 
-For tracker-backed work, record the same compact outcome in the tracker.
+For tracker-backed work, return the same compact outcome to the caller.
 
 If no public test is possible, state why and run the narrowest applicable check.
 Leave unrelated dirty work untouched. Commit only when requested or when the

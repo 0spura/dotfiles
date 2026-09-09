@@ -25,6 +25,6 @@ reviewer-relevant information.
 
 ## Completion
 
-Record the PR, verification evidence, unresolved findings, failed checks, and
-next step in the tracker. Report missing permissions
+Return the PR, verification evidence, unresolved findings, failed checks, and
+next step to the caller. Report missing permissions
 and required user decisions.

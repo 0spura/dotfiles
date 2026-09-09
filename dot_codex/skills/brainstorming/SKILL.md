@@ -26,5 +26,5 @@ Route irreversible data, API, infrastructure, security, or scale choices through
 
 Do not write production code, detailed API schemas, estimates, or implementation plans in this phase.
 
-Record the approved design or unresolved decision in the tracker. Return the
-next phase and unresolved decisions.
+Return the approved design or unresolved decision, the next phase, and
+unresolved decisions to the caller.

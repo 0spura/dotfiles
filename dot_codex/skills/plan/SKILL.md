@@ -26,7 +26,7 @@ independently deliverable items; otherwise keep planning on the same issue.
 
 Link settled requirements and decisions rather than restating them. Create the
 smallest typed child items only when they are independently deliverable or have
-real dependencies; otherwise keep them as an acceptance checklist. Record the
-plan, relationships, and next unblocked item in the tracker.
+real dependencies; otherwise keep them as an acceptance checklist. Return the
+plan, relationships, and next unblocked item to the caller.
 
 Stop when an issue cannot be read, a dependency is unresolved, or the implementation surface cannot be bounded. Return the missing decision instead of creating vague work.
