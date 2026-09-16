@@ -12,3 +12,6 @@ ai-memory/
 {{- if not (has "kiro-cli" .enabledAgents) }}
 .kiro/
 {{- end }}
+{{- if not (has "opencode" .enabledAgents) }}
+.config/opencode/
+{{- end }}

@@ -1,0 +1,38 @@
+{
+  "$schema": "https://opencode.ai/config.json",
+  "model": "opencode-go/muse-spark-1.3-contributor",
+  "small_model": "opencode-go/muse-spark-1.3-contributor",
+  "default_agent": "default",
+  "share": "manual",
+  "permission": {
+    "*": "ask",
+    "read": "allow",
+    "glob": "allow",
+    "grep": "allow",
+    "list": "allow",
+    "lsp": "allow",
+    "skill": "allow",
+    "webfetch": "allow",
+    "websearch": "allow",
+    "todowrite": "allow",
+    "task": "allow",
+    "question": "allow",
+    "bash": {
+      "*": "ask",
+      "git *": "allow"
+    },
+    "edit": "ask",
+    "external_directory": "ask",
+    "doom_loop": "deny",
+    "ai-memory_*": "allow",
+    "mcp-tracker_*": "allow",
+    "tracker_*": "allow"
+  },
+  "mcp": {
+    "ai-memory": {
+      "type": "remote",
+      "url": "{{ .aiMemoryUrl }}/mcp",
+      "enabled": true
+    }
+  }
+}
