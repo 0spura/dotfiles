@@ -1,7 +1,7 @@
 ---
 description: Investigates architectural context and designs a measurable, evolvable system before implementation.
 mode: subagent
-model: opencode-go/muse-spark-1.3-contributor
+model: opencode-go/deepseek-v4.1-flash
 temperature: 0.1
 permission:
   edit: deny

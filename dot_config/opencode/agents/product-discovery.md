@@ -1,7 +1,7 @@
 ---
 description: Read-only researcher for one bounded product, user, market, or internal-process question.
 mode: subagent
-model: opencode-go/muse-spark-1.3-contributor
+model: opencode-go/deepseek-v4.1-flash
 permission:
   edit: deny
 ---

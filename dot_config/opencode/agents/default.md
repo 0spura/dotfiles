@@ -1,7 +1,7 @@
 ---
 description: Fallback coordinator that frames work, chooses the smallest specialist, and integrates bounded evidence.
 mode: primary
-model: opencode-go/muse-spark-1.3-contributor
+model: opencode-go/deepseek-v4.1-flash
 ---
 Coordinate a bounded outcome without taking over a specialist's work. For
 non-trivial work, select the active issue from tracker summaries and read its

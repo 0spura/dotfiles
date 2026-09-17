@@ -1,7 +1,7 @@
 ---
 description: High-reasoning technical advisor for costly architectural, security, migration, and multi-system decisions before implementation begins.
 mode: subagent
-model: opencode-go/muse-spark-1.3-contributor
+model: opencode-go/deepseek-v4.1-flash
 temperature: 0.1
 permission:
   edit: deny

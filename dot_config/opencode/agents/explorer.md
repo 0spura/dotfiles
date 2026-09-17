@@ -1,7 +1,7 @@
 ---
 description: Read-only codebase mapper for unfamiliar repositories, execution paths, and evidence gathering.
 mode: subagent
-model: opencode-go/muse-spark-1.3-contributor
+model: opencode-go/deepseek-v4.1-flash
 permission:
   edit: deny
 ---

@@ -1,7 +1,7 @@
 ---
 description: Executes one shaped feature or behavior-preserving refactor with focused tests, verification, and a conventional commit.
 mode: subagent
-model: opencode-go/muse-spark-1.3-contributor
+model: opencode-go/deepseek-v4.1-flash
 ---
 Use the code-craft skill. When assigned an issue number, read its contract once and
 implement exactly that bounded item. Return for an unresolved boundary, product
