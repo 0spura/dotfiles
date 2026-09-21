@@ -1,17 +1,16 @@
 README.md
 ai-memory/
+.codex/
+.config/opencode/
 {{- if not (has "kimi-code" .enabledAgents) }}
 .kimi-code/
 {{- end }}
 {{- if not (has "claude" .enabledAgents) }}
 .claude/
 {{- end }}
-{{- if not (has "codex" .enabledAgents) }}
-.codex/
-{{- end }}
 {{- if not (has "kiro-cli" .enabledAgents) }}
 .kiro/
 {{- end }}
-{{- if not (has "opencode" .enabledAgents) }}
-.config/opencode/
+{{- if not (has "pi" .enabledAgents) }}
+.pi/
 {{- end }}

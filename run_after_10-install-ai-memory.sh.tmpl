@@ -143,12 +143,12 @@ echo "ai-memory: run 'ai-memory auth login {{ .aiMemoryLlmProvider }}' to finish
 # agent configuration file, so install-hooks receives a disposable config path:
 # it stages fresh hook scripts under ~/.local/share/ai-memory/hooks/<agent>/
 # without rewriting the managed config or hooks file.
-# Exception: open-code writes its TypeScript lifecycle plugin directly to
-# ~/.config/opencode/plugins/ai-memory.ts (no --config-file staging; that
-# file stays ai-memory-owned, chezmoi manages opencode.json/agents/skills).
+# Exception: pi writes its TypeScript lifecycle extension directly to
+# ~/.pi/agent/extensions/ai-memory-pi.ts (no --config-file staging; that
+# file stays ai-memory-owned).
 {{ range .enabledAgents }}
-{{- if eq . "opencode" }}
-ai-memory install-hooks --agent "open-code" --apply --server-url "{{ $.aiMemoryUrl }}"
+{{- if eq . "pi" }}
+ai-memory install-hooks --agent "pi" --apply --server-url "{{ $.aiMemoryUrl }}"
 {{- else if ne . "kiro-cli" }}
 hook_config_dir="$(mktemp -d)"
 ai-memory install-hooks --agent "{{ if eq . "claude" }}claude-code{{ else }}{{ . }}{{ end }}" --apply --config-file "$hook_config_dir/config"
