@@ -22,7 +22,7 @@ The linked item is the contract. The parent coordinates; one execution agent own
 
 3. Verify the returned result, the current diff, and the focused checks before selecting the next item.
 4. Parallelize only proven-disjoint items, following `skill://implementation/reference/parallel-execution.md`; OMP bounds task fan-out by configuration, and isolated workspaces stay off unless the repository workflow requires them.
-5. Update the tracker and write any approved durable record yourself; an execution agent never does.
+5. Update the tracker and write any approved durable record.
 
 ## Stop conditions
 

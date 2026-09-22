@@ -1,6 +1,5 @@
 README.md
 .codex/
-.config/opencode/
 {{- if not (has "kimi-code" .enabledAgents) }}
 .kimi-code/
 {{- end }}
