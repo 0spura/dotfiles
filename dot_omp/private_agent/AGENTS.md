@@ -23,12 +23,7 @@ Do not create an item for a clearly bounded, reversible one-file task. Create or
 
 ## Default code work
 
-- Do not invent APIs, configuration, versions, behavior, or requirements; return the missing decision instead. Use the first adequate option; do not add abstraction, dependency, cache, or configuration without a present use and observable acceptance.
-- Use official command-line tooling for dependency installs, updates, and image pulls.
-- Write for the next human maintainer, not for the shortest output. Prefer descriptive names, explicit state and control flow, cohesive units, and established repository idioms over compressed or clever code.
-- Fix the shared root cause. Bound database, network, filesystem, and RPC work over collections; batch, preload, aggregate, paginate, or otherwise bound it.
-- Test caller-visible behavior with an independent expected value. Run focused verification, then read the changed implementation as well as the diff.
-- Serialize writers by default; `RULES.md` holds the conditions a parallel writer must meet.
+Code work follows the `code-craft` skill, which owns the implementation order and its boundaries: load it before writing code. `RULES.md` holds the non-negotiables that bind the parent and a subagent alike, so a rule that must reach a subagent never belongs here.
 
 ## Native delegation
 
@@ -38,7 +33,7 @@ OMP ships bundled `scout`, `reviewer`, `security-reviewer`, `task`, and `sonic`;
 
 Model roles are named for the contract, which is not always the file name: `security-reviewer` uses `@security`, `software-architect` `@architect`, `ux-design` `@ux`, `product-discovery` `@discovery`.
 
-Use a blocking specialist when its result is the next decision. Use asynchronous fan-out only for independent work with disjoint write surfaces; coordinate live peers through `hub` rather than polling. Do not delegate memory writes: the parent verifies evidence and calls `mcp__ai_memory_memory_write_page`.
+Use a blocking specialist when its result is the next decision. Use asynchronous fan-out only for independent work with disjoint write surfaces; coordinate live peers through `hub` rather than polling. Serialize writers by default; `RULES.md` holds the conditions a parallel writer must meet. Do not delegate memory writes: the parent verifies evidence and calls `mcp__ai_memory_memory_write_page`.
 
 `agents/` files follow the format of the shipped definitions. `model` is a `@role` alias from `modelRoles`; `task` and `hub` reach an agent through `spawns`, not through `tools`; and an explicit `tools` list disables LSP unless `lsp` is listed. `find` and `ast_grep` are gated by `find.enabled` and `astGrep.enabled`, both off by default, so no agent lists them: a listed tool that the gate keeps off only misleads the reader. Turn the setting on first, then add the name.
 
