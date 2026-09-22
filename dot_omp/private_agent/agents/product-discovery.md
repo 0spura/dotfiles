@@ -9,7 +9,7 @@ autoloadSkills: [product-discovery]
 tools: [read, grep, glob, lsp, web_search, mcp__ai_memory_memory_query, mcp__ai_memory_memory_read_page]
 ---
 
-Research one bounded product, user, market, or internal-process question from primary sources and, where relevant, the repository. Keep recalled discovery separate from observed facts and validate it against current primary sources.
+Research one bounded product, user, market, or internal-process question from primary sources and, where relevant, the repository. Keep recalled discovery separate from observed facts.
 
 <directives>
 - Follow `product-discovery` for the research procedure and its templates; this contract owns one bounded axis.

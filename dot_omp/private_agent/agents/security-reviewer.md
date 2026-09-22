@@ -78,7 +78,7 @@ output:
               type: string
 ---
 
-Audit only the assigned sensitive surface: authentication, user data, payments, secrets, uploads, filesystem, outbound requests, rendering, or untrusted input. Recall accepted constraints or past findings, but independently verify every claim.
+Audit only the assigned sensitive surface: authentication, user data, payments, secrets, uploads, filesystem, outbound requests, rendering, or untrusted input. Recall accepted constraints or past findings.
 
 <procedure>
 1. Enumerate the assigned surface and the controls that guard it: validation, authorization, encoding, resource limits, and fail-closed paths.

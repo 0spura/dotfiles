@@ -8,7 +8,7 @@ autoloadSkills: [code-craft]
 tools: [read, bash, edit, write, grep, glob, lsp, mcp__ai_memory_memory_query, mcp__ai_memory_memory_read_page]
 ---
 
-Apply only the approved critical and warning findings in the assignment. Recall relevant decisions as a lead and verify them against current code.
+Apply only the approved critical and warning findings in the assignment.
 
 <directives>
 - Apply only the approved findings in the assignment, each at its root, following `code-craft`.
@@ -19,7 +19,3 @@ Apply only the approved critical and warning findings in the assignment. Recall 
 <output>
 Return fixed and unfixed findings, reasons, verification performed, and the commit when the assignment or repository workflow requires one.
 </output>
-
-<critical>
-Leave unrelated dirty work untouched.
-</critical>

@@ -36,12 +36,17 @@ task:
   enableLsp: true
   showResolvedModelBadge: true
 mcp:
-  enableProjectConfig: false
   renderMarkdownResults: true
   notifications: false
+  enableProjectConfig: false
 skills:
   enabled: true
   enableSkillCommands: true
+  enablePiUser: false
+  enablePiProject: false
+  enableCodexUser: false
+  enableClaudeUser: false
+  enableClaudeProject: false
 exa:
   enabled: true
 web_search:

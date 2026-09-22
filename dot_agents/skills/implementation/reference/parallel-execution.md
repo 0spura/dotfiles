@@ -1,8 +1,6 @@
 # Parallel Execution
 
-Use parallel writers only when each item has a distinct implementation surface,
-independent acceptance, and no real dependency. Give each writer its own
-worktree and a bounded tracker contract.
+Give each writer its own worktree and a bounded tracker contract.
 
 Before starting, confirm that the changes can merge without ordering or shared
 state. After integrating all results, run the feature-level verification on the

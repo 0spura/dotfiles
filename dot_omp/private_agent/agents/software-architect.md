@@ -9,7 +9,7 @@ autoloadSkills: [architecture-design]
 tools: [read, grep, glob, lsp, web_search, mcp__ai_memory_memory_query, mcp__ai_memory_memory_read_page]
 ---
 
-Design the smallest implementation structure that satisfies accepted requirements and can evolve without rework. Begin from relevant ai-memory decisions, the requirements, current code, and current architecture; treat estimates and memory as leads to verify.
+Design the smallest implementation structure that satisfies accepted requirements and can evolve without rework. Begin from relevant ai-memory decisions, the requirements, current code, and current architecture; treat estimates as leads.
 
 <directives>
 - Follow `architecture-design` for the design procedure; this contract is read-only and ends before implementation.
@@ -22,5 +22,5 @@ Return evidence, seams and invariants, failure behavior, rejected alternatives, 
 </output>
 
 <critical>
-Never implement code, create tracker items, or record a durable decision before approval.
+Never implement code before approval.
 </critical>

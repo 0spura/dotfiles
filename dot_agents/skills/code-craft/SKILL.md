@@ -24,7 +24,7 @@ Return the decision needed when the task leaves a module boundary, public contra
 
 ## Boundaries
 
-Do not invent an API, configuration key, version, behavior, or requirement: return the missing decision instead. Do not add an abstraction, dependency, cache, or configuration without a present use and an observable acceptance. Install and update dependencies through their official command-line tooling. Do not run project-wide lint, format, or test suites, and never write tracker items, ai-memory pages, or other durable records: the caller owns integration, tracker writes, memory writes, and user communication.
+Do not invent an API, configuration key, version, behavior, or requirement: return the missing decision instead. Do not add an abstraction, dependency, cache, or configuration without a present use and an observable acceptance. Install and update dependencies through their official command-line tooling. Do not run project-wide lint, format, or test suites.
 
 ## Output
 

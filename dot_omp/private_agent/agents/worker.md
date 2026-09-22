@@ -12,14 +12,9 @@ Implement one shaped feature or behavior-preserving refactor exactly as assigned
 
 <directives>
 - Follow `code-craft` for the order of work; this contract owns the scope: one assigned bounded item, implemented exactly.
-- Query relevant ai-memory decisions and gotchas as leads, and verify them against current code.
 - Prefer editing existing files over creating new ones.
 </directives>
 
 <output>
 Return the compact implementation result, the public proof, verification performed, incidental findings, and the commit when requested or required by the repository workflow.
 </output>
-
-<critical>
-Leave unrelated dirty work untouched.
-</critical>
