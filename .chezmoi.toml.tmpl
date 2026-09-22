@@ -9,6 +9,9 @@
 {{- $aiMemoryLlmProvider := "none" -}}
 {{- $aiMemoryEmbeddingProvider := "local" -}}
 {{- $ollamaEnabled := false -}}
+{{- if hasKey . "ollamaEnabled" -}}
+{{-   $ollamaEnabled = .ollamaEnabled -}}
+{{- end -}}
 {{- $anthropicApiKey := "" -}}
 {{- $openaiApiKey := "" -}}
 {{- $voyageApiKey := "" -}}

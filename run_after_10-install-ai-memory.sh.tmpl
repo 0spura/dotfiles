@@ -35,7 +35,7 @@ fi
 
 # 2. Dependency check: openai-compat providers point the container at an
 # Ollama on this host. Ollama itself is a separate module
-# (run_once_before_05-install-ollama.sh, ollamaEnabled in the chezmoi config).
+# (run_after_05-install-ollama.sh.tmpl, ollamaEnabled in the chezmoi config).
 {{- if or (eq .aiMemoryLlmProvider "openai-compat") (eq .aiMemoryEmbeddingProvider "openai-compat") }}
 if ! command -v ollama >/dev/null 2>&1; then
   echo "an ai-memory provider is 'openai-compat' but ollama is not installed;" >&2
@@ -139,7 +139,8 @@ echo "ai-memory: run 'ai-memory auth login {{ .aiMemoryLlmProvider }}' to finish
 {{- end }}
 {{- end }}
 
-# 4. Hook scripts for the agents selected in enabledAgents. chezmoi owns every
+# 4. Hook scripts for every agent selected in enabledAgents except kiro-cli,
+# which the branch below skips. chezmoi owns every
 # agent configuration file, so install-hooks receives a disposable config path:
 # it stages fresh hook scripts under ~/.local/share/ai-memory/hooks/<agent>/
 # without rewriting the managed config or hooks file.

@@ -57,10 +57,10 @@ EOF
 fi
 {{- end }}
 
-{{- if eq .aiMemoryLlmProvider "openai-compat" }}
-ollama pull {{ .aiMemoryLlmModel }}
+{{- if and (eq .aiMemoryLlmProvider "openai-compat") .aiMemoryLlmModel }}
+ollama list 2>/dev/null | awk '{print $1}' | grep -qx '{{ .aiMemoryLlmModel }}' || ollama pull '{{ .aiMemoryLlmModel }}'
 {{- end }}
-{{- if eq .aiMemoryEmbeddingProvider "openai-compat" }}
-ollama pull {{ .aiMemoryEmbedModel }}
+{{- if and (eq .aiMemoryEmbeddingProvider "openai-compat") .aiMemoryEmbedModel }}
+ollama list 2>/dev/null | awk '{print $1}' | grep -qx '{{ .aiMemoryEmbedModel }}' || ollama pull '{{ .aiMemoryEmbedModel }}'
 {{- end }}
 {{ end -}}
