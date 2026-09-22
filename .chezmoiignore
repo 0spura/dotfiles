@@ -1,5 +1,4 @@
 README.md
-ai-memory/
 .codex/
 .config/opencode/
 {{- if not (has "kimi-code" .enabledAgents) }}
