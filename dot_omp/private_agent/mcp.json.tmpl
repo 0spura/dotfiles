@@ -1,0 +1,21 @@
+{
+  "$schema": "https://raw.githubusercontent.com/can1357/oh-my-pi/main/packages/coding-agent/src/config/mcp-schema.json",
+  "disabledServers": [
+    "figma",
+    "github"
+  ],
+  "mcpServers": {
+    "tracker": {
+      "type": "stdio",
+      "command": "node",
+      "args": [
+        "${HOME}/.local/share/mcp-tracker/dist/index.js"
+      ]
+    },
+    "ai-memory": {
+      "type": "http",
+      "url": "{{ trimSuffix "/" .aiMemoryUrl }}/mcp",
+      "enabled": true
+    }
+  }
+}

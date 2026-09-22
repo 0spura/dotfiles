@@ -11,6 +11,6 @@ ai-memory/
 {{- if not (has "kiro-cli" .enabledAgents) }}
 .kiro/
 {{- end }}
-{{- if not (has "pi" .enabledAgents) }}
-.pi/
+{{- if not (has "omp" .enabledAgents) }}
+.omp/
 {{- end }}

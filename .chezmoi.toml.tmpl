@@ -1,4 +1,4 @@
-{{- $agentChoices := list "kimi-code" "claude" "kiro-cli" "pi" -}}
+{{- $agentChoices := list "kimi-code" "claude" "kiro-cli" "omp" -}}
 {{- $enabledAgents := promptMultichoiceOnce . "enabledAgents" "AI agent configs to apply on this machine" $agentChoices -}}
 
 {{- $aiMemoryUrl := promptStringOnce . "aiMemoryUrl" "ai-memory server URL (where this machine's agents connect)" "http://127.0.0.1:49374" -}}
@@ -73,6 +73,10 @@
 {{-     $aiMemoryAuthToken = promptStringOnce . "aiMemoryAuthToken" "ai-memory auth token (leave blank if the server does not require one)" "" -}}
 {{-   end -}}
 {{- end -}}
+
+# Written outside [data] because Chezmoi needs it before it can find the source
+# again; without it, `chezmoi init` resets the source to ~/.local/share/chezmoi.
+sourceDir = {{ .chezmoi.sourceDir | quote }}
 
 [data]
   name = "Luis Lima"

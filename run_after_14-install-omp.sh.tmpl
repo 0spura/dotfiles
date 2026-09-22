@@ -1,0 +1,16 @@
+{{ if ne .chezmoi.os "windows" -}}
+#!/bin/sh
+# Install the reviewed, pinned OMP release only when OMP is selected for this
+# machine. Authentication remains in OMP's local agent.db, never in dotfiles.
+set -eu
+
+{{ range .enabledAgents }}
+{{- if eq . "omp" }}
+# `omp --version` prints "omp/<version>", so match either that or "omp v<version>".
+if ! command -v omp >/dev/null 2>&1 || ! omp --version 2>/dev/null | grep -Eq '^omp[/ ]v?18\.2\.8$'; then
+  curl -fsSL https://raw.githubusercontent.com/can1357/oh-my-pi/main/scripts/install.sh \
+    | sh -s -- --ref v18.2.8
+fi
+{{- end }}
+{{- end }}
+{{- end }}
