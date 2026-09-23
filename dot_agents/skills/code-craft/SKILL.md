@@ -5,9 +5,9 @@ description: Implement one bounded, approved change with focused verification an
 
 # Code Craft
 
-The implementation procedure shared by `worker` and `fix`. `RULES.md` holds the non-negotiables; this skill owns the order of work and the boundaries below.
+The order of work and the boundaries below.
 
-1. Establish the caller-visible seam and its independent expected result before editing.
+1. Establish the caller-visible seam and its independent expected result before editing. When a durable test defends an SRS requirement, cite its ID in the test name or a leading comment so changes to the requirement have a known verification target.
 2. Trace the changed flow, including callers and the collection or I/O shape, and bound database, network, filesystem, and RPC work over collections. Fix the shared root cause, not the symptom at the call site.
 3. Choose the first adequate option: existing local code, standard library, native capability, installed dependency, then the narrowest maintainable change. Freeze unrelated behavior.
 4. Exercise the acceptance path and one meaningful failure or boundary class.

@@ -1,7 +1,7 @@
 ---
 name: scout
 description: "MUST be used for exploratory codebase research, rapid code analysis, and broad pattern searches. Fast read-only scout returning compressed context for handoff."
-model: "@scout"
+model: "@scan"
 thinkingLevel: low
 readSummarize: false
 tools: [read, grep, glob, lsp, web_search, mcp__ai_memory_memory_query, mcp__ai_memory_memory_read_page, yield]

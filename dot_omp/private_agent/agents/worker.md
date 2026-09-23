@@ -1,7 +1,7 @@
 ---
 name: worker
 description: Implement one shaped feature or behavior-preserving refactor with focused verification.
-model: "@worker"
+model: "@bulk"
 thinkingLevel: high
 blocking: true
 autoloadSkills: [code-craft]

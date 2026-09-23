@@ -15,7 +15,7 @@ Omit a section when it has no material information; do not fill it with "none".
 
 ## Risk and rollout
 
-[data, compatibility, security, performance, or operational risk; mitigation or rollback when material]
+[data, compatibility, security, performance, or operational risk; staged exposure, observable signals, and rollback or disable path when material]
 
 ## Compatibility
 

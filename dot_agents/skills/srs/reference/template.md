@@ -13,10 +13,10 @@ Use only when `docs/srs.md` does not yet exist.
 ## RF-XXX: [Domain Name]
 
 ### RF-XXX.1: [Requirement name]
-**Priority:** Must Have | **Dependencies:** none
+**Priority:** Must Have | **Dependencies:** none | **Status:** Specified | Implemented
 * Concrete, verifiable behavior. One rule per bullet.
 * Edge cases and limits go here.
-* **Verification:** independent test or direct observation with an expected result.
+* **Verification:** the test or command that fails when this rule is violated, by name — `rf_xxx_1_rejects_expired_token`, `cargo test -p api rf_xxx` — or the direct observation with its expected result. `Implemented` requires this verification to exist and pass.
 
 ---
 
@@ -25,9 +25,9 @@ Use only when `docs/srs.md` does not yet exist.
 ## RNF-XXX: [Category]
 
 ### RNF-XXX.1: [Requirement name]
-**Priority:** Must Have | **Dependencies:** none
+**Priority:** Must Have | **Dependencies:** none | **Status:** Specified | Implemented
 * Measurable target (for example, "< 100ms p95", "at least WCAG 2.1 AA").
-* **Verification:** measurement method and expected result.
+* **Verification:** the measurement method and its expected result, by name. `Implemented` requires this verification to exist and pass.
 
 ---
 

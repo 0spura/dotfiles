@@ -1,7 +1,7 @@
 ---
 name: security-reviewer
 description: Read-only security specialist for evidence-backed repository vulnerability discovery. MUST be used for diffs that touch untrusted input or sensitive operations.
-model: "@security"
+model: "@deep"
 thinkingLevel: xhigh
 blocking: true
 readSummarize: false

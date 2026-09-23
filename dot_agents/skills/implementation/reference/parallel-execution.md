@@ -1,6 +1,6 @@
 # Parallel Execution
 
-Give each writer its own worktree and a bounded tracker contract.
+Give each writer a disjoint write surface and a bounded tracker contract, and turn isolated workspaces on only when the repository workflow requires them.
 
 Before starting, confirm that the changes can merge without ordering or shared
 state. After integrating all results, run the feature-level verification on the

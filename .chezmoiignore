@@ -2,6 +2,8 @@
 bin/
 # Tool scratch a coding agent may drop in this source tree; never deployed.
 .codex/
+# Repo-local agent context: loaded for sessions inside this source tree only.
+AGENTS.md
 # Every agent root below is gated by its choice; dot_agents/skills is not, so
 # ~/.agents/skills deploys on every machine.
 {{- if not (has "kimi-code" .enabledAgents) }}

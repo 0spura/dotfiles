@@ -10,7 +10,7 @@ Decide first whether the idea is an external product or an internal tool, then r
 ## Workflow
 
 1. State the problem, users, current behavior, scale, constraints, and the decision the research must inform.
-2. Cover only the axes that can change that decision, and take market, standards, and competitor claims from primary sources. When the research is split across agents, give each one independent axis.
+2. Cover only the axes that can change that decision, and prefer primary sources for material market, standards, and competitor claims; identify the source and date so a reviewer can assess secondary evidence. When the research is split across agents, give each one an independent axis.
 3. Separate observed facts, sourced claims, assumptions, and recommendations; quantify frequency and impact when the evidence permits.
 4. Update rather than overwrite `docs/product/discovery.md`, citing evidence near each material claim with the research date.
 
