@@ -21,7 +21,8 @@ The linked item is the contract. The parent coordinates; one execution agent own
 
 3. Verify the returned result, the current diff, and the focused checks before selecting the next item.
 4. Parallelize only proven-disjoint items, following `skill://implementation/reference/parallel-execution.md`; OMP bounds task fan-out by configuration, and isolated workspaces stay off unless the repository workflow requires them.
-5. Update the tracker and write any approved durable record.
+5. Update the tracker and write any approved durable record following `documentation-style`.
+6. Route the verified branch to `pull-request` for the review cycle.
 
 ## Stop conditions
 

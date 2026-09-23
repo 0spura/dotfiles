@@ -11,7 +11,7 @@ Design the smallest deep modules: clear ownership, narrow interfaces, and a seam
 
 For each changed seam, specify only its owner, contract, invariants, integration failure behavior, and trust boundary. For a collection path, state cardinality, query or remote-call shape, pagination or batching, and the evidence that prevents N+1.
 
-Update `docs/architecture.md` (`skill://architecture-design/reference/template.md`) and `docs/project.md` only when applicable, referencing the SRS and `adr` records instead of repeating them.
+Update `docs/architecture.md` (`skill://architecture-design/reference/template.md`) and `docs/project.md` only when applicable, referencing `srs` and `adr` records instead of repeating them.
 
 ## Review
 

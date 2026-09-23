@@ -10,7 +10,7 @@ Planning only; no source code. Once behavior and acceptance are approved the ite
 ## Workflow
 
 1. Classify the item as `feat`, `fix`, `refactor`, or `perf`, and load only its matching template under `skill://plan/reference/`.
-2. Name what is missing before delivery — discovery, design, requirements, or architecture — and route to that skill instead of planning around the gap.
+2. Name what is missing before delivery — discovery, design, requirements, or architecture — and route to `product-discovery`, `design-principles`, `srs`, or `architecture-design` instead of planning around the gap.
 3. Slice vertically: goal, implementation surface, acceptance, independent oracle, verification, completion gate.
 4. Model only real blockers and overlapping write surfaces. For a wide refactor, expand, migrate in green batches, then contract.
 5. Link settled requirements and decisions rather than restating them.
