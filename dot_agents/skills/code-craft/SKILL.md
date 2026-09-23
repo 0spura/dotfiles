@@ -5,7 +5,7 @@ description: Implement one bounded, approved change with focused verification an
 
 # Code Craft
 
-The implementation procedure shared by `worker`, `debug`, `perf`, and `apply-review`. `RULES.md` holds the non-negotiables; this skill owns the order of work and the boundaries below.
+The implementation procedure shared by `worker` and `fix`. `RULES.md` holds the non-negotiables; this skill owns the order of work and the boundaries below.
 
 1. Establish the caller-visible seam and its independent expected result before editing.
 2. Trace the changed flow, including callers and the collection or I/O shape, and bound database, network, filesystem, and RPC work over collections. Fix the shared root cause, not the symptom at the call site.

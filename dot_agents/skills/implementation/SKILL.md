@@ -15,8 +15,7 @@ The linked item is the contract. The parent coordinates; one execution agent own
 | Item | Agent | Completion gate |
 | --- | --- | --- |
 | `feat`, `refactor` | `worker` | focused test and verification pass |
-| `fix` | `debug` | reproduction and regression proof pass |
-| `perf` | `perf` | comparable measurement meets the target |
+| `fix`, `perf` | `fix` | reproduction and regression proof, or a comparable measurement meeting the target |
 | research | `scout` | map with paths, lines, and ownership |
 | pre-merge review | `reviewer`, or `security-reviewer` for a sensitive surface | findings with evidence |
 

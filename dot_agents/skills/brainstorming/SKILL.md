@@ -17,7 +17,7 @@ Choose one scope: product, module, or feature. Read the existing evidence before
 
 - **Product:** draft purpose, aspiration, users, principles, and anti-goals with `skill://brainstorming/reference/vision-template.md`; save `docs/product/vision.md` after approval.
 - **Component:** problem, boundaries, interfaces, responsibilities, technical choices, and risks.
-- **Feature:** problem, core use case, MVP, non-goals, user flow, and risks; route a material UI flow to `ux-design`.
+- **Feature:** problem, core use case, MVP, non-goals, user flow, and risks; route a material UI flow to `design`.
 
 ## Done when
 

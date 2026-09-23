@@ -20,10 +20,10 @@ execution evidence. Name the broken behavior, not a presumed solution.
 [what happens instead]
 
 ## Root Cause
-[leave blank, filled in by the debug agent]
+[leave blank, filled in by the fix agent]
 
 ## Fix
-[leave blank, filled in by the debug agent]
+[leave blank, filled in by the fix agent]
 
 ## Implementation Surface
 - `[path/module]`: [suspected area, if known, used for parallel-safety]

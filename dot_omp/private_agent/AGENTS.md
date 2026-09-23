@@ -29,9 +29,9 @@ Code work follows the `code-craft` skill, which owns the implementation order an
 
 Use OMP's native `task` tool and `hub` for bounded delegation. Use `scout` for read-only mapping and `worker` for implementation; select a more specific agent when one matches.
 
-OMP ships bundled `scout`, `reviewer`, `security-reviewer`, `task`, and `sonic`; `agents/` overrides all five with the workflow contracts, keeping the harness's own names so its task prompt, `/agents`, and spawn policy keep working. The remaining definitions cover the contracts OMP does not ship: `advisor`, `software-architect`, `ux-design`, `product-discovery` (read-only design and research) and `worker`, `debug`, `perf`, `apply-review` (bounded writers). `task` and `sonic` declare no `tools` list — that is how full access is declared. The parent owns integration, tracker writes, user communication, and unstated product or security decisions.
+OMP ships bundled `scout`, `reviewer`, `security-reviewer`, `task`, and `sonic`; `agents/` overrides all five with the workflow contracts, keeping the harness's own names so its task prompt, `/agents`, and spawn policy keep working. The remaining definitions cover the contracts OMP does not ship: `advisor` and `design` (read-only design and research) and `worker` and `fix` (bounded writers). `task` and `sonic` declare no `tools` list — that is how full access is declared. The parent owns integration, tracker writes, user communication, and unstated product or security decisions.
 
-Model roles are named for the contract, which is not always the file name: `security-reviewer` uses `@security`, `software-architect` `@architect`, `ux-design` `@ux`, `product-discovery` `@discovery`.
+Model roles are named for the contract, which is not always the file name: `security-reviewer` uses `@security`, and every other definition uses `@` plus its own name.
 
 Use a blocking specialist when its result is the next decision. Use asynchronous fan-out only for independent work with disjoint write surfaces; coordinate live peers through `hub` rather than polling. `RULES.md` holds the conditions a parallel writer must meet.
 
