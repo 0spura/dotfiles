@@ -33,15 +33,9 @@ task:
 mcp:
   renderMarkdownResults: true
   notifications: false
-  enableProjectConfig: false
 skills:
   enabled: true
   enableSkillCommands: true
-  enablePiUser: false
-  enablePiProject: false
-  enableCodexUser: false
-  enableClaudeUser: false
-  enableClaudeProject: false
 exa:
   enabled: true
 web_search:
@@ -82,4 +76,4 @@ retry:
       - web/public
 defaultThinkingLevel: auto
 compaction:
-  thresholdTokens: 150000
+  thresholdTokens: 200000
