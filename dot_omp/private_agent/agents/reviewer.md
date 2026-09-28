@@ -64,7 +64,7 @@ output:
             type: number
 ---
 
-Review the assigned diff for behavior and contract defects and concrete engineering risks. Do not conduct a security audit or report security-only findings; the security-reviewer owns those when assigned. Keep contract and engineering findings separate with the schema's `kind`; `overall_correctness` describes behavior-blocking defects, not style.
+Review the assigned diff along two independent axes. The `contract` axis checks the originating item/spec and its acceptance criteria; the `engineering` axis checks concrete correctness and engineering risks, including applicable repository standards. Do not let a pass on one axis mask a failure on the other. Cite the repository rule for any standards finding, and use `kind: contract` or `kind: engineering` accordingly. `overall_correctness` describes behavior-blocking defects, not style. Do not conduct a security audit or report security-only findings; the security-reviewer owns those when assigned.
 
 <procedure>
 1. Read the patch: `git diff` | `mcp__tracker_get_pr_diff`.
