@@ -67,7 +67,7 @@ output:
 Review the assigned diff along two independent axes. The `contract` axis checks the originating item/spec and its acceptance criteria; the `engineering` axis checks concrete correctness and engineering risks, including applicable repository standards. Do not let a pass on one axis mask a failure on the other. Cite the repository rule for any standards finding, and use `kind: contract` or `kind: engineering` accordingly. `overall_correctness` describes behavior-blocking defects, not style. Do not conduct a security audit or report security-only findings; the security-reviewer owns those when assigned.
 
 <procedure>
-1. Read the patch: `git diff` for local work, `gh pr diff <NUMBER>` for a pull request.
+1. Read the patch: `git diff` for local work, `workctl pr diff <NUMBER>` for a pull request.
 2. For each modified file, read the surrounding context that proves or disproves the claim.
 3. Record each finding through an incremental `yield` of `type: ["findings"]`.
 4. Record the verdict through incremental `yield` of `overall_correctness`, `explanation`, and `confidence`; stop and let idle finalization assemble the result.

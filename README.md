@@ -11,7 +11,7 @@ repository and runs `chezmoi` from the clone; nothing here is live until `chezmo
 | `~/.agents/skills/` | The canonical skill tree, deployed on every machine |
 | `~/.omp/agent/` | OMP agent definitions, rules, and the per-machine config (written `private_`, so it never appears in diffs) |
 | `~/.claude/`, `~/.kimi-code/`, `~/.kiro/` | Deployed only when that agent is selected in `enabledAgents`; no source tree for them exists yet |
-| Fedora, macOS, Windows | Missing development tools, languages, and containers, plus optional ai-memory, OMP, and the mcp-tracker build |
+| Fedora, macOS, Windows | Missing development tools, languages, and containers, plus optional ai-memory, OMP, and the workctl build |
 
 Scripts are kept under `.chezmoiscripts/`, grouped first by execution phase and then by owner:
 platform-specific setup is separate from optional components.
@@ -25,7 +25,7 @@ platform-specific setup is separate from optional components.
   20-components/
     run_after_30-ai-memory.sh.tmpl
     run_after_40-omp.sh.tmpl
-    run_after_50-mcp-tracker.sh.tmpl
+    run_after_50-workctl.sh.tmpl
 ```
 
 ChezMoi executes `run_` scripts in these nested directories without deploying them.

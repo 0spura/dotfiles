@@ -1,4 +1,4 @@
-[".local/share/mcp-tracker"]
+[".local/share/workctl"]
     type = "git-repo"
-    url = "https://github.com/0spura/mcp-tracker.git"
+    url = "https://github.com/0spura/workctl.git"
     refreshPeriod = "168h"

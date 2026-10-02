@@ -1,12 +1,12 @@
 {{ if ne .chezmoi.os "windows" -}}
 #!/bin/sh
-# Builds and installs the workctl CLI from the mcp-tracker clone. Runs on every
+# Builds and installs the workctl CLI from the workctl clone. Runs on every
 # chezmoi apply, but only rebuilds when the clone's HEAD moved (stamp file).
 # On Windows use WSL2.
 set -eu
 
-repo="$HOME/.local/share/mcp-tracker"
-stamp="$HOME/.local/state/mcp-tracker-build.sha"
+repo="$HOME/.local/share/workctl"
+stamp="$HOME/.local/state/workctl-build.sha"
 bindir="$HOME/.local/bin"
 
 [ -d "$repo/.git" ] || exit 0
@@ -16,12 +16,8 @@ if ! command -v cargo >/dev/null 2>&1; then
   exit 0
 fi
 
-# The TypeScript MCP server this clone used to build is retired; drop its
-# untracked artifacts so nothing can mistake them for a live build.
-rm -rf "$repo/node_modules" "$repo/dist"
-
 if [ ! -f "$repo/Cargo.toml" ]; then
-  echo "mcp-tracker clone is not at a workctl revision; skipping build" >&2
+  echo "workctl clone is not at a buildable revision; skipping build" >&2
   exit 0
 fi
 

@@ -55,7 +55,7 @@ agent reading it needs the rule, not the machinery.
 ## Install scripts
 
 `.chezmoiscripts/` holds the software bootstrap: one script per platform plus optional components
-(ai-memory, OMP, and the mcp-tracker build). One owner per package, and every script runs on
+(ai-memory, OMP, and the workctl build). One owner per package, and every script runs on
 every apply, so it must stay idempotent and gated on chezmoi data rather than on the host it happens
 to run on. A package that is already installed and was not installed here is never updated; only
 installs recorded under `~/.local/state/dotfiles-chezmoi/` are managed. Integrity failures fail the
