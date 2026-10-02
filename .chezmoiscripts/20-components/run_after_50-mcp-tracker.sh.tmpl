@@ -1,0 +1,44 @@
+{{ if ne .chezmoi.os "windows" -}}
+#!/bin/sh
+# Builds and installs the workctl CLI from the mcp-tracker clone. Runs on every
+# chezmoi apply, but only rebuilds when the clone's HEAD moved (stamp file).
+# On Windows use WSL2.
+set -eu
+
+repo="$HOME/.local/share/mcp-tracker"
+stamp="$HOME/.local/state/mcp-tracker-build.sha"
+bindir="$HOME/.local/bin"
+
+[ -d "$repo/.git" ] || exit 0
+
+if ! command -v cargo >/dev/null 2>&1; then
+  echo "cargo not found; skipping workctl build" >&2
+  exit 0
+fi
+
+# The TypeScript MCP server this clone used to build is retired; drop its
+# untracked artifacts so nothing can mistake them for a live build.
+rm -rf "$repo/node_modules" "$repo/dist"
+
+if [ ! -f "$repo/Cargo.toml" ]; then
+  echo "mcp-tracker clone is not at a workctl revision; skipping build" >&2
+  exit 0
+fi
+
+new_hash="$(git -C "$repo" rev-parse HEAD)"
+old_hash="$(cat "$stamp" 2>/dev/null || true)"
+if [ "$new_hash" = "$old_hash" ] && [ -x "$bindir/workctl" ]; then
+  exit 0
+fi
+
+cd "$repo"
+cargo build --release --locked
+
+mkdir -p "$bindir"
+install -m755 target/release/workctl "$bindir/workctl"
+"$bindir/workctl" --version >/dev/null
+
+mkdir -p "$(dirname "$stamp")"
+echo "$new_hash" > "$stamp"
+echo "workctl: installed $new_hash"
+{{ end -}}

@@ -1,0 +1,36 @@
+{{- if eq .chezmoi.os "darwin" -}}
+#!/bin/sh
+# macOS packages owned by this repository. Runs on every chezmoi apply and is
+# idempotent: an installed formula or cask keeps its current version, and only
+# missing packages are installed.
+set -eu
+
+# Homebrew is in /opt/homebrew on Apple silicon and /usr/local on Intel; a
+# chezmoi apply may not inherit a login shell that has either on PATH.
+PATH="/opt/homebrew/bin:/usr/local/bin:$PATH"
+export PATH
+
+if ! command -v brew >/dev/null 2>&1; then
+  echo "macos packages: Homebrew is not installed; install it from https://brew.sh and re-apply" >&2
+  exit 0
+fi
+
+# brew_install installs one formula or cask only when it is missing, so an
+# existing installation is never upgraded or replaced.
+brew_install() {
+  kind="$1"
+  name="$2"
+  if brew list "--$kind" "$name" >/dev/null 2>&1; then
+    return 0
+  fi
+  brew install "--$kind" "$name"
+}
+
+# Containers.
+brew_install cask orbstack
+
+# Languages.
+for formula in node@24 openjdk@21 rust python; do
+  brew_install formula "$formula"
+done
+{{- end -}}

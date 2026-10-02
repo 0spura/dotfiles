@@ -1,11 +1,9 @@
-{{ if ne .chezmoi.os "windows" -}}
+{{ if and (ne .chezmoi.os "windows") (has "omp" .enabledAgents) -}}
 #!/bin/sh
 # Install the reviewed, pinned OMP release only when OMP is selected for this
 # machine. Authentication remains in OMP's local agent.db, never in dotfiles.
 set -eu
 
-{{ range .enabledAgents }}
-{{- if eq . "omp" }}
 # `omp --version` prints "omp/<version>". Install only when omp is missing or
 # older than the reviewed pin, so a newer local build is never downgraded.
 # The installer is fetched at the same tag as the ref, so the reviewed
@@ -31,5 +29,4 @@ else
   echo "omp: keeping installed version (${ver:-unknown}); pin ${pin}"
 fi
 {{- end }}
-{{- end }}
-{{- end }}
+

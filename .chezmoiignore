@@ -2,6 +2,12 @@
 bin/
 # Tool scratch a coding agent may drop in this source tree; never deployed.
 .codex/
+# Repository-only material: documentation is read from the clone, and the local
+# Python venv is not a dotfile. Install scripts need no entry here: scripts in
+# .chezmoiscripts are executed instead of being copied to the destination.
+docs/
+README.md
+.venv/
 # Repo-local agent context: loaded for sessions inside this source tree only.
 AGENTS.md
 # Every agent root below is gated by its choice; dot_agents/skills is not, so

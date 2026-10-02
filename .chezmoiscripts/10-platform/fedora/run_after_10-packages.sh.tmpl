@@ -1,0 +1,149 @@
+{{- if eq .chezmoi.os "linux" -}}
+{{- if eq .chezmoi.osRelease.id "fedora" -}}
+#!/bin/sh
+# Fedora packages owned by this repository. Runs on every chezmoi apply and is
+# idempotent: a missing package is installed once, a package this repository
+# installed is kept on its current release, and a package that was already on
+# the machine is never touched.
+set -eu
+
+export PATH="$HOME/.local/bin:$PATH"
+
+# Ownership records and verified downloads for the packages installed here.
+state="$HOME/.local/state/dotfiles-chezmoi"
+cache="$HOME/.cache/dotfiles-chezmoi"
+
+# rpm_ensure installs a missing RPM package, and updates only packages this
+# repository installed: the ownership record is written before the first
+# install, so a pre-existing package is left exactly as it was found.
+rpm_ensure() {
+  package="$1"
+  if rpm -q "$package" >/dev/null 2>&1; then
+    if [ ! -f "$state/$package" ]; then
+      return 0
+    fi
+    sudo dnf upgrade -y "$package"
+  else
+    mkdir -p "$state"
+    : > "$state/$package"
+    sudo dnf install -y "$package"
+  fi
+}
+
+# zed_ensure installs the latest Zed release with its published SHA-256, and
+# updates only an installation this repository owns. The recorded tag is both
+# the ownership record and the installed version.
+zed_ensure() {
+  case "$(uname -m)" in
+    x86_64) asset=zed-linux-x86_64.tar.gz ;;
+    aarch64) asset=zed-linux-aarch64.tar.gz ;;
+    *) echo "zed: unsupported architecture $(uname -m); skipping Zed" >&2; return 0 ;;
+  esac
+
+  if [ ! -f "$state/zed" ]; then
+    if command -v zed >/dev/null 2>&1 ||
+       [ -e "$HOME/.local/zed.app" ] || [ -e /usr/bin/zed ] || [ -e /usr/local/bin/zed ]; then
+      echo "zed: keeping the existing installation"
+      return 0
+    fi
+  fi
+
+  metadata="$(curl -fsSL -H 'Accept: application/vnd.github+json' \
+    https://api.github.com/repos/zed-industries/zed/releases/latest)"
+  release="$(printf '%s' "$metadata" | python3 -c '
+import json, sys
+
+asset = sys.argv[1]
+release = json.load(sys.stdin)
+if release.get("draft") or release.get("prerelease"):
+    sys.exit("zed: the latest release is a draft or a prerelease")
+for candidate in release.get("assets", []):
+    if candidate.get("name") == asset:
+        print(release["tag_name"], candidate.get("digest", ""))
+        break
+else:
+    sys.exit("zed: the latest release has no asset named " + asset)
+' "$asset")"
+
+  tag="${release%% *}"
+  digest="${release#* }"
+  case "$digest" in
+    sha256:*) ;;
+    *) echo "zed: the latest release publishes no SHA-256 for $asset" >&2; exit 1 ;;
+  esac
+
+  installed_tag=""
+  if [ -f "$state/zed" ]; then
+    installed_tag="$(cat "$state/zed")"
+  fi
+  if [ "$installed_tag" = "$tag" ] && [ -x "$HOME/.local/zed.app/bin/zed" ]; then
+    return 0
+  fi
+
+  mkdir -p "$cache"
+  archive="$cache/$asset"
+  curl -fsSL "https://github.com/zed-industries/zed/releases/download/$tag/$asset" -o "$archive"
+
+  actual="$(sha256sum "$archive" | awk '{ print $1 }')"
+  if [ "sha256:$actual" != "$digest" ]; then
+    rm -f "$archive"
+    echo "zed: SHA-256 mismatch for $asset (expected $digest, got sha256:$actual)" >&2
+    exit 1
+  fi
+
+  rm -rf "$HOME/.local/zed.app"
+  mkdir -p "$HOME/.local/bin" "$HOME/.local/share/applications"
+  tar -xzf "$archive" -C "$HOME/.local"
+  ln -sfn "$HOME/.local/zed.app/bin/zed" "$HOME/.local/bin/zed"
+
+  # The release's desktop entry calls `zed`; give it absolute paths so launchers
+  # work without ~/.local/bin on PATH.
+  entry="$HOME/.local/zed.app/share/applications/dev.zed.Zed.desktop"
+  if [ -f "$entry" ]; then
+    sed -e "s|^Icon=.*|Icon=$HOME/.local/zed.app/share/icons/hicolor/512x512/apps/zed.png|" \
+      -e "s|^Exec=zed|Exec=$HOME/.local/zed.app/bin/zed|" \
+      "$entry" > "$HOME/.local/share/applications/dev.zed.Zed.desktop"
+  fi
+
+  mkdir -p "$state"
+  printf '%s\n' "$tag" > "$state/zed"
+  echo "zed: installed $tag"
+}
+
+# docker_ensure installs Docker CE from Docker's own Fedora repository. The
+# repository file is added only when the machine has none, and GPG signature
+# checking stays enabled. Group membership is added once; it takes effect after
+# the next login.
+docker_ensure() {
+  repo_file=/etc/yum.repos.d/docker-ce.repo
+  if [ ! -f "$repo_file" ]; then
+    sudo curl -fsSL https://download.docker.com/linux/fedora/docker-ce.repo -o "$repo_file"
+  fi
+
+  for package in docker-ce docker-ce-cli containerd.io docker-buildx-plugin docker-compose-plugin; do
+    rpm_ensure "$package"
+  done
+
+  if id -nG | tr ' ' '\n' | grep -qx docker; then
+    return 0
+  fi
+
+  sudo usermod -aG docker "$(id -un)"
+  echo "docker: added $(id -un) to the docker group; log out and back in for it to take effect"
+}
+
+# Languages: Python 3 first, then the versioned Node.js 24 RPMs, which do not
+# replace an unversioned Node.js installation, Java 21, Rust, and Cargo.
+for package in python3 nodejs24 nodejs24-npm java-21-openjdk-devel rust cargo; do
+  rpm_ensure "$package"
+done
+
+# Development tools.
+rpm_ensure git
+rpm_ensure gh
+zed_ensure
+
+# Containers.
+docker_ensure
+{{- end -}}
+{{- end -}}

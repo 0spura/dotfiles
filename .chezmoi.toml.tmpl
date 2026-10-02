@@ -8,10 +8,6 @@
 {{- $aiMemoryAuthToken := "" -}}
 {{- $aiMemoryLlmProvider := "none" -}}
 {{- $aiMemoryEmbeddingProvider := "local" -}}
-{{- $ollamaEnabled := false -}}
-{{- if hasKey . "ollamaEnabled" -}}
-{{-   $ollamaEnabled = .ollamaEnabled -}}
-{{- end -}}
 {{- $anthropicApiKey := "" -}}
 {{- $openaiApiKey := "" -}}
 {{- $voyageApiKey := "" -}}
@@ -46,8 +42,8 @@
 {{-     $geminiApiKey = promptStringOnce . "geminiApiKey" "GEMINI_API_KEY (stays only in the local chezmoi config, never in git)" -}}
 {{-     $aiMemoryLlmModel = promptStringOnce . "aiMemoryLlmModel" "LLM model (ex: gemini-2.5-flash)" -}}
 {{-   else if eq $aiMemoryLlmProvider "openai-compat" -}}
-{{-     $aiMemoryBaseUrl = promptStringOnce . "aiMemoryBaseUrl" "LLM base URL, OpenAI-compatible (ex: http://host.docker.internal:11434/v1)" -}}
-{{-     $aiMemoryLlmModel = promptStringOnce . "aiMemoryLlmModel" "LLM model name (ex: qwen3:14b)" -}}
+{{-     $aiMemoryBaseUrl = promptStringOnce . "aiMemoryBaseUrl" "LLM base URL, OpenAI-compatible (ex: http://host.docker.internal:8000/v1)" -}}
+{{-     $aiMemoryLlmModel = promptStringOnce . "aiMemoryLlmModel" "LLM model name" -}}
 {{-   end -}}
 
 {{-   if eq $aiMemoryEmbeddingProvider "openai" -}}
@@ -63,12 +59,11 @@
 {{-     $geminiApiKey = promptStringOnce . "geminiApiKey" "GEMINI_API_KEY (stays only in the local chezmoi config, never in git)" -}}
 {{-     $aiMemoryEmbedModel = promptStringOnce . "aiMemoryEmbedModel" "Embedding model (ex: gemini-embedding-001)" -}}
 {{-   else if eq $aiMemoryEmbeddingProvider "openai-compat" -}}
-{{-     $aiMemoryEmbedBaseUrl = promptStringOnce . "aiMemoryEmbedBaseUrl" "Embedding base URL, OpenAI-compatible (ex: http://host.docker.internal:11434/v1)" -}}
-{{-     $aiMemoryEmbedModel = promptStringOnce . "aiMemoryEmbedModel" "Embedding model name (ex: nomic-embed-text)" -}}
+{{-     $aiMemoryEmbedBaseUrl = promptStringOnce . "aiMemoryEmbedBaseUrl" "Embedding base URL, OpenAI-compatible (ex: http://host.docker.internal:8000/v1)" -}}
+{{-     $aiMemoryEmbedModel = promptStringOnce . "aiMemoryEmbedModel" "Embedding model name" -}}
 {{-     $aiMemoryEmbedDim = promptStringOnce . "aiMemoryEmbedDim" "Embedding dimension (ex: 768)" -}}
 {{-   end -}}
 
-{{-   $ollamaEnabled = promptBoolOnce . "ollamaEnabled" "Install Ollama on this machine?" (or (eq $aiMemoryLlmProvider "openai-compat") (eq $aiMemoryEmbeddingProvider "openai-compat")) -}}
 {{- else -}}
 {{-   if hasKey . "aiMemoryAuthToken" -}}
 {{-     $aiMemoryAuthToken = .aiMemoryAuthToken -}}
@@ -100,4 +95,3 @@ sourceDir = {{ .chezmoi.sourceDir | quote }}
   openaiApiKey = {{ $openaiApiKey | quote }}
   voyageApiKey = {{ $voyageApiKey | quote }}
   geminiApiKey = {{ $geminiApiKey | quote }}
-  ollamaEnabled = {{ $ollamaEnabled }}

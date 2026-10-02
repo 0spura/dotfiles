@@ -5,7 +5,7 @@ model: "@deep"
 thinkingLevel: xhigh
 blocking: true
 readSummarize: false
-tools: [read, bash, grep, glob, lsp, web_search, yield, mcp__tracker_list_prs, mcp__tracker_get_pr, mcp__tracker_get_pr_diff, mcp__tracker_get_pr_checks, mcp__ai_memory_memory_query, mcp__ai_memory_memory_read_page]
+tools: [read, bash, grep, glob, lsp, web_search, yield, mcp__ai_memory_memory_query, mcp__ai_memory_memory_read_page]
 output:
   properties:
     coverage_summary:

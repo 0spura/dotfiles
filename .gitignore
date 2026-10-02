@@ -1,2 +1,3 @@
 bin/
 .mcp-tracker.local.json
+*.retry

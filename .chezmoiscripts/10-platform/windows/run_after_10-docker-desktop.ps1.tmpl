@@ -1,0 +1,108 @@
+{{- if eq .chezmoi.os "windows" -}}
+# Docker Desktop for Windows with the WSL 2 backend, installed per user. Runs on
+# every chezmoi apply and is idempotent: an existing Docker Desktop installation
+# is left untouched, the WSL features are enabled only when they are missing, and
+# the installer runs only when Docker Desktop is absent. The script never accepts
+# Docker's terms and never starts the application.
+$ErrorActionPreference = 'Stop'
+
+function Write-Step([string] $Message) {
+    Write-Host "docker-desktop: $Message"
+}
+
+function Test-DockerDesktopInstalled {
+    $keys = @(
+        'HKCU:\Software\Microsoft\Windows\CurrentVersion\Uninstall\*',
+        'HKLM:\Software\Microsoft\Windows\CurrentVersion\Uninstall\*',
+        'HKLM:\Software\WOW6432Node\Microsoft\Windows\CurrentVersion\Uninstall\*'
+    )
+    $registered = Get-ItemProperty -Path $keys -ErrorAction SilentlyContinue |
+        Where-Object { $_.DisplayName -eq 'Docker Desktop' } |
+        Select-Object -First 1
+    if ($registered) {
+        return $true
+    }
+    return Test-Path (Join-Path $env:LOCALAPPDATA 'Programs\DockerDesktop\Docker Desktop.exe')
+}
+
+function Test-Elevated {
+    $identity = [Security.Principal.WindowsIdentity]::GetCurrent()
+    $principal = New-Object -TypeName Security.Principal.WindowsPrincipal -ArgumentList $identity
+    return $principal.IsInRole([Security.Principal.WindowsBuiltInRole]::Administrator)
+}
+
+if (Test-DockerDesktopInstalled) {
+    Write-Step 'Docker Desktop is already installed; leaving it untouched.'
+    exit 0
+}
+
+if ($env:PROCESSOR_ARCHITECTURE -ne 'AMD64') {
+    Write-Step "this installer path supports x86-64 Windows only (found $env:PROCESSOR_ARCHITECTURE); install Docker Desktop manually."
+    exit 0
+}
+
+# WSL 2 backend prerequisites: the subsystem and the virtual machine platform.
+$requiredFeatures = @('Microsoft-Windows-Subsystem-Linux', 'VirtualMachinePlatform')
+$missingFeatures = @()
+foreach ($feature in $requiredFeatures) {
+    $state = Get-WindowsOptionalFeature -Online -FeatureName $feature -ErrorAction SilentlyContinue
+    if (-not $state -or $state.State -ne 'Enabled') {
+        $missingFeatures += $feature
+    }
+}
+
+if ($missingFeatures.Count -gt 0) {
+    if (-not (Test-Elevated)) {
+        Write-Step "these Windows features are required and are not enabled (the state check itself needs elevation): $($missingFeatures -join ', ')"
+        Write-Step 'run this in an elevated PowerShell, restart Windows when it asks, then re-apply:'
+        Write-Step ("Enable-WindowsOptionalFeature -Online -FeatureName {0} -All -NoRestart" -f ($missingFeatures -join ','))
+        exit 0
+    }
+    $restartNeeded = $false
+    foreach ($feature in $missingFeatures) {
+        $enable = Enable-WindowsOptionalFeature -Online -FeatureName $feature -All -NoRestart
+        if ($enable.RestartNeeded) {
+            $restartNeeded = $true
+        }
+    }
+    if ($restartNeeded) {
+        Write-Step 'the WSL 2 features are now enabled; restart Windows, then re-apply to install Docker Desktop.'
+        exit 0
+    }
+}
+
+# Docker Desktop needs the modern WSL command, version 2.1.5 or newer.
+$wslOutput = & wsl.exe --version 2>&1 | Out-String
+if ($wslOutput -match 'WSL version:\s*([0-9]+(?:\.[0-9]+)+)') {
+    $wslVersion = [version]$Matches[1]
+} else {
+    $wslVersion = $null
+}
+
+if (-not $wslVersion -or $wslVersion -lt [version]'2.1.5') {
+    $found = if ($wslVersion) { $wslVersion.ToString() } else { 'not detected' }
+    Write-Step "WSL 2.1.5 or newer is required (found $found); install or update it with 'wsl --install --update' and re-apply."
+    Write-Step 'a pre-existing WSL installation is never replaced or updated by this script.'
+    exit 0
+}
+
+$installer = Join-Path $env:TEMP 'DockerDesktopInstaller.exe'
+Write-Step 'downloading the Docker Desktop installer'
+Invoke-WebRequest -Uri 'https://desktop.docker.com/win/main/amd64/Docker%20Desktop%20Installer.exe' -OutFile $installer -UseBasicParsing
+
+$signature = Get-AuthenticodeSignature -FilePath $installer
+if ($signature.Status -ne 'Valid') {
+    Remove-Item -Path $installer -Force
+    throw "docker-desktop: the installer signature is not valid ($($signature.Status)); refusing to install"
+}
+Write-Step "installer signature is valid, signed by $($signature.SignerCertificate.Subject)"
+
+$install = Start-Process -FilePath $installer -ArgumentList 'install', '--user', '--backend=wsl-2' -Wait -PassThru
+Remove-Item -Path $installer -Force
+if ($install.ExitCode -ne 0) {
+    throw "docker-desktop: the installer exited with code $($install.ExitCode)"
+}
+
+Write-Step 'Docker Desktop is installed for this user with the WSL 2 backend.'
+Write-Step "launch Docker Desktop once to accept Docker's terms; that stays a manual step."
+{{- end -}}

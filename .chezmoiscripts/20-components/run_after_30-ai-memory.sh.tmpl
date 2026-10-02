@@ -33,32 +33,27 @@ fi
 
 {{- if .aiMemoryRunServer }}
 
-# 2. Dependency check: openai-compat providers point the container at an
-# Ollama on this host. Ollama itself is a separate module
-# (run_after_05-install-ollama.sh.tmpl, ollamaEnabled in the chezmoi config).
-{{- if or (eq .aiMemoryLlmProvider "openai-compat") (eq .aiMemoryEmbeddingProvider "openai-compat") }}
-if ! command -v ollama >/dev/null 2>&1; then
-  echo "an ai-memory provider is 'openai-compat' but ollama is not installed;" >&2
-  echo "set ollamaEnabled=true in ~/.config/chezmoi/chezmoi.toml and re-apply" >&2
-  exit 1
-fi
-{{- end }}
-
-# 3. Server container (docker). Bind is loopback-only unless
-# aiMemoryShareOnNetwork is true, in which case it listens on the network
-# and requires AI_MEMORY_AUTH_TOKEN.
-url="{{ .aiMemoryUrl }}"
-ai_memory_image="akitaonrails/ai-memory:2.0.0"
-hostport="${url#http://}"
-hostport="${hostport#https://}"
-hostport="${hostport%%/*}"
-port="${hostport##*:}"
-bind_host="127.0.0.1"
+# 2. Server container (docker). Bind is loopback-only unless
+# aiMemoryShareOnNetwork is true, in which case it listens on the network and
+# requires AI_MEMORY_AUTH_TOKEN. Docker that this user cannot reach yet (group
+# membership applies at the next login) defers the container to the next apply
+# instead of failing it; the hook install below still runs.
+if ! command -v docker >/dev/null 2>&1; then
+  echo "ai-memory: docker is not installed; the server container was not started" >&2
+elif ! docker info >/dev/null 2>&1; then
+  echo "ai-memory: $(id -un) cannot reach the docker daemon yet; log out and back in, then re-apply" >&2
+else
+  url="{{ .aiMemoryUrl }}"
+  ai_memory_image="akitaonrails/ai-memory:2.0.0"
+  hostport="${url#http://}"
+  hostport="${hostport#https://}"
+  hostport="${hostport%%/*}"
+  port="${hostport##*:}"
+  bind_host="127.0.0.1"
 {{- if .aiMemoryShareOnNetwork }}
-bind_host="0.0.0.0"
+  bind_host="0.0.0.0"
 {{- end }}
 
-if command -v docker >/dev/null 2>&1; then
   if docker ps -aq --filter "name=^/ai-memory$" | grep -q . && [ "$(docker inspect --format '{{`{{.Config.Image}}`}}' ai-memory)" != "$ai_memory_image" ]; then
     docker rm -f ai-memory >/dev/null
   fi
@@ -129,9 +124,6 @@ if command -v docker >/dev/null 2>&1; then
         "$ai_memory_image" >/dev/null
     fi
   fi
-else
-  echo "docker not found; ai-memory server not started" >&2
-  exit 1
 fi
 
 {{- if or (eq .aiMemoryLlmProvider "anthropic-oauth") (eq .aiMemoryLlmProvider "openai-oauth") (eq .aiMemoryLlmProvider "copilot") }}
@@ -139,7 +131,7 @@ echo "ai-memory: run 'ai-memory auth login {{ .aiMemoryLlmProvider }}' to finish
 {{- end }}
 {{- end }}
 
-# 4. Hook scripts for every agent selected in enabledAgents except kiro-cli,
+# 3. Hook scripts for every agent selected in enabledAgents except kiro-cli,
 # which the branch below skips. chezmoi owns every
 # agent configuration file, so install-hooks receives a disposable config path:
 # it stages fresh hook scripts under ~/.local/share/ai-memory/hooks/<agent>/

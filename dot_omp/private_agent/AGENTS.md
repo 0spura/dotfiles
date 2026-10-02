@@ -9,7 +9,7 @@ ai-memory is the only memory system: recall through `mcp__ai_memory_memory_query
 
 ## Tracker contract
 
-Non-trivial work has one tracker item as its current contract. Select it from summaries through the native MCP tracker tools and read it and its linked artifacts once. A document is an artifact of the item, not a reason to create another item. Use an optional configured stage key when work genuinely changes stage.
+Non-trivial work has one tracker item as its current contract. Select it from summaries through `workctl issue list` and read it and its linked artifacts once. A document is an artifact of the item, not a reason to create another item. Use an optional configured stage key when work genuinely changes stage.
 
 Create a child item only when it has independent acceptance, ownership, deployment, dependency, or review scope. Create an outcome/epic only when it groups multiple such delivery items. Discovery, design, requirements, and architecture can be sections, linked documents, or comments on the same item; make them separate work only when they are independently requested or block other work. `Review` is normally a workflow stage and PR evidence on the same item, not a child.
 

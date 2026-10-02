@@ -11,6 +11,10 @@ The chezmoi source tree for this machine's agent configuration. Nothing here is 
   anywhere else is silently dead, and `skills.includeSkills` is only worth pinning when a denylist is
   not enough.
 
+`dot_omp/private_agent/private_config.yml` and `mcp.json.tmpl` are applied but never read, quoted, or
+edited from inside a session in this tree: chezmoi marks them private and they carry per-machine
+secrets.
+
 ## Agents
 
 `agents/` overrides the bundled `scout`, `reviewer`, `security-reviewer`, `task`, and `sonic`,
@@ -47,3 +51,19 @@ So a rule that must bind a subagent lives in `RULES.md` or in the owning skill, 
 carries only what the parent alone can act on: delegation, the tracker contract, and approvals.
 Nothing in `AGENTS.md` should describe the loader, the file layout, or which file holds what — the
 agent reading it needs the rule, not the machinery.
+
+## Install scripts
+
+`.chezmoiscripts/` holds the software bootstrap: one script per platform plus optional components
+(ai-memory, OMP, and the mcp-tracker build). One owner per package, and every script runs on
+every apply, so it must stay idempotent and gated on chezmoi data rather than on the host it happens
+to run on. A package that is already installed and was not installed here is never updated; only
+installs recorded under `~/.local/state/dotfiles-chezmoi/` are managed. Integrity failures fail the
+apply; prerequisites a human must satisfy (Homebrew, elevation, a pending restart, an outdated WSL)
+are reported and skipped. Package removal stays manual.
+
+## Repository-only material
+
+`docs/`, `README.md`, `AGENTS.md`, and `.venv/` are read from the clone and never deployed;
+`.chezmoiignore` owns that list, and adding a repository-only file means adding it there in the same
+change.
