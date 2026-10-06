@@ -20,6 +20,7 @@
 {{- $aiMemoryLlmProvider := "none" -}}
 {{- $aiMemoryEmbeddingProvider := "local" -}}
 {{- $anthropicApiKey := "" -}}
+{{- $anthropicOauthToken := "" -}}
 {{- $openaiApiKey := "" -}}
 {{- $voyageApiKey := "" -}}
 {{- $geminiApiKey := "" -}}
@@ -46,6 +47,8 @@
 {{-   if eq $aiMemoryLlmProvider "anthropic" -}}
 {{-     $anthropicApiKey = promptStringOnce . "anthropicApiKey" "ANTHROPIC_API_KEY (stays only in the local chezmoi config, never in git)" -}}
 {{-     $aiMemoryLlmModel = promptStringOnce . "aiMemoryLlmModel" "LLM model (ex: claude-haiku-4-5)" -}}
+{{-   else if eq $aiMemoryLlmProvider "anthropic-oauth" -}}
+{{-     $anthropicOauthToken = promptStringOnce . "anthropicOauthToken" "ANTHROPIC_OAUTH_TOKEN from 'claude setup-token' (stays only in the local chezmoi config, never in git)" -}}
 {{-   else if eq $aiMemoryLlmProvider "openai" -}}
 {{-     $openaiApiKey = promptStringOnce . "openaiApiKey" "OPENAI_API_KEY (stays only in the local chezmoi config, never in git)" -}}
 {{-     $aiMemoryLlmModel = promptStringOnce . "aiMemoryLlmModel" "LLM model (ex: gpt-5.5)" -}}
@@ -109,6 +112,7 @@ sourceDir = {{ .chezmoi.sourceDir | quote }}
   aiMemoryEmbedBaseUrl = {{ $aiMemoryEmbedBaseUrl | quote }}
   aiMemoryEmbedDim = {{ $aiMemoryEmbedDim | quote }}
   anthropicApiKey = {{ $anthropicApiKey | quote }}
+  anthropicOauthToken = {{ $anthropicOauthToken | quote }}
   openaiApiKey = {{ $openaiApiKey | quote }}
   voyageApiKey = {{ $voyageApiKey | quote }}
   geminiApiKey = {{ $geminiApiKey | quote }}

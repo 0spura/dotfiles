@@ -44,14 +44,27 @@ elif ! docker info >/dev/null 2>&1; then
   echo "ai-memory: $(id -un) cannot reach the docker daemon yet; log out and back in, then re-apply" >&2
 else
   url="{{ .aiMemoryUrl }}"
-  ai_memory_image="akitaonrails/ai-memory:2.0.0"
+  ai_memory_image="akitaonrails/ai-memory:2.5.2"
   hostport="${url#http://}"
   hostport="${hostport#https://}"
   hostport="${hostport%%/*}"
   port="${hostport##*:}"
   bind_host="127.0.0.1"
+  allowed_hosts="localhost,127.0.0.1"
 {{- if .aiMemoryShareOnNetwork }}
   bind_host="0.0.0.0"
+  # A non-loopback bind requires both AI_MEMORY_AUTH_TOKEN and an explicit
+  # Host-header allowlist. Derive it from this machine's names and addresses so
+  # LAN clients reaching it by hostname.local or by IP are accepted.
+  host="$(hostname)"
+  allowed_hosts="$allowed_hosts,$host,${host%%.*}"
+  for i in 0 1 2 3 4 5 6 7 8 9; do
+    ip="$(ipconfig getifaddr "en$i" 2>/dev/null || true)"
+    if [ -n "$ip" ]; then allowed_hosts="$allowed_hosts,$ip"; fi
+  done
+  for ip in $(hostname -I 2>/dev/null || true); do
+    allowed_hosts="$allowed_hosts,$ip"
+  done
 {{- end }}
 
   if docker ps -aq --filter "name=^/ai-memory$" | grep -q . && [ "$(docker inspect --format '{{`{{.Config.Image}}`}}' ai-memory)" != "$ai_memory_image" ]; then
@@ -70,9 +83,7 @@ else
         -v ai-memory-data:/data \
 {{- if .aiMemoryShareOnNetwork }}
         -e AI_MEMORY_AUTH_TOKEN={{ .aiMemoryAuthToken }} \
-{{- end }}
-{{- if or (ne .aiMemoryLlmProvider "none") (ne .aiMemoryEmbeddingProvider "none") }}
-        -e AI_MEMORY_CONSOLIDATE_ON_SESSION_END=true \
+        -e AI_MEMORY_ALLOWED_HOSTS="$allowed_hosts" \
 {{- end }}
 {{- if eq .aiMemoryLlmProvider "anthropic" }}
         -e AI_MEMORY_LLM_PROVIDER=anthropic \
@@ -80,6 +91,7 @@ else
         -e AI_MEMORY_LLM_MODEL={{ .aiMemoryLlmModel }} \
 {{- else if eq .aiMemoryLlmProvider "anthropic-oauth" }}
         -e AI_MEMORY_LLM_PROVIDER=anthropic-oauth \
+        -e ANTHROPIC_OAUTH_TOKEN={{ .anthropicOauthToken }} \
 {{- else if eq .aiMemoryLlmProvider "openai" }}
         -e AI_MEMORY_LLM_PROVIDER=openai \
         -e OPENAI_API_KEY={{ .openaiApiKey }} \
@@ -126,8 +138,10 @@ else
   fi
 fi
 
-{{- if or (eq .aiMemoryLlmProvider "anthropic-oauth") (eq .aiMemoryLlmProvider "openai-oauth") (eq .aiMemoryLlmProvider "copilot") }}
-echo "ai-memory: run 'ai-memory auth login {{ .aiMemoryLlmProvider }}' to finish LLM provider setup" >&2
+{{- if eq .aiMemoryLlmProvider "anthropic-oauth" }}
+echo "ai-memory: set anthropicOauthToken (from 'claude setup-token') and re-apply" >&2
+{{- else if or (eq .aiMemoryLlmProvider "openai-oauth") (eq .aiMemoryLlmProvider "copilot") }}
+echo "ai-memory: run 'docker exec -it ai-memory ai-memory auth login {{ .aiMemoryLlmProvider }}' to finish LLM provider setup" >&2
 {{- end }}
 {{- end }}
 

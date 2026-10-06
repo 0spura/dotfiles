@@ -8,6 +8,9 @@
     "ai-memory": {
       "type": "http",
       "url": "{{ trimSuffix "/" .aiMemoryUrl }}/mcp",
+      "headers": {
+        "Authorization": "Bearer {{ .aiMemoryAuthToken }}"
+      },
       "enabled": true
     }
   }
