@@ -235,6 +235,7 @@ resource "cloudflare_zero_trust_access_application" "ai_memory" {
   }]
 
 
+
   lifecycle {
     ignore_changes = [policies]
   }
