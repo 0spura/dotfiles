@@ -1,32 +1,26 @@
 {{ if and (ne .chezmoi.os "windows") (has "omp" .enabledAgents) -}}
 #!/bin/sh
-# Install the reviewed, pinned OMP release only when OMP is selected for this
-# machine. Authentication remains in OMP's local agent.db, never in dotfiles.
+# Install or upgrade OMP to the latest release whenever it is selected for
+# this machine. Authentication remains in OMP's local agent.db, never in
+# dotfiles.
 set -eu
 
-# `omp --version` prints "omp/<version>". Install only when omp is missing or
-# older than the reviewed pin, so a newer local build is never downgraded.
-# The installer is fetched at the same tag as the ref, so the reviewed
-# revision is the one that runs.
-pin=18.6.1
+# Resolve the newest tag from the upstream repo and install it. The installer
+# runs at the same ref it was fetched from, so the fetched revision is the
+# one that runs.
+latest=$(curl -fsSL -o /dev/null -w '%{url_effective}' https://github.com/can1357/oh-my-pi/releases/latest | sed 's|.*/tag/||')
+if [ -z "$latest" ]; then
+  echo "omp: could not resolve latest release; keeping installed version" >&2
+  exit 0
+fi
 ver=$(omp --version 2>/dev/null | sed -n 's|^omp[/ ]v\?||p')
-older_than() { # true when dotted version $1 is older than $2 (POSIX awk)
-  awk -v a="$1" -v b="$2" 'BEGIN {
-    n = split(a, x, "."); m = split(b, y, ".")
-    for (i = 1; i <= (n > m ? n : m); i++) {
-      if (x[i] + 0 < y[i] + 0) exit 0
-      if (x[i] + 0 > y[i] + 0) exit 1
-    }
-    exit 1
-  }'
-}
-if ! command -v omp >/dev/null 2>&1 || { [ -n "$ver" ] && older_than "$ver" "$pin"; }; then
+if [ "v${ver}" != "${latest}" ]; then
   tmp=$(mktemp -d)
-  curl -fsSL "https://raw.githubusercontent.com/can1357/oh-my-pi/v${pin}/scripts/install.sh" -o "$tmp/install.sh"
-  sh "$tmp/install.sh" --ref "v${pin}"
+  curl -fsSL "https://raw.githubusercontent.com/can1357/oh-my-pi/${latest}/scripts/install.sh" -o "$tmp/install.sh"
+  sh "$tmp/install.sh" --ref "${latest}"
   rm -rf "$tmp"
 else
-  echo "omp: keeping installed version (${ver:-unknown}); pin ${pin}"
+  echo "omp: already at latest (${latest})"
 fi
 {{- end }}
 

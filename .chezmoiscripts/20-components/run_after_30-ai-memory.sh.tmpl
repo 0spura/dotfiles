@@ -44,7 +44,7 @@ elif ! docker info >/dev/null 2>&1; then
   echo "ai-memory: $(id -un) cannot reach the docker daemon yet; log out and back in, then re-apply" >&2
 else
   url="{{ .aiMemoryUrl }}"
-  ai_memory_image="akitaonrails/ai-memory:2.5.2"
+  ai_memory_image="akitaonrails/ai-memory:latest"
   hostport="${url#http://}"
   hostport="${hostport#https://}"
   hostport="${hostport%%/*}"
