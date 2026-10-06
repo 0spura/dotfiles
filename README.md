@@ -10,8 +10,23 @@ repository and runs `chezmoi` from the clone; nothing here is live until `chezmo
 | --- | --- |
 | `~/.agents/skills/` | The canonical skill tree, deployed on every machine |
 | `~/.omp/agent/` | OMP agent definitions, rules, and the per-machine config (written `private_`, so it never appears in diffs) |
-| `~/.claude/`, `~/.kimi-code/`, `~/.kiro/` | Deployed only when that agent is selected in `enabledAgents`; no source tree for them exists yet |
+| `~/.ssh/config` | Client for `*.blima.dev` via `cloudflared access ssh` (no IPs, works off-LAN) |
 | Fedora, macOS, Windows | Missing development tools, languages, and containers, plus optional ai-memory, OMP, and the workctl build |
+
+## Machine flags
+
+Two prompts decide what a machine gets (`~/.config/chezmoi/chezmoi.toml`):
+
+| Flag | Values | Effect |
+| --- | --- | --- |
+| `machine` | `mac-mini` (homelab server), `dell-personal`, `other` | Identity; the server publishes SSH via Cloudflare tunnel |
+| `profiles` | `dev`, `homelab-server`, `ai-memory-server` | `homelab-server` installs `cloudflared` + registers the tunnel daemon (server only); `cloudflared` as SSH helper goes on every machine |
+
+`cloudflared` has two roles: on a client it only runs during `ssh` as the
+`ProxyCommand` helper (no daemon, no token); on the server it also runs the
+tunnel daemon. `.chezmoiscripts/30-homelab/` splits this:
+`run_after_10-cloudflared.sh.tmpl` (everywhere) vs
+`run_after_20-tunnel-register.sh.tmpl` (gated on `homelab-server`).
 
 Scripts are kept under `.chezmoiscripts/`, grouped first by execution phase and then by owner:
 platform-specific setup is separate from optional components.

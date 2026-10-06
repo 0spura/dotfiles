@@ -1,0 +1,21 @@
+{{ if ne .chezmoi.os "windows" -}}
+#!/bin/sh
+# cloudflared on every machine: on a client it is only the SSH ProxyCommand
+# helper (`cloudflared access ssh`, runs during the connection, no daemon);
+# on the homelab server it additionally runs the tunnel daemon (see
+# run_after_20-tunnel-register.sh.tmpl). Installs only when missing.
+set -eu
+
+is_macos() { [ "$(uname -s)" = "Darwin" ]; }
+
+if ! command -v cloudflared >/dev/null 2>&1; then
+  if is_macos; then
+    PATH="/opt/homebrew/bin:/usr/local/bin:$PATH" export PATH
+    brew install cloudflare/cloudflare/cloudflared
+  elif command -v dnf >/dev/null 2>&1; then
+    sudo dnf install -y cloudflared
+  else
+    echo "homelab: no cloudflared installer for this OS; SSH to *.blima.dev needs it manually" >&2
+  fi
+fi
+{{ end -}}

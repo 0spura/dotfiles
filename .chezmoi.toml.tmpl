@@ -1,6 +1,11 @@
 {{- $agentChoices := list "kimi-code" "claude" "kiro-cli" "omp" -}}
 {{- $enabledAgents := promptMultichoiceOnce . "enabledAgents" "AI agent configs to apply on this machine" $agentChoices -}}
 
+{{- $machine := promptChoiceOnce . "machine" "Which machine is this? (mac-mini is the homelab server)" (list "mac-mini" "dell-personal" "other") -}}
+
+{{- $profileChoices := list "dev" "homelab-server" "ai-memory-server" -}}
+{{- $profiles := promptMultichoiceOnce . "profiles" "Profiles for this machine (homelab-server publishes SSH via Cloudflare tunnel)" $profileChoices -}}
+
 {{- $aiMemoryUrl := promptStringOnce . "aiMemoryUrl" "ai-memory server URL (where this machine's agents connect)" "http://127.0.0.1:49374" -}}
 {{- $aiMemoryRunServer := promptBoolOnce . "aiMemoryRunServer" "Run the ai-memory server container on this machine?" false -}}
 
@@ -80,6 +85,8 @@ sourceDir = {{ .chezmoi.sourceDir | quote }}
   name = "Luis Lima"
   email = "luisflima2020@gmail.com"
   enabledAgents = [{{ range $i, $a := $enabledAgents }}{{ if $i }}, {{ end }}{{ $a | quote }}{{ end }}]
+  machine = {{ $machine | quote }}
+  profiles = [{{ range $i, $p := $profiles }}{{ if $i }}, {{ end }}{{ $p | quote }}{{ end }}]
   aiMemoryUrl = {{ $aiMemoryUrl | quote }}
   aiMemoryRunServer = {{ $aiMemoryRunServer }}
   aiMemoryShareOnNetwork = {{ $aiMemoryShareOnNetwork }}

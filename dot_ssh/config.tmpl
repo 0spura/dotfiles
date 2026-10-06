@@ -1,0 +1,9 @@
+# SSH client for homelab hostnames. Deployed on every machine: *.blima.dev
+# always resolves at the Cloudflare edge, so no IP is ever hardcoded.
+# cloudflared must be installed (homelab-server profile, or `brew install
+# cloudflare/cloudflare/cloudflared` on a client). Access login once:
+#   cloudflared access login https://ssh.blima.dev
+# then `ssh` below works from any network, with no WARP required.
+Host ssh.blima.dev ssh.mac.blima.dev
+  ProxyCommand cloudflared access ssh --hostname %h
+  StrictHostKeyChecking accept-new

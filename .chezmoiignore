@@ -1,5 +1,7 @@
 # ~/bin holds machine-local binaries (chezmoi itself); never managed.
 bin/
+# Terraform/OpenTofu source is applied with `tofu`, never copied home.
+infra/
 # Tool scratch a coding agent may drop in this source tree; never deployed.
 .codex/
 # Repository-only material: documentation is read from the clone, and the local

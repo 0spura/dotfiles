@@ -1,0 +1,42 @@
+{{ if has "homelab-server" .profiles -}}
+#!/bin/sh
+# Tunnel registration, server only (homelab-server profile). The token comes
+# from `tofu output` on a machine with infra access, or the Zero Trust
+# dashboard (Networks -> Tunnels -> mac-mini-m4 -> Install and run a
+# connector). Stored outside the home dir so a clone never carries it.
+set -eu
+
+is_macos() { [ "$(uname -s)" = "Darwin" ]; }
+
+if is_macos; then
+  tokendir="/Library/Application Support/com.cloudflare.cloudflared"
+  tokenfile="$tokendir/token"
+  if [ ! -s "$tokenfile" ]; then
+    echo "homelab tunnel: paste the tunnel token for mac-mini-m4 (goes to $tokenfile, sudo asks once)" >&2
+    printf 'token: ' >&2
+    IFS= read -r token
+    [ -n "$token" ] || { echo "homelab tunnel: empty token, skipping registration" >&2; exit 0; }
+    sudo mkdir -p "$tokendir"
+    printf '%s' "$token" | sudo tee "$tokenfile" >/dev/null
+    sudo chmod 600 "$tokenfile"
+    # The com.cloudflare.cloudflared LaunchDaemon (installed with the tunnel)
+    # picks the token file up on next boot; start it now when present.
+    sudo launchctl kickstart -k system/com.cloudflare.cloudflared 2>/dev/null || true
+    echo "homelab tunnel: registered"
+  fi
+else
+  # Linux server: systemd service via cloudflared service install (same token flow).
+  if ! systemctl is-enabled --quiet cloudflared 2>/dev/null; then
+    echo "homelab tunnel: install the tunnel service with: sudo cloudflared service install <TOKEN>" >&2
+    exit 0
+  fi
+fi
+
+# Remote Login (sshd) must be on: the tunnel forwards to localhost:22.
+if is_macos; then
+  if [ "$(sudo systemsetup -getremotelogin 2>/dev/null | grep -c On)" = "0" ]; then
+    echo "homelab tunnel: enabling Remote Login (sshd)" >&2
+    sudo systemsetup -setremotelogin on
+  fi
+fi
+{{ end -}}
