@@ -1,0 +1,47 @@
+{{ if eq .chezmoi.os "darwin" -}}
+#!/bin/sh
+# macOS defaults capturados do mac-mini: energia, Dock, Finder/mesa,
+# screenshots. Idempotente; roda a cada apply (só escreve quando difere).
+set -eu
+
+put() { # put <domain> <key> <flag> <value...>: escreve só se mudou
+  dom=$1 key=$2; shift 2
+  if [ "$(defaults read "$dom" "$key" 2>/dev/null)" != "$*" ]; then
+    defaults write "$dom" "$key" "$@"
+    changed=1
+  fi
+}
+
+changed=0
+
+# --- Energia: nunca dorme (servidor), display apaga em 10min ---
+sudo -p '' -v 2>/dev/null || { echo "macos-defaults: sem sudo; pulando pmset" >&2; }
+if sudo -n true 2>/dev/null; then
+  sudo -n pmset -a sleep 0 displaysleep 10 disksleep 10 powernap 1 womp 1 ttyskeepawake 1 || true
+fi
+
+# --- Interface: dark mode ---
+put NSGlobalDomain AppleInterfaceStyle -string "Dark"
+
+# --- Dock: auto-hide, tamanho 60 ---
+put com.apple.dock autohide -bool true
+put com.apple.dock tilesize -int 60
+put com.apple.dock magnification -bool false
+
+# --- Finder/mesa: pathbar, ícones de rede/removíveis, sem HD interno ---
+put com.apple.finder ShowPathbarInTitle -bool true
+put com.apple.finder ShowSidebar -bool true
+put com.apple.finder ShowExternalHardDrivesOnDesktop -bool true
+put com.apple.finder ShowHardDrivesOnDesktop -bool false
+put com.apple.finder ShowRemovableMediaOnDesktop -bool true
+put com.apple.finder ShowMountedServersOnDesktop -bool true
+
+# --- Screenshots em ~/Pictures/Capturas ---
+mkdir -p "$HOME/Pictures/Capturas"
+put com.apple.screencapture location -string "$HOME/Pictures/Capturas"
+
+if [ "$changed" = "1" ]; then
+  killall Dock Finder SystemUIServer 2>/dev/null || true
+  echo "macos-defaults: aplicado, Dock/Finder reiniciados"
+fi
+{{ end -}}
