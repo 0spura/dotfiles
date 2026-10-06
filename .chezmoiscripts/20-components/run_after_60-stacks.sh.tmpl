@@ -1,0 +1,17 @@
+{{ if has "homelab-server" .profiles -}}
+#!/bin/sh
+# Sobe as stacks homelab (compose) em servidor. Idempotente: `docker compose
+# up -d` só recria o que mudou. Roda depois dos componentes (60 > 20-50).
+set -eu
+
+export PATH="/opt/homebrew/bin:$HOME/.orbstack/bin:/usr/local/bin:/usr/bin:/bin:$PATH"
+
+command -v docker >/dev/null 2>&1 || { echo "stacks: sem docker; pulando" >&2; exit 0; }
+docker info >/dev/null 2>&1 || { echo "stacks: docker inacessivel; pulando" >&2; exit 0; }
+
+for stack in "$HOME/.local/share/stacks/"*/compose.yml; do
+  [ -f "$stack" ] || continue
+  name=$(basename "$(dirname "$stack")")
+  (cd "$(dirname "$stack")" && docker compose up -d 2>&1 | tail -1 | sed "s/^/stacks [$name]: /")
+done
+{{ end -}}

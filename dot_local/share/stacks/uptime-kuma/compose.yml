@@ -1,0 +1,15 @@
+# Uptime Kuma: "meus servicos respondem?" (ssh, ai-memory, tunel).
+# Gerenciado pelo chezmoi; o run_after_60-stacks.sh sobe via docker compose.
+# Exposto em status.blima.dev via Cloudflare Tunnel + Access owner-only.
+services:
+  uptime-kuma:
+    image: louislam/uptime-kuma:2
+    container_name: uptime-kuma
+    restart: always
+    ports:
+      - "127.0.0.1:3001:3001"
+    volumes:
+      - uptime-kuma-data:/app/data
+
+volumes:
+  uptime-kuma-data:
