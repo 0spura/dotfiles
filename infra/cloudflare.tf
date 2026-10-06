@@ -74,6 +74,16 @@ resource "cloudflare_dns_record" "ai_memory" {
   ttl     = 1
 }
 
+resource "cloudflare_dns_record" "status" {
+  zone_id = var.zone_id
+  name    = "status.blima.dev"
+  type    = "CNAME"
+  content = "8993801c-e6ca-4398-97a9-da4aa61717d9.cfargotunnel.com"
+  comment = "uptime-kuma via cloudflared"
+  proxied = true
+  ttl     = 1
+}
+
 resource "cloudflare_dns_record" "collab" {
   zone_id = var.zone_id
   name    = "collab.blima.dev"
@@ -119,6 +129,10 @@ resource "cloudflare_zero_trust_tunnel_cloudflared_config" "mac_mini_m4" {
       {
         hostname = "ai-memory.blima.dev"
         service  = "http://127.0.0.1:49374"
+      },
+      {
+        hostname = "status.blima.dev"
+        service  = "http://127.0.0.1:3001"
       },
       {
         service = "http_status:404"
@@ -246,6 +260,38 @@ resource "cloudflare_zero_trust_access_policy" "ai_memory_owner" {
   account_id     = var.account_id
   name           = "owner only"
   decision       = "allow"
+  include = [{
+    email = {
+      email = var.owner_email
+    }
+  }]
+}
+
+resource "cloudflare_zero_trust_access_application" "status" {
+  account_id                 = var.account_id
+  name                       = "uptime-kuma"
+  domain                     = "status.blima.dev"
+  type                       = "self_hosted"
+  app_launcher_visible       = false
+  auto_redirect_to_identity  = false
+  enable_binding_cookie      = false
+  options_preflight_bypass   = false
+  session_duration           = "720h"
+
+  destinations = [{
+    type = "public"
+    uri  = "status.blima.dev"
+  }]
+
+  lifecycle {
+    ignore_changes = [policies]
+  }
+}
+
+resource "cloudflare_zero_trust_access_policy" "status_owner" {
+  account_id = var.account_id
+  name       = "owner only"
+  decision   = "allow"
   include = [{
     email = {
       email = var.owner_email
