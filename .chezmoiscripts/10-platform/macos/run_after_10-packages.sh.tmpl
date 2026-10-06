@@ -29,8 +29,16 @@ brew_install() {
 # Containers.
 brew_install cask orbstack
 
+# Editor.
+brew_install cask zed
+
+# CLI owned here: vcs, hub, tunnel, multiplexer, agent deps.
+for formula in git gh cloudflared tmux chezmoi; do
+  brew_install formula "$formula"
+done
+
 # Languages.
-for formula in node@24 openjdk@21 rust python; do
+for formula in node@24 openjdk@21 rust python@3.14; do
   brew_install formula "$formula"
 done
 {{- end -}}
