@@ -17,7 +17,7 @@ ver=$(omp --version 2>/dev/null | sed -n 's|^omp[/ ]v\?||p')
 if [ "v${ver}" != "${latest}" ]; then
   tmp=$(mktemp -d)
   curl -fsSL "https://raw.githubusercontent.com/can1357/oh-my-pi/${latest}/scripts/install.sh" -o "$tmp/install.sh"
-  sh "$tmp/install.sh" --ref "${latest}"
+  sh "$tmp/install.sh" --ref "${latest}" --binary
   rm -rf "$tmp"
 else
   echo "omp: already at latest (${latest})"
