@@ -23,6 +23,11 @@ brew_install() {
   if brew list "--$kind" "$name" >/dev/null 2>&1; then
     return 0
   fi
+  # A manually installed .app satisfies the cask: adopting it via brew
+  # would move/delete the bundle, so skip instead of reinstalling.
+  if [ "$kind" = "cask" ] && [ -d "/Applications/$name.app" ]; then
+    return 0
+  fi
   brew install "--$kind" "$name"
 }
 
