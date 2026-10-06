@@ -74,16 +74,6 @@ resource "cloudflare_dns_record" "ai_memory" {
   ttl     = 1
 }
 
-resource "cloudflare_dns_record" "collab" {
-  zone_id = var.zone_id
-  name    = "collab.blima.dev"
-  type    = "CNAME"
-  content = "8993801c-e6ca-4398-97a9-da4aa61717d9.cfargotunnel.com"
-  comment = "omp web terminal via cloudflared"
-  proxied = true
-  ttl     = 1
-}
-
 # --- Túnel mac-mini-m4 (criado pelo cloudflared no host) ---
 resource "cloudflare_zero_trust_tunnel_cloudflared" "mac_mini_m4" {
   account_id = var.account_id
@@ -167,48 +157,6 @@ resource "cloudflare_zero_trust_access_policy" "mac_ssh_owner" {
 }
 
 resource "cloudflare_zero_trust_access_policy" "mac_ssh_token" {
-  account_id = var.account_id
-  name       = "service token cli"
-  decision   = "non_identity"
-  include = [{
-    service_token = {
-      token_id = "29954982-e23c-4de1-9d45-04f6e23859eb"
-    }
-  }]
-}
-
-resource "cloudflare_zero_trust_access_application" "omp_web_terminal" {
-  account_id                 = var.account_id
-  name                       = "omp web terminal"
-  domain                     = "collab.blima.dev"
-  type                       = "self_hosted"
-  app_launcher_visible       = false
-  auto_redirect_to_identity  = false
-  enable_binding_cookie      = false
-  options_preflight_bypass   = false
-
-  destinations = [{
-    type = "public"
-    uri  = "collab.blima.dev"
-  }]
-
-  lifecycle {
-    ignore_changes = [policies]
-  }
-}
-
-resource "cloudflare_zero_trust_access_policy" "collab_owner" {
-  account_id = var.account_id
-  name       = "owner only"
-  decision   = "allow"
-  include = [{
-    email = {
-      email = var.owner_email
-    }
-  }]
-}
-
-resource "cloudflare_zero_trust_access_policy" "collab_token" {
   account_id = var.account_id
   name       = "service token cli"
   decision   = "non_identity"
