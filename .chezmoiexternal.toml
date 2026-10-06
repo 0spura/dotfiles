@@ -1,4 +1,0 @@
-[".local/share/workctl"]
-    type = "git-repo"
-    url = "https://github.com/0spura/workctl.git"
-    refreshPeriod = "168h"

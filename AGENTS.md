@@ -55,7 +55,7 @@ agent reading it needs the rule, not the machinery.
 ## Install scripts
 
 `.chezmoiscripts/` holds the software bootstrap: one script per platform plus optional components
-(ai-memory, OMP, and the workctl build) plus `30-homelab/` (cloudflared
+(ai-memory and OMP) plus `30-homelab/` (cloudflared
 everywhere, tunnel registration gated on the `homelab-server` profile). One owner per package, and every script runs on
 installs recorded under `~/.local/state/dotfiles-chezmoi/` are managed. Integrity failures fail the
 apply; prerequisites a human must satisfy (Homebrew, elevation, a pending restart, an outdated WSL)
