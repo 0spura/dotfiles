@@ -3,8 +3,8 @@
 # Exposto em status.blima.dev via Cloudflare Tunnel + Access owner-only.
 services:
   uptime-kuma:
-    image: louislam/uptime-kuma:2
     container_name: uptime-kuma
+    image: louislam/uptime-kuma:2.5.5
     restart: always
     ports:
       - "127.0.0.1:3001:3001"
