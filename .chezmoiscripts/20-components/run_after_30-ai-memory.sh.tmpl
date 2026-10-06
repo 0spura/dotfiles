@@ -51,6 +51,11 @@ else
   port="${hostport##*:}"
   bind_host="127.0.0.1"
   allowed_hosts="localhost,127.0.0.1"
+  # Public hostname served through a Cloudflare Tunnel lands on loopback too,
+  # but the Host header carries the public name, so it must be allowlisted
+  # even when the container is not shared on the LAN.
+  public_host="{{ .aiMemoryPublicHostname }}"
+  if [ -n "$public_host" ]; then allowed_hosts="$allowed_hosts,$public_host"; fi
 {{- if .aiMemoryShareOnNetwork }}
   bind_host="0.0.0.0"
   # A non-loopback bind requires both AI_MEMORY_AUTH_TOKEN and an explicit
@@ -67,7 +72,8 @@ else
   done
 {{- end }}
 
-  if docker ps -aq --filter "name=^/ai-memory$" | grep -q . && [ "$(docker inspect --format '{{`{{.Config.Image}}`}}' ai-memory)" != "$ai_memory_image" ]; then
+  current_hosts="$(docker inspect --format '{{`{{range $e := .Config.Env}}{{println $e}}{{end}}`}}' ai-memory 2>/dev/null | sed -n 's/^AI_MEMORY_ALLOWED_HOSTS=//p' | tr -d '\r')"
+  if docker ps -aq --filter "name=^/ai-memory$" | grep -q . && { [ "$(docker inspect --format '{{`{{.Config.Image}}`}}' ai-memory)" != "$ai_memory_image" ] || [ "$current_hosts" != "$allowed_hosts" ]; }; then
     docker rm -f ai-memory >/dev/null
   fi
   if [ -z "$(docker ps -q --filter "name=^/ai-memory$")" ]; then
@@ -83,6 +89,8 @@ else
         -v ai-memory-data:/data \
 {{- if .aiMemoryShareOnNetwork }}
         -e AI_MEMORY_AUTH_TOKEN={{ .aiMemoryAuthToken }} \
+{{- end }}
+{{- if or .aiMemoryShareOnNetwork .aiMemoryPublicHostname }}
         -e AI_MEMORY_ALLOWED_HOSTS="$allowed_hosts" \
 {{- end }}
 {{- if eq .aiMemoryLlmProvider "anthropic" }}

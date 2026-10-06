@@ -14,6 +14,7 @@
 
 {{- $aiMemoryUrl := promptStringOnce . "aiMemoryUrl" "ai-memory server URL (where this machine's agents connect)" "http://127.0.0.1:49374" -}}
 {{- $aiMemoryRunServer := promptBoolOnce . "aiMemoryRunServer" "Run the ai-memory server container on this machine?" false -}}
+{{- $aiMemoryPublicHostname := promptStringOnce . "aiMemoryPublicHostname" "Public hostname via Cloudflare Tunnel (blank if none)" "" -}}
 
 {{- $aiMemoryShareOnNetwork := false -}}
 {{- $aiMemoryAuthToken := "" -}}
@@ -102,6 +103,7 @@ sourceDir = {{ .chezmoi.sourceDir | quote }}
   cloudflaredBin = {{ $cloudflaredBin | quote }}
   aiMemoryUrl = {{ $aiMemoryUrl | quote }}
   aiMemoryRunServer = {{ $aiMemoryRunServer }}
+  aiMemoryPublicHostname = {{ $aiMemoryPublicHostname | quote }}
   aiMemoryShareOnNetwork = {{ $aiMemoryShareOnNetwork }}
   aiMemoryAuthToken = {{ $aiMemoryAuthToken | quote }}
   aiMemoryLlmProvider = {{ $aiMemoryLlmProvider | quote }}
