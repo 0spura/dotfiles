@@ -216,3 +216,12 @@ resource "cloudflare_zero_trust_gateway_policy" "allow_private_tunnel" {
   filters     = ["l4"]
   traffic     = "net.dst.ip in {192.168.0.0/24}"
 }
+
+# --- SSH sem chave estatica: CA emite cert efemero por login Access ---
+# O sshd do Mac confia via TrustedUserCAKeys (chezmoi, profile
+# homelab-server). Principal do cert = prefixo do email (luisborgeslima),
+# por isso o login passa a ser esse user (mapeado no sshd_config).
+resource "cloudflare_zero_trust_access_short_lived_certificate" "mac_ssh" {
+  account_id = var.account_id
+  app_id     = cloudflare_zero_trust_access_application.mac_ssh.id
+}

@@ -6,6 +6,12 @@
 {{- $profileChoices := list "dev" "homelab-server" "ai-memory-server" -}}
 {{- $profiles := promptMultichoiceOnce . "profiles" "Profiles for this machine (homelab-server publishes SSH via Cloudflare tunnel)" $profileChoices -}}
 
+{{- $caPublicKey := promptStringOnce . "caPublicKey" "Cloudflare SSH CA public key (tofu output, homelab-server only; blank skips sshd-ca setup)" "" -}}
+{{- $certPrincipal := promptStringOnce . "certPrincipal" "SSH cert principal (email prefix, ex: luisborgeslima)" "luisborgeslima" -}}
+{{- $sshUser := promptStringOnce . "sshUser" "Local Unix user for SSH on this machine" "luisf" -}}
+
+{{- $cloudflaredBin := promptStringOnce . "cloudflaredBin" "cloudflared binary path (client SSH ProxyCommand)" "/home/luislima/.local/bin/cloudflared" -}}
+
 {{- $aiMemoryUrl := promptStringOnce . "aiMemoryUrl" "ai-memory server URL (where this machine's agents connect)" "http://127.0.0.1:49374" -}}
 {{- $aiMemoryRunServer := promptBoolOnce . "aiMemoryRunServer" "Run the ai-memory server container on this machine?" false -}}
 
@@ -87,6 +93,10 @@ sourceDir = {{ .chezmoi.sourceDir | quote }}
   enabledAgents = [{{ range $i, $a := $enabledAgents }}{{ if $i }}, {{ end }}{{ $a | quote }}{{ end }}]
   machine = {{ $machine | quote }}
   profiles = [{{ range $i, $p := $profiles }}{{ if $i }}, {{ end }}{{ $p | quote }}{{ end }}]
+  caPublicKey = {{ $caPublicKey | quote }}
+  certPrincipal = {{ $certPrincipal | quote }}
+  sshUser = {{ $sshUser | quote }}
+  cloudflaredBin = {{ $cloudflaredBin | quote }}
   aiMemoryUrl = {{ $aiMemoryUrl | quote }}
   aiMemoryRunServer = {{ $aiMemoryRunServer }}
   aiMemoryShareOnNetwork = {{ $aiMemoryShareOnNetwork }}

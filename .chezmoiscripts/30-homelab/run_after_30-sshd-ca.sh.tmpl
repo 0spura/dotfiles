@@ -1,0 +1,36 @@
+{{ if has "homelab-server" .profiles -}}
+#!/bin/sh
+# sshd confia na CA SSH da Cloudflare (cert efemero por login Access).
+# O principal do cert e o prefixo do email do owner; o user Unix local
+# pode diferir, por isso o mapeamento e explicito via
+# AuthorizedPrincipalsCommand. Roda a cada apply, idempotente.
+set -eu
+
+CA_PUB="{{ .caPublicKey }}"
+PRINCIPAL="{{ .certPrincipal }}"
+SSH_USER="{{ .sshUser }}"
+
+if [ -z "$CA_PUB" ] || [ "$CA_PUB" = "<PASTE-CA-PUBKEY>" ]; then
+  echo "homelab sshd-ca: caPublicKey nao configurado no chezmoi; pulando" >&2
+  exit 0
+fi
+
+# macOS: /etc/ssh exige root. Grava ca.pub (só se mudou) e garante as
+# duas diretivas no topo de um drop-in (sshd_config tem Include).
+cafile="/etc/ssh/ca.pub"
+if [ ! -f "$cafile" ] || [ "$(cat "$cafile")" != "$CA_PUB" ]; then
+  printf '%s\n' "$CA_PUB" | sudo tee "$cafile" >/dev/null
+  sudo chmod 600 "$cafile"
+  echo "homelab sshd-ca: ca.pub atualizado"
+fi
+
+dropin="/etc/ssh/sshd_config.d/50-cloudflare-ca.conf"
+want="$(printf 'PubkeyAuthentication yes\nTrustedUserCAKeys /etc/ssh/ca.pub\nMatch user %s\n  AuthorizedPrincipalsCommand /bin/echo %s\n  AuthorizedPrincipalsCommandUser nobody\n' "$SSH_USER" "$PRINCIPAL")"
+if [ ! -f "$dropin" ] || [ "$(cat "$dropin")" != "$want" ]; then
+  printf '%s\n' "$want" | sudo tee "$dropin" >/dev/null
+  echo "homelab sshd-ca: drop-in atualizado, recarregando sshd"
+  if sudo launchctl list com.openssh.sshd >/dev/null 2>&1; then
+    sudo launchctl kickstart -k system/com.openssh.sshd 2>/dev/null || true
+  fi
+fi
+{{ end -}}

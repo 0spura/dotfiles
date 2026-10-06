@@ -1,9 +1,12 @@
 # SSH client for homelab hostnames. Deployed on every machine: *.blima.dev
 # always resolves at the Cloudflare edge, so no IP is ever hardcoded.
-# cloudflared must be installed (homelab-server profile, or `brew install
-# cloudflare/cloudflare/cloudflared` on a client). Access login once:
+# Auth is a short-lived cert per Access login (no static key):
 #   cloudflared access login https://ssh.blima.dev
 # then `ssh` below works from any network, with no WARP required.
-Host ssh.blima.dev ssh.mac.blima.dev
-  ProxyCommand cloudflared access ssh --hostname %h
-  StrictHostKeyChecking accept-new
+# The Match+exec line regenerates the cert on each connection; the
+# ProxyCommand carries it through the tunnel.
+Match host ssh.blima.dev exec "{{ .cloudflaredBin }} access ssh-gen --hostname %h"
+  HostName ssh.blima.dev
+  ProxyCommand {{ .cloudflaredBin }} access ssh --hostname %h
+  IdentityFile ~/.cloudflared/%h-cf_key
+  CertificateFile ~/.cloudflared/%h-cf_key-cert.pub
