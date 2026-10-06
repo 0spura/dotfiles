@@ -64,6 +64,16 @@ resource "cloudflare_dns_record" "ssh" {
   ttl     = 1
 }
 
+resource "cloudflare_dns_record" "ai_memory" {
+  zone_id = var.zone_id
+  name    = "ai-memory.blima.dev"
+  type    = "CNAME"
+  content = "8993801c-e6ca-4398-97a9-da4aa61717d9.cfargotunnel.com"
+  comment = "ai-memory server via cloudflared"
+  proxied = true
+  ttl     = 1
+}
+
 resource "cloudflare_dns_record" "collab" {
   zone_id = var.zone_id
   name    = "collab.blima.dev"
@@ -105,6 +115,10 @@ resource "cloudflare_zero_trust_tunnel_cloudflared_config" "mac_mini_m4" {
       {
         hostname = "ssh.blima.dev"
         service  = "ssh://127.0.0.1:22"
+      },
+      {
+        hostname = "ai-memory.blima.dev"
+        service  = "http://127.0.0.1:49374"
       },
       {
         service = "http_status:404"
@@ -201,6 +215,38 @@ resource "cloudflare_zero_trust_access_policy" "collab_token" {
   include = [{
     service_token = {
       token_id = "29954982-e23c-4de1-9d45-04f6e23859eb"
+    }
+  }]
+}
+
+resource "cloudflare_zero_trust_access_application" "ai_memory" {
+  account_id                 = var.account_id
+  name                       = "ai-memory server"
+  domain                     = "ai-memory.blima.dev"
+  type                       = "self_hosted"
+  app_launcher_visible       = false
+  auto_redirect_to_identity  = false
+  enable_binding_cookie      = false
+  options_preflight_bypass   = false
+
+  destinations = [{
+    type = "public"
+    uri  = "ai-memory.blima.dev"
+  }]
+
+
+  lifecycle {
+    ignore_changes = [policies]
+  }
+}
+
+resource "cloudflare_zero_trust_access_policy" "ai_memory_owner" {
+  account_id     = var.account_id
+  name           = "owner only"
+  decision       = "allow"
+  include = [{
+    email = {
+      email = var.owner_email
     }
   }]
 }
