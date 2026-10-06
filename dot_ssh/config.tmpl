@@ -10,3 +10,16 @@ Match host ssh.blima.dev exec "{{ .cloudflaredBin }} access ssh-gen --hostname %
   ProxyCommand {{ .cloudflaredBin }} access ssh --hostname %h
   IdentityFile ~/.cloudflared/%h-cf_key
   CertificateFile ~/.cloudflared/%h-cf_key-cert.pub
+
+# Alias estavel para o Mac: o Zed usa o ssh local, entao herda ProxyCommand
+# + cert automaticamente (Remote Projects -> Connect New Server ->
+# `ssh luisf@mac-mini ...`). ControlMaster acelera reconexoes do Zed.
+Host mac-mini
+  HostName ssh.blima.dev
+  User luisf
+  ProxyCommand {{ .cloudflaredBin }} access ssh --hostname %h
+  IdentityFile ~/.cloudflared/ssh.blima.dev-cf_key
+  CertificateFile ~/.cloudflared/ssh.blima.dev-cf_key-cert.pub
+  ControlMaster auto
+  ControlPath ~/.ssh/sockets/%r@%h-%p
+  ControlPersist 10m
