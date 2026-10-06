@@ -1,3 +1,9 @@
 bin/
 .workctl.local.json
 *.retry
+
+# OpenTofu state (tem segredo em plain)
+infra/*.tfstate
+infra/*.tfstate.*
+infra/.terraform/
+infra/.terraform.lock.hcl
