@@ -15,22 +15,25 @@ if [ -z "$CA_PUB" ] || [ "$CA_PUB" = "<PASTE-CA-PUBKEY>" ]; then
   exit 0
 fi
 
-# macOS: /etc/ssh exige root. Grava ca.pub (só se mudou) e garante as
-# duas diretivas no topo de um drop-in (sshd_config tem Include).
+# macOS: /etc/ssh exige root. Sem timestamp sudo valido (apply nao
+# interativo), pula em vez de falhar: o deploy continua via comando
+# remoto com sudo -S. O `cat` abaixo falharia sem ler; testa escrita
+# com -n para nao pedir senha.
+sudo -p '' -v 2>/dev/null || { echo "homelab sshd-ca: sem sudo (apply nao interativo); rode com TTY ou via comando remoto" >&2; exit 0; }
 cafile="/etc/ssh/ca.pub"
-if [ ! -f "$cafile" ] || [ "$(cat "$cafile")" != "$CA_PUB" ]; then
-  printf '%s\n' "$CA_PUB" | sudo tee "$cafile" >/dev/null
-  sudo chmod 600 "$cafile"
+if [ ! -f "$cafile" ] || ! sudo -n cat "$cafile" 2>/dev/null | grep -qF "$CA_PUB"; then
+  printf '%s\n' "$CA_PUB" | sudo -n tee "$cafile" >/dev/null
+  sudo -n chmod 600 "$cafile"
   echo "homelab sshd-ca: ca.pub atualizado"
 fi
 
 dropin="/etc/ssh/sshd_config.d/50-cloudflare-ca.conf"
 want="$(printf 'PubkeyAuthentication yes\nTrustedUserCAKeys /etc/ssh/ca.pub\nMatch user %s\n  AuthorizedPrincipalsCommand /bin/echo %s\n  AuthorizedPrincipalsCommandUser nobody\n' "$SSH_USER" "$PRINCIPAL")"
-if [ ! -f "$dropin" ] || [ "$(cat "$dropin")" != "$want" ]; then
-  printf '%s\n' "$want" | sudo tee "$dropin" >/dev/null
+if [ ! -f "$dropin" ] || ! sudo -n cat "$dropin" 2>/dev/null | grep -qF "TrustedUserCAKeys /etc/ssh/ca.pub"; then
+  printf '%s\n' "$want" | sudo -n tee "$dropin" >/dev/null
   echo "homelab sshd-ca: drop-in atualizado, recarregando sshd"
-  if sudo launchctl list com.openssh.sshd >/dev/null 2>&1; then
-    sudo launchctl kickstart -k system/com.openssh.sshd 2>/dev/null || true
+  if sudo -n launchctl list com.openssh.sshd >/dev/null 2>&1; then
+    sudo -n launchctl kickstart -k system/com.openssh.sshd 2>/dev/null || true
   fi
 fi
 {{ end -}}
