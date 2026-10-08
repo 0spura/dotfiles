@@ -46,4 +46,15 @@ done
 for formula in node@24 openjdk@21 rust python@3.14; do
   brew_install formula "$formula"
 done
+{{ if eq .machine "mac-mini" -}}
+# Monitor DDC integration and peripheral USB power control.
+brew_install cask betterdisplay
+brew_install formula uhubctl
+# Native model server: keeps Apple GPU access; ai-memory remains in Docker.
+brew_install formula ollama
+brew services start ollama
+if ! ollama show embeddinggemma-2:270m >/dev/null 2>&1; then
+  ollama pull embeddinggemma-2:270m
+fi
+{{ end -}}
 {{- end -}}

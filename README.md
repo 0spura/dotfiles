@@ -46,6 +46,29 @@ ChezMoi executes `run_` scripts in these nested directories without deploying th
 The numbered phase prefixes keep platform setup ahead of optional component setup;
 platform scripts stay grouped by OS, while each component script is directly visible.
 
+### Local embeddings on the Mac mini
+
+On macOS with `machine = "mac-mini"`, the package script installs the native
+Ollama formula, starts its user service with `brew services`, and downloads
+`embeddinggemma-2:270m` only when it is missing. The service starts at user login,
+continues while the screen is locked, and uses the Apple GPU rather than a Linux
+container's CPU backend.
+
+The ai-memory container uses `openai-compat` embeddings at
+`http://host.docker.internal:11434/v1`, with 768 dimensions and the model's
+separate search/document prefixes. This Mac mini configuration overrides the
+embedding-provider prompts; other machines retain their selected provider.
+Ollama keeps its default loopback bind. This host connection is verified with
+OrbStack; do not expose port 11434 to the LAN just to connect the container.
+
+Manage the server with `brew services start|stop|restart ollama`, inspect loaded
+models with `ollama ps`, and read the service log at
+`/opt/homebrew/var/log/ollama.log`. Do not run the GUI application alongside the
+Homebrew service. An existing container must be recreated with the new embedding
+environment before changing providers; preserve its volume and credentials,
+back up first, and run `ai-memory embed` for each workspace/project afterward.
+
+
 ## First run on a new machine
 
 ```sh
@@ -87,6 +110,24 @@ chezmoi ignored                     # repository-only paths kept out of the home
 
 The install scripts run on every `chezmoi apply` and are idempotent. They install what is missing and
 never update, replace, or remove software they did not install themselves.
+
+
+## Monitor-controlled peripheral USB (Mac mini M4)
+
+`Library/LaunchAgents/com.luis.monitor-usb.plist.tmpl` deploys the user service
+`com.luis.monitor-usb`, running `~/.local/bin/monitor-usb.py` at login.
+Requires Homebrew Python, `uhubctl`, and BetterDisplay with CLI integration enabled.
+
+The service polls ASUS VG279Q1A DDC VCP `0xD6` every two seconds. Ten seconds of
+`Failed.` responses from a responsive BetterDisplay app cuts only front port 2
+on Apple hubs `2-1` and `2-2` (USB2/USB3). Port 1 and rear ports are untouched.
+A value of `1` restores power. Unknown responses restore/keep power on.
+Persistent DDC failures can still cause an unintended cutoff; do not attach
+storage to the controlled peripheral hub.
+
+Logs: `~/Library/Logs/monitor-usb.log` and `monitor-usb.error.log`.
+To stop and restore power: `launchctl bootout gui/$(id -u)/com.luis.monitor-usb`.
+To start: `launchctl bootstrap gui/$(id -u) ~/Library/LaunchAgents/com.luis.monitor-usb.plist`.
 
 ## Secrets
 

@@ -117,7 +117,14 @@ else
         -e AI_MEMORY_LLM_BASE_URL={{ .aiMemoryBaseUrl }} \
         -e AI_MEMORY_LLM_MODEL={{ .aiMemoryLlmModel }} \
 {{- end }}
-{{- if eq .aiMemoryEmbeddingProvider "openai" }}
+{{- if and (eq .chezmoi.os "darwin") (eq .machine "mac-mini") }}
+        -e AI_MEMORY_EMBEDDING_PROVIDER=openai-compat \
+        -e AI_MEMORY_EMBEDDING_BASE_URL=http://host.docker.internal:11434/v1 \
+        -e AI_MEMORY_EMBEDDING_MODEL=embeddinggemma-2:270m \
+        -e AI_MEMORY_EMBEDDING_DIM=768 \
+        -e 'AI_MEMORY_EMBEDDING_QUERY_PREFIX=task: search result | query: ' \
+        -e 'AI_MEMORY_EMBEDDING_DOCUMENT_PREFIX=title: none | text: ' \
+{{- else if eq .aiMemoryEmbeddingProvider "openai" }}
         -e AI_MEMORY_EMBEDDING_PROVIDER=openai \
         -e OPENAI_API_KEY={{ .openaiApiKey }} \
         -e AI_MEMORY_EMBEDDING_MODEL={{ .aiMemoryEmbedModel }} \

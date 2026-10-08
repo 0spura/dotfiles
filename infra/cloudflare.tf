@@ -135,6 +135,7 @@ resource "cloudflare_zero_trust_access_application" "mac_ssh" {
   auto_redirect_to_identity  = false
   enable_binding_cookie      = false
   options_preflight_bypass   = false
+  session_duration           = "720h"
   destinations = [{
     type = "public"
     uri  = "ssh.blima.dev"

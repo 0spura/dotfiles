@@ -1,0 +1,60 @@
+ # Choose an existing persistent SSH workspace or create an independent one.
+ # Auto-shows on SSH login when SSH_TMUX=1; run `ssh_tmux_menu` manually to reopen it.
+ if [[ ${HOST%%.*} == mac-mini ]] && command -v tmux >/dev/null 2>&1; then
+   ssh_tmux_menu() {
+     local id name attached choice directory command refresh PS3='Session to resume: '
+     local -a ids labels
+     while true; do
+       ids=()
+       labels=()
+       while IFS=$'\t' read -r id name attached directory command; do
+         ids+=("$id")
+         directory=${directory/#$HOME/\~}
+         [[ $attached != 0 ]] && name+=' (attached)'
+         labels+=("$name | $directory | $command")
+       done < <(tmux list-sessions -F $'#{session_id}\t#{session_name}\t#{session_attached}\t#{pane_current_path}\t#{pane_current_command}' 2>/dev/null)
+       labels+=('New session' 'Shell without tmux')
+       refresh=0
+       select choice in "${labels[@]}"; do
+         [[ $REPLY == <-> ]] || continue
+         (( REPLY >= 1 && REPLY <= ${#labels} )) || continue
+         if (( REPLY == ${#labels} )); then
+           return
+         elif (( REPLY == ${#labels} - 1 )); then
+           if [[ -n ${TMUX:-} ]]; then
+             tmux new-session -c "$HOME"
+           else
+             exec tmux new-session -c "$HOME"
+           fi
+         fi
+         id=${ids[$REPLY]}
+         attached=$(tmux display-message -p -t "$id" '#{session_attached}' 2>/dev/null)
+         if [[ $attached == 0 ]]; then
+           if [[ -n ${TMUX:-} ]]; then
+             tmux switch-client -t "$id"
+           else
+             exec tmux attach-session -t "$id"
+           fi
+         elif [[ -n $attached ]]; then
+           read -r "choice?Session is attached. Detach the other terminal and resume here? [y/N] " || return
+           if [[ $choice == [yY] || $choice == [yY][eE][sS] ]]; then
+             if [[ -n ${TMUX:-} ]]; then
+               tmux switch-client -t "$id"
+               tmux detach-client -s "$id" -a
+             else
+               exec tmux attach-session -d -t "$id"
+             fi
+           fi
+         else
+           print 'Session no longer exists. Refreshing the list.'
+         fi
+         refresh=1
+         break
+       done
+       (( refresh )) || return
+     done
+   }
+   if [[ -o interactive && -n ${SSH_TTY:-} && -z ${TMUX:-} && ${SSH_TMUX:-0} == 1 ]]; then
+     ssh_tmux_menu
+   fi
+ fi

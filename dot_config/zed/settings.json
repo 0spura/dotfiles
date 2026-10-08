@@ -164,6 +164,16 @@
   },
 
   "terminal": {
+    "shell": {
+      "with_arguments": {
+        "program": "/bin/zsh",
+        "args": [
+          "-i",
+          "-c",
+          "if (( $+functions[ssh_tmux_menu] )); then ssh_tmux_menu; fi; exec /bin/zsh -i"
+        ],
+      },
+    },
     "dock": "bottom",
     "default_height": 180,
     "blinking": "terminal_controlled",
