@@ -1,0 +1,40 @@
+{{ if ne .chezmoi.os "windows" -}}
+#!/bin/sh
+# Install or update workctl through Cargo. Cargo owns the checkout, the build
+# cache, and the installed executable, so no workctl source clone is required.
+# The install root is pinned before any Cargo call so the binary lands where the
+# managed Zsh profile looks for it, even when a Cargo config sets a different one.
+set -eu
+
+cargo_home="${CARGO_HOME:-$HOME/.cargo}"
+install_root="${CARGO_INSTALL_ROOT:-$cargo_home}"
+if [ "$install_root" != "$cargo_home" ]; then
+  PATH="$install_root/bin:$cargo_home/bin:$PATH"
+else
+  PATH="$install_root/bin:$PATH"
+fi
+CARGO_INSTALL_ROOT="$install_root"
+export CARGO_INSTALL_ROOT PATH
+
+if ! command -v cargo >/dev/null 2>&1; then
+  echo "workctl: Cargo is required; install Rust and re-apply" >&2
+  exit 1
+fi
+
+# A first installation must succeed: the machine is expected to have workctl.
+# An update that cannot complete keeps the working version, so one unreachable
+# network or a stale upstream lock never breaks the rest of `chezmoi apply`.
+if cargo install --git https://github.com/0spura/workctl --locked; then
+  :
+elif cargo install --git https://github.com/0spura/workctl; then
+  :
+elif [ -x "$install_root/bin/workctl" ]; then
+  echo "workctl: update failed; keeping the installed version" >&2
+  exit 0
+else
+  echo "workctl: installation failed; re-run chezmoi apply" >&2
+  exit 1
+fi
+
+"$install_root/bin/workctl" --version
+{{- end }}

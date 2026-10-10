@@ -7,11 +7,13 @@ description: Prepare a verified, reviewable pull request after implementation an
 
 ## Workflow
 
-1. Confirm branch, base, status, and the complete diff against the item's contract, and move the item to the configured review stage. Resolve the base reference and confirm the diff is non-empty before spawning anything: a bad ref or an empty diff fails here, not inside two reviewers.
+Use `workctl` with repository-configured providers; read the selected command's `--help`. The parent owns writes. GitHub uses `pr`; GitLab uses `mr`. Report unsupported operations; do not emulate them.
+
+1. Confirm branch, base, status, and the complete diff against the item's contract. If a review stage is configured and supported, the parent updates it through GitHub `issue edit` or GitLab `issue update`, after reading the selected help, then confirms with `workctl issue view`. Resolve the base reference and confirm the diff is non-empty before spawning anything: a bad ref or an empty diff fails here, not inside two reviewers.
 2. Run the item's verification and the applicable repository checks; report skipped evidence as skipped, and record a missing contract or specification as unavailable rather than reconstructing one.
 3. Spawn `reviewer` for an independent contract/spec pass and engineering/repository-standards pass; keep findings under separate `Contract` and `Engineering` headings. Spawn `security-reviewer` only when the diff touches untrusted input or a sensitive operation; restrict it to security controls and vulnerabilities. Do not ask the general reviewer for a second security audit. Give each reviewer changed paths, acceptance criteria, and the base reference, not copied session history; keep security findings separate from both axes and never merge or rerank findings across reviewers.
 4. Apply bounded findings once, re-run the affected checks, and escalate a structural contradiction rather than looping.
-5. Create or update the PR through the repository's normal system, preserving its template when one exists, otherwise `skill://pull-request/reference/body.md`.
+5. The parent creates or updates the request, preserving the repository's template or `skill://pull-request/reference/body.md`. Examples: GitHub `workctl pr create --title "Fix parser" --body-file pr.md`; GitLab `workctl mr create --title "Fix parser" --description-file pr.md`. Updates use `pr edit` or `mr update`; confirm through `pr view` or `mr view`. Include the issue link, verification and unresolved findings; never substitute creation for required approvals.
 
 ## Done when
 

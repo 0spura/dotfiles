@@ -7,6 +7,8 @@ description: Coordinate approved tracker work to verified commits with bounded p
 
 The linked item is the contract. The parent coordinates; one execution agent owns one bounded goal with its verification.
 
+Use `workctl` with repository-configured providers and the selected command's `--help`. The parent owns tracker writes; execution agents return evidence and proposed updates.
+
 ## Workflow
 
 1. Choose the next unblocked item and give its agent the identifier, type, scope, acceptance, out-of-scope, and verification. Describe the outcome behaviorally; include known paths only to bound write ownership or review scope, never as the acceptance criterion.
@@ -21,8 +23,9 @@ The linked item is the contract. The parent coordinates; one execution agent own
 
 3. Verify the returned result, the current diff, and the focused checks before selecting the next item, and mark a requirement `Implemented` in the SRS only where its named verification passes.
 4. Parallelize only proven-disjoint items, following `skill://implementation/reference/parallel-execution.md`; keep isolated workspaces off unless the repository workflow requires them.
-5. Update the tracker and write any approved durable record following `documentation-style`.
-6. Route the verified branch to `pull-request` for the review cycle.
+5. The parent records evidence on the canonical issue, then confirms with `workctl issue view 123`. Examples: GitHub `workctl issue comment 123 --body "Verified: …"`; GitLab `workctl issue note 123 --message "Verified: …"`. Use `issue edit` or `issue update` for metadata. Report only observed evidence.
+6. Write any approved durable record following `documentation-style`.
+7. Route the verified branch to `pull-request` for the review cycle.
 
 ## Stop conditions
 

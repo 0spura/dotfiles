@@ -5,7 +5,11 @@ description: Decide the smallest useful plan for a tracker item, routing missing
 
 # Plan
 
-Planning only; no source code. Once behavior and acceptance are approved the item is the delivery contract, and discovery, design, requirements, and architecture stay sections or linked documents on it.
+Use `workctl`; providers come from repository configuration. Read the selected command's `--help` before use. The parent owns tracker writes.
+
+## Tracker reads
+
+Run `workctl issue list`, then `workctl issue view 123` for the chosen contract; never plan from a summary alone. Read linked artifacts once. The parent reads back every write. GitHub uses `issue edit|comment`; GitLab uses `issue update|note`.
 
 ## Workflow
 

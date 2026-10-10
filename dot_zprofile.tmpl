@@ -8,3 +8,6 @@ export PATH="$HOME/.local/bin:$PATH"
 # This won't be added again if you remove it.
 source ~/.orbstack/shell/init.zsh 2>/dev/null || :
 {{ end -}}
+
+# Cargo-installed binaries, including workctl (macOS and Linux).
+export PATH="${CARGO_INSTALL_ROOT:-${CARGO_HOME:-$HOME/.cargo}}/bin:$PATH"
