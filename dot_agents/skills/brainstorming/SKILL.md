@@ -9,11 +9,11 @@ Choose one scope: product, module, or feature. Read the existing evidence before
 
 ## Workflow
 
-1. State the problem, affected users, scale and context, constraints, success signal, and non-goals.
+1. Use the canonical issue and linked discovery from `plan` as the problem boundary. Carry its target project, affected users, constraints, success signal, and non-goals through the design; surface a contradiction before changing the issue's outcome.
 2. Produce alternatives only for a real choice, comparing expected outcome, evidence, tradeoffs, risks, and reversibility.
 3. Recommend one option and name the assumption that could invalidate it.
-4. Ask for approval before saving the design or moving to requirements.
-5. Route irreversible data, API, infrastructure, security, or scale choices through `grill-me`, and technical design through `architecture-design`.
+4. Ask for approval before saving the design or moving to requirements. The parent links the approved artifact and any unresolved decision on the same workctl issue, then reads it back; a saved design is not implementation authorization.
+5. Route irreversible data, API, infrastructure, security, or scale choices through `grill-me`, and technical design through `architecture-design`, retaining issue identity and approved scope instead of creating tickets per phase.
 
 - **Product:** draft purpose, aspiration, users, principles, and anti-goals with `skill://brainstorming/reference/vision-template.md`; save `docs/product/vision.md` after approval.
 - **Component:** problem, boundaries, interfaces, responsibilities, technical choices, and risks.

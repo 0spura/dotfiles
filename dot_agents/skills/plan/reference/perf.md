@@ -11,16 +11,16 @@ measurable target up front.
 [what is slow or resource-heavy, and where: response time, memory, CPU, throughput]
 
 ## Baseline
-[leave blank, measured by the fix agent]
+[measured by the execution agent; parent records command, conditions, and result on this issue]
 
 ## Target
 [what improvement looks like: latency < X ms, memory < Y MB, throughput > Z req/s]
 
 ## Bottleneck
-[leave blank, profiled by the fix agent]
+[supported profiling evidence returned by the execution agent]
 
 ## Change
-[leave blank, filled in by the fix agent]
+[parent records verified change and comparable after-measurement]
 
 ## Implementation Surface
 - `[path/module]`: [suspected hot path, if known, used for parallel-safety]

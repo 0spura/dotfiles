@@ -5,7 +5,7 @@ description: Design the smallest implementation structure for accepted requireme
 
 # Architecture Design
 
-The SRS owns observable behavior; this skill owns its technical realization. Create `docs/project.md` only when the repository needs it.
+Read the canonical workctl issue and its linked approved requirements before designing. The SRS owns observable behavior; this skill owns its technical realization within that scope. Keep target/issue identity through handoff; create `docs/project.md` only when the repository needs it.
 
 Design the smallest deep modules: clear ownership, narrow interfaces, and a seam callers and tests can cross. Design for safe evolution: preserve the public contract while internals change, separate a stable interface from volatile behavior, and prefer rollout strategies that expose a change gradually with observable health and a fast rollback path when risk justifies it. Read `skill://architecture-design/reference/deep-modules.md` when choosing a seam, and add an abstraction only when it hides real complexity or a second concrete variation justifies it. Resolve a costly choice with the user or `grill-me` before documenting it.
 
@@ -15,7 +15,7 @@ For each changed seam, specify only its owner, contract, invariants, integration
 
 Place code by reason to change, not by size: group responsibilities that change together behind a cohesive module, and split when independent policies change for different reasons. A domain prefix repeated across separate files can signal a missing boundary, but a folder or another level of nesting must make ownership clearer, not merely move names. Read `skill://architecture-design/reference/module-layout.md` for placement examples and `skill://architecture-design/reference/deep-modules.md` before splitting a module.
 
-Update `docs/architecture.md` (`skill://architecture-design/reference/template.md`) and `docs/project.md` only when applicable, referencing `srs` and `adr` records instead of repeating them.
+Update `docs/architecture.md` (`skill://architecture-design/reference/template.md`) and `docs/project.md` only when applicable, referencing `srs` and `adr` records instead of repeating them. The parent links the approved boundary decisions and artifact on the same workctl issue, reads it back, and hands its invariants/failure behavior to `implementation`. An unresolved structural choice blocks that issue's execution, not a reason to invent a second delivery contract.
 
 ## Review
 

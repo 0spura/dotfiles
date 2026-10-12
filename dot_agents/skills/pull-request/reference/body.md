@@ -27,8 +27,10 @@ Omit a section when it has no material information; do not fill it with "none".
 
 ## Tracker
 
-[issue or tracker link]
+[canonical issue identity and link; use supported explicit workctl issue-reference options when publishing]
 ```
 
 The title describes the outcome, not the implementation sequence. Keep the
 summary reviewable from the diff.
+
+The parent records this request on the same issue and reads back both. A request link is not delivery: queued merge, confirmed merge, issue closure, and workflow effects are separate observed states.

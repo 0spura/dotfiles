@@ -1,32 +1,35 @@
 ---
 name: implementation
-description: Coordinate approved tracker work to verified commits with bounded parallelism. Use when the work is tracker-backed or has several bounded items.
+description: Execute approved workctl issue contracts on linked branches, coordinate bounded agents, and carry verified evidence into PR/MR review.
 ---
 
 # Implementation
 
-The linked item is the contract. The parent coordinates; one execution agent owns one bounded goal with its verification.
+Execution keeps one identity: target checkout, canonical issue, linked branch, base, acceptance, and verification. Bind it through `plan` if missing; never implement from an issue summary alone. The parent owns tracker writes and integration; execution agents receive the contract and return evidence.
 
-Use `workctl` with repository-configured providers and the selected command's `--help`. The parent owns tracker writes; execution agents return evidence and proposed updates.
+## Start work
 
-## Workflow
+1. Select the next unblocked issue and read its contract and linked artifacts. Use workctl in the target checkout or retain `--repo-path PATH` for every tracker operation. Confirm the worktree and current branch before editing; leave unrelated changes untouched and stop if they obstruct safe checkout or integration.
+2. Reuse an existing branch for this issue when its identity and checkout are established. Otherwise read `issue develop --help`, choose a short representative lowercase hyphenated slug without the ID, and create/check out the linked branch: `workctl issue develop 123 --name parser-crash --checkout`. Workctl prefixes the issue ID. Verify the actual branch; listing or creating a remote branch alone does not switch the worktree. Do not recreate a branch after an uncertain result: inspect linked branches and local state first.
+3. Let configured, locally approved workctl workflows handle branch/PR/merge-driven stages and supported time tracking. Branch creation is not proof that a stage changed. Inspect workflow status/actions when automation is relevant or reports a warning; do not duplicate automatic mutations, invent timers, or approve rules merely to unblock execution. Missing automation is not a reason to change repository configuration without authorization.
 
-1. Choose the next unblocked item and give its agent the identifier, type, scope, acceptance, out-of-scope, and verification. Describe the outcome behaviorally; include known paths only to bound write ownership or review scope, never as the acceptance criterion.
+## Deliver the contract
+
+1. Give each execution agent the target, issue identity, branch/base, type, scope, acceptance, non-goals, owned paths, and verification. Describe the result behaviorally, not as a file checklist.
 2. Route by type:
 
 | Item | Agent | Completion gate |
 | --- | --- | --- |
-| `feat`, `refactor` | `worker` (`code-craft`) | focused verification; cite an SRS ID in a durable test when that test defends the requirement |
-| `fix`, `perf` | `fix` (`debugging` then `code-craft`) | supported cause and regression proof, or a comparable measurement meeting the target |
+| `feat`, `refactor` | `worker` (`code-craft`) | focused verification; cite an SRS ID in a durable test when it defends that requirement |
+| `fix`, `perf` | `fix` (`debugging`, then `code-craft`) | supported cause and regression proof, or comparable measurement meeting the target |
 | research | `scout` | map with paths, lines, and ownership |
-| pre-merge review | `reviewer`; also `security-reviewer` for sensitive surfaces | independent, evidence-backed findings from each reviewer |
+| pre-merge review | `reviewer`; also `security-reviewer` for sensitive surfaces | independent evidence-backed findings |
 
-3. Verify the returned result, the current diff, and the focused checks before selecting the next item, and mark a requirement `Implemented` in the SRS only where its named verification passes.
-4. Parallelize only proven-disjoint items, following `skill://implementation/reference/parallel-execution.md`; keep isolated workspaces off unless the repository workflow requires them.
-5. The parent records evidence on the canonical issue, then confirms with `workctl issue view 123`. Examples: GitHub `workctl issue comment 123 --body "Verified: …"`; GitLab `workctl issue note 123 --message "Verified: …"`. Use `issue edit` or `issue update` for metadata. Report only observed evidence.
-6. Write any approved durable record following `documentation-style`.
-7. Route the verified branch to `pull-request` for the review cycle.
+3. Parallelize only disjoint independent work using `skill://implementation/reference/parallel-execution.md`. Keep tracker and branch lifecycle mutations serialized under the parent; children never create branches or switch the shared worktree independently.
+4. Integrate results and exercise the specified behavior, including meaningful failures. Mark SRS requirements `Implemented` only when their named verification passes. Commit only when the assignment or repository workflow requires it.
+5. The parent records observed evidence and material blockers on the canonical issue and reads it back. GitHub uses `issue comment`/`issue edit`; GitLab uses `issue note`/`issue update`; consult the selected help, not another provider's spelling. Keep status output compact; use JSON only when consuming exact fields.
+6. Hand the verified branch, issue identity, base, checks, and remaining findings to `pull-request`. Do not close the issue merely because coding finished or PR creation succeeded; completion follows the issue's delivery contract and confirmed remote state.
 
 ## Stop conditions
 
-Stop for a structural decision, security choice, blocking defect, dirty unrelated worktree, unavailable tracker, or missing verification command, and return the blocker with the next unblocked item.
+Stop for a structural/security decision, blocking defect, unavailable tracker, missing verification, or conflicting worktree changes. Record the actual blocker through the parent when reachable. Unknown remote-write outcomes require inspection before retry, never a duplicate create or blind replay.

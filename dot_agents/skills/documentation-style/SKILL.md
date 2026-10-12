@@ -9,10 +9,10 @@ Use this for documentation another person or agent must use, maintain, or verify
 
 ## Workflow
 
-1. Identify audience, scope, owner, and how the content is verified.
+1. Identify audience, scope, owner, and verification. For tracked work, take scope from the canonical workctl issue and linked contract; an artifact is evidence for that item, not a new ticket.
 2. Keep only facts, decisions, constraints, procedures, and evidence that change future work; link canonical sources instead of copying them.
 3. Use consistent terms, explicit assumptions, and measurable acceptance.
-4. Check links, paths, contradictions, stale claims, and stop conditions before saving.
+4. Check links, paths, contradictions, stale claims, and stop conditions before saving. Return the canonical artifact and observed verification to the parent for linking on the issue with readback; do not copy session logs into the tracker or infer approval from publication.
 
 ## Editing standard
 

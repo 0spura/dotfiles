@@ -9,12 +9,13 @@ The SRS specifies what the system must do and how that behavior is accepted. Kee
 
 ## Workflow
 
-1. Read the product principles and existing requirements; resolve a contradiction before writing.
+1. Read the canonical workctl issue, linked approved design, product principles, and existing requirements. Resolve contradictions before writing; the issue remains the delivery contract, and the SRS is its versioned behavioral artifact.
 2. Define actors, use cases, constraints, non-goals, and stable domains.
 3. Give every active requirement a stable ID (`RF-XXX.N`, `RNF-XXX.N`), priority, dependencies, measurable acceptance, edge limits, and an observable verification method. Name a test or command when it exists; a direct observation with its expected result also qualifies. Track implementation status apart from approval: a requirement stays `Specified` until its verification exists and passes, and only then becomes `Implemented`. Describe caller-visible behavior rather than binding the requirement to a file path or line number; links to evidence may still name files.
 4. Use `skill://srs/reference/template.md` for an initial document.
 5. Check each requirement against the scope boundary, and confirm a tester can verify it without a follow-up question.
 6. Ask for approval when a requirement contradicts product principles, existing requirements, or a costly decision.
+7. The parent links the active SRS and stable requirement IDs on the same issue and reads it back. Handoff to architecture/implementation includes those IDs, acceptance, verification, and open decisions. Do not create requirement tickets solely because the work changed skill.
 
 ## Size and structure
 

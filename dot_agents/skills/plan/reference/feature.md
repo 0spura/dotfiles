@@ -3,7 +3,7 @@
 Type: `feat`. The item describes an observable behavior, not a presumed
 implementation.
 
-A feature is decomposed into a parent (the feature boundary) and child items only when a piece has its own PR or commit scope, dependency, risk, or discussion. Otherwise keep it as a checklist in the parent.
+Keep the feature on one canonical workctl issue. Create a child only for independent acceptance, ownership, deployment, dependency, or review scope; discovery, SRS, architecture, and PR review are phases/artifacts of the same item, not automatic children.
 
 ## Parent
 

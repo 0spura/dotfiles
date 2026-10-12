@@ -1,20 +1,31 @@
 ---
 name: pull-request
-description: Prepare a verified, reviewable pull request after implementation and drive its review cycle. Use when a branch is ready for review; not to design or implement the change.
+description: Review a verified issue-linked branch, publish its PR/MR through workctl, and reconcile delivery evidence with the canonical issue.
 ---
 
 # Pull Request
 
-## Workflow
+Carry the target checkout, issue identity, branch/base, acceptance, and verification from `implementation`. The request is delivery evidence on that same issue, not a new review ticket. The parent owns all remote writes; reviewers return findings only.
 
-Use `workctl` with repository-configured providers; read the selected command's `--help`. The parent owns writes. GitHub uses `pr`; GitLab uses `mr`. Report unsupported operations; do not emulate them.
+## Review the branch
 
-1. Confirm branch, base, status, and the complete diff against the item's contract. If a review stage is configured and supported, the parent updates it through GitHub `issue edit` or GitLab `issue update`, after reading the selected help, then confirms with `workctl issue view`. Resolve the base reference and confirm the diff is non-empty before spawning anything: a bad ref or an empty diff fails here, not inside two reviewers.
-2. Run the item's verification and the applicable repository checks; report skipped evidence as skipped, and record a missing contract or specification as unavailable rather than reconstructing one.
-3. Spawn `reviewer` for an independent contract/spec pass and engineering/repository-standards pass; keep findings under separate `Contract` and `Engineering` headings. Spawn `security-reviewer` only when the diff touches untrusted input or a sensitive operation; restrict it to security controls and vulnerabilities. Do not ask the general reviewer for a second security audit. Give each reviewer changed paths, acceptance criteria, and the base reference, not copied session history; keep security findings separate from both axes and never merge or rerank findings across reviewers.
-4. Apply bounded findings once, re-run the affected checks, and escalate a structural contradiction rather than looping.
-5. The parent creates or updates the request, preserving the repository's template or `skill://pull-request/reference/body.md`. Examples: GitHub `workctl pr create --title "Fix parser" --body-file pr.md`; GitLab `workctl mr create --title "Fix parser" --description-file pr.md`. Updates use `pr edit` or `mr update`; confirm through `pr view` or `mr view`. Include the issue link, verification and unresolved findings; never substitute creation for required approvals.
+1. Confirm checkout, branch, base, and complete diff against the issue contract. Resolve the base and require a non-empty diff before spawning reviewers. Run workctl from that target or retain `--repo-path PATH`; never route by the agent's incidental directory.
+2. Run the contract's verification and applicable repository checks. Report skipped or unavailable evidence explicitly. Reuse observed results when still valid; do not claim a check from another branch or artifact.
+3. Request an independent `reviewer` pass with separate `Contract` and `Engineering` findings. Add `security-reviewer` when untrusted input or sensitive operations changed; keep security findings separate. Give reviewers the issue contract, changed paths, base, and observed evidence, not session dumps or tracker-write authority.
+4. Apply bounded findings, re-run affected checks, and escalate structural contradictions. Do not treat review completion as merge approval.
+
+## Publish and reconcile
+
+1. Read the selected `pr` (GitHub) or `mr` (GitLab) command help. Inspect whether a request already exists for this branch before creating one; update it rather than duplicating it. Keep the repository template or `skill://pull-request/reference/body.md` with issue identity, actual verification, risk, and unresolved findings.
+2. Link the issue explicitly when creating the request. GitHub can use `pr create --closes 123`; GitLab can use `mr create --related-issue 123`. Cross-repository/provider relationships and closing behavior must be supported and intentional; a prose mention is not proof of a workflow link or automatic closure. Use native update options from help for existing requests.
+3. Read the created/updated request back through `pr view` or `mr view`; confirm source/target and issue linkage. The parent records request identity and verification on the canonical issue and reads it back. Retain target context on all commands; text is the default, JSON only for fields consumed by checks.
+4. Approved workctl workflows own configured review/merge stage transitions and automation. Inspect status/actions for warnings or pending execution rather than repeating their effects. Never approve workflow rules, resolve uncertain writes as applied, or authorize replay without the required user authority and remote evidence.
+5. Merge only when requested or authorized by the repository workflow and required checks/approvals pass. An auto-merge request is queued, not merged. Confirm actual merged state with `pr view` or `mr view` before reporting delivery; confirm issue closure or configured stage/time effects separately. Never close the issue just to make the tracker look finished.
 
 ## Done when
 
-The PR links its item and carries verification evidence, unresolved findings, and failed checks.
+For a publication task, the request links its issue and carries verification and unresolved findings. For an authorized merge task, merged state and the contract's completion effects are observed. Report remaining gates without claiming delivery early.
+
+## Stop conditions
+
+Invalid target/base, empty diff, missing contract, failed required checks, unavailable provider, or absent merge authorization stops the affected action. After an uncertain create/merge, inspect remote state before retrying; never issue duplicate writes blindly.

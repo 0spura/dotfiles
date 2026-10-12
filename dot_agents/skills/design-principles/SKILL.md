@@ -9,11 +9,11 @@ The flow is designed from accepted requirements and current evidence; the defaul
 
 ## Workflow
 
-1. Name the primary user goal and the flow that reaches it: entry state, next action, feedback, and recovery path.
+1. Read the canonical issue and linked accepted requirements when this is tracked work. Name its primary user goal and the flow that reaches it: entry state, next action, feedback, and recovery path. Keep design scope tied to the issue rather than inventing a parallel delivery contract.
 2. Cover only the material states — loading, empty, error, disabled, permission, success — and how each is reached and left.
 3. Preserve keyboard, screen-reader, focus, touch, and narrow-screen operation; apply current WCAG and platform requirements where they govern.
 4. Reference the requirements the flow satisfies instead of restating them, and return an ambiguity as a question rather than inventing product behavior.
-5. Name the success evidence a reviewer can observe.
+5. Name the success evidence a reviewer can observe. Return the flow artifact, requirement IDs, evidence, and unresolved decisions to the parent for linking on the same workctl issue and readback; a design-only result does not mark implementation complete.
 
 ## Defaults
 
