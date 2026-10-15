@@ -9,7 +9,7 @@ Carry the target checkout, issue identity, branch/base, acceptance, and verifica
 
 ## Review the branch
 
-1. Confirm checkout, branch, base, and complete diff against the issue contract. Resolve the base and require a non-empty diff before spawning reviewers. Run workctl from that target or retain `--repo-path PATH`; never route by the agent's incidental directory.
+1. Confirm checkout, branch, base, and complete diff against the issue contract. Resolve the base and require a non-empty diff before spawning reviewers. Run workctl from the target checkout; it automatically resolves the repository there. Do not pass `--repo-path` for routine commands. Use `--repo-path PATH` only when intentionally operating on a different local checkout; never route by the agent's incidental directory.
 2. Run the contract's verification and applicable repository checks. Report skipped or unavailable evidence explicitly. Reuse observed results when still valid; do not claim a check from another branch or artifact.
 3. Request an independent `reviewer` pass with separate `Contract` and `Engineering` findings. Add `security-reviewer` when untrusted input or sensitive operations changed; keep security findings separate. Give reviewers the issue contract, changed paths, base, and observed evidence, not session dumps or tracker-write authority.
 4. Apply bounded findings, re-run affected checks, and escalate structural contradictions. Do not treat review completion as merge approval.

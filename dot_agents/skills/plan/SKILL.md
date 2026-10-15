@@ -9,8 +9,8 @@ The issue is the contract; discovery, design, requirements, implementation, and 
 
 ## Bind the work
 
-1. Identify the local checkout being changed. Run workctl there, or use `--repo-path PATH` consistently when working from another checkout. The target supplies configuration, origin, provider grammar, and workflow scope; `--repo` overrides remote resource scope only. Relative file arguments resolve from the selected target worktree. Never infer a provider from the agent's own repository or pass provider-selection flags.
-2. Read `workctl issue --help`, then list summaries and view the selected issue in full. Read its linked artifacts once. Reuse a matching item; if none exists, the parent creates one from the matching template and reads it back before implementation. Keep text output unless exact structured fields are needed.
+1. Identify the local checkout being changed and run workctl from that checkout. It automatically resolves the target repository there; do not pass `--repo-path` for routine commands. Use `--repo-path PATH` only when intentionally operating on a different local checkout. The target supplies configuration, origin, provider grammar, and workflow scope; `--repo` overrides remote resource scope only. Relative file arguments resolve from the selected target worktree. Never infer a provider from the agent's own repository or pass provider-selection flags.
+2. Read `workctl issue --help`, then list summaries and view the selected issue in full. Read its linked artifacts once. Reuse a matching item; if none exists, the parent creates one from the matching template and reads it back before implementation. Use the default human-readable output; do not pass `--format text`. Request structured output only when exact structured fields are needed.
 3. Carry target checkout, canonical issue identity, goal, acceptance, non-goals, and verification through every handoff. IDs alone are insufficient across projects. The parent owns tracker mutations and readback; execution agents return evidence and proposed updates.
 
 ## Plan from the contract
