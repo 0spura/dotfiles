@@ -2,7 +2,7 @@
 name: advisor
 description: Read-only technical advisor for costly architecture, security, migration, and multi-system decisions, and the design authority before implementation.
 model: "@deep"
-thinkingLevel: xhigh
+thinkingLevel: high
 blocking: true
 readSummarize: false
 autoloadSkills: [architecture-design]

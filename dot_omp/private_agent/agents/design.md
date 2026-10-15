@@ -2,7 +2,7 @@
 name: design
 description: Read-only researcher and designer for one bounded product, market, or user-flow question.
 model: "@judgment"
-thinkingLevel: high
+thinkingLevel: medium
 blocking: true
 readSummarize: false
 autoloadSkills: [product-discovery, design-principles]

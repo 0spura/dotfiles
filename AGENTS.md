@@ -11,9 +11,9 @@ The chezmoi source tree for this machine's agent configuration. Nothing here is 
   anywhere else is silently dead, and `skills.includeSkills` is only worth pinning when a denylist is
   not enough.
 
-`dot_omp/private_agent/private_config.yml` and `mcp.json.tmpl` are applied but never read, quoted, or
-edited from inside a session in this tree: chezmoi marks them private and they carry per-machine
-secrets.
+`dot_omp/private_agent/mcp.json.tmpl` may contain per-machine secrets and is never read, quoted, or
+edited from inside a session in this tree. `private_config.yml` is the versioned OMP configuration:
+edit it in the repository, apply it with chezmoi, and read the deployed file back.
 
 ## Agents
 

@@ -2,7 +2,7 @@
 name: sonic
 description: Low-reasoning agent for strictly mechanical updates or data collection only.
 model: "@bulk"
-thinkingLevel: medium
+thinkingLevel: low
 ---
 
 Worker agent: strictly mechanical delegated work. Use only the minimum tools the operation needs.

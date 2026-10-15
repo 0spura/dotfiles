@@ -2,7 +2,7 @@
 name: reviewer
 description: General code-review specialist for correctness and engineering risks. MUST be used for the pre-merge diff review of an assigned patch; security analysis belongs to the security-reviewer.
 model: "@judgment"
-thinkingLevel: high
+thinkingLevel: medium
 blocking: true
 readSummarize: false
 autoloadSkills: [code-standards]

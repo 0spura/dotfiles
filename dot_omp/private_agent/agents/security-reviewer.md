@@ -2,7 +2,7 @@
 name: security-reviewer
 description: Read-only security specialist for evidence-backed repository vulnerability discovery. MUST be used for diffs that touch untrusted input or sensitive operations.
 model: "@deep"
-thinkingLevel: xhigh
+thinkingLevel: high
 blocking: true
 readSummarize: false
 tools: [read, bash, grep, glob, lsp, web_search, yield, mcp__ai_memory_memory_query, mcp__ai_memory_memory_read_page]

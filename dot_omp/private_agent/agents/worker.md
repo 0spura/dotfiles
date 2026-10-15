@@ -2,7 +2,7 @@
 name: worker
 description: Implement one shaped feature or behavior-preserving refactor with focused verification.
 model: "@bulk"
-thinkingLevel: high
+thinkingLevel: medium
 blocking: true
 autoloadSkills: [code-craft]
 tools: [read, bash, edit, write, grep, glob, lsp, web_search, mcp__ai_memory_memory_query, mcp__ai_memory_memory_read_page]
