@@ -1,5 +1,6 @@
  # Choose an existing persistent SSH workspace or create an independent one.
- # Auto-shows on SSH login when SSH_TMUX=1; run `ssh_tmux_menu` manually to reopen it.
+ # Automatically offer the persistent SSH workspace on interactive SSH logins.
+ # Set SSH_TMUX=0 to bypass the menu in a remote shell.
  if [[ ${HOST%%.*} == mac-mini ]] && command -v tmux >/dev/null 2>&1; then
    ssh_tmux_menu() {
      local id name attached choice directory command refresh PS3='Session to resume: '
@@ -54,7 +55,7 @@
        (( refresh )) || return
      done
    }
-   if [[ -o interactive && -n ${SSH_TTY:-} && -z ${TMUX:-} && ${SSH_TMUX:-0} == 1 ]]; then
-     ssh_tmux_menu
-   fi
+  if [[ -o interactive && -n ${SSH_TTY:-} && -z ${TMUX:-} && ${SSH_TMUX:-1} != 0 ]]; then
+    ssh_tmux_menu
+  fi
  fi
