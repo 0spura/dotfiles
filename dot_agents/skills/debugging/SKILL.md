@@ -7,7 +7,7 @@ description: Diagnose a bug, test failure, or performance regression before chan
 
 Start from the reported observation. Do not rerun a check merely to confirm what the reporter already established. Read `skill://debugging/reference/feedback-loops.md` when the failure has no bounded reproduction yet.
 
-For tracked work, retain the target checkout and canonical issue supplied by `plan`/`implementation`. Use the issue's reported symptom and expected behavior as the diagnostic contract; keep hypotheses out of its acceptance criteria. The parent records the supported cause and proof on that same issue, not a second investigation ticket. Execution agents return evidence without tracker writes or branch switches.
+For tracked work, retain the canonical issue supplied by `plan`/`implementation`. Use the issue's reported symptom and expected behavior as the diagnostic contract; keep hypotheses out of its acceptance criteria. The parent records the supported cause and proof on that same issue, not a second investigation ticket. Execution agents return evidence without tracker writes or branch switches.
 
 1. Capture the exact symptom and expected behavior from the report, logs, trace, or failing command. Build the smallest independent reproduction when practical; distinguish a failure in the reported path from a nearby one.
 2. Minimize only the inputs and steps needed to isolate the cause. Preserve the symptom while removing incidental setup.

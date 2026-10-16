@@ -9,7 +9,7 @@ Repository conventions and configured tooling win over these defaults. Report on
 
 Read `skill://code-standards/reference/smells.md` when the repository documents nothing, or when a finding needs a name.
 
-For tracked reviews, compare the diff with the canonical workctl issue and linked requirements, retaining target checkout and base from the parent. Reviewers are read-only: return findings and evidence for the parent to record on the same issue/PR/MR. Do not mutate status, approve workflows, merge requests, or close the item. A clean review does not establish merge authorization.
+For tracked reviews, compare the diff with the canonical workctl issue and linked requirements, using the base from the parent. Reviewers are read-only: return findings and evidence for the parent to record on the same issue or change request. Do not mutate status, approve workflows, merge requests, or close the item. A clean review does not establish merge authorization.
 
 Check the changed surface for:
 

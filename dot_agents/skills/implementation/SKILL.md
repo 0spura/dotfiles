@@ -1,21 +1,23 @@
 ---
 name: implementation
-description: Execute approved workctl issue contracts on linked branches, coordinate bounded agents, and carry verified evidence into PR/MR review.
+description: Execute an approved workctl issue on its linked branch, coordinate bounded agents, and carry verified evidence into the pull request.
 ---
 
 # Implementation
 
-Execution keeps one identity: target checkout, canonical issue, linked branch, base, acceptance, and verification. Bind it through `plan` if missing; never implement from an issue summary alone. The parent owns tracker writes and integration; execution agents receive the contract and return evidence.
+Execution has one identity: the issue, its linked branch, base, acceptance, and verification. If any is missing, get it through `plan`; never implement from an issue title or summary alone. The parent owns tracker writes, branch lifecycle, and integration; execution agents receive the contract and return evidence.
+
+Read `skill://plan/reference/workctl.md` for how workctl behaves. In short, run it from inside the project and it figures out the rest.
 
 ## Start work
 
-1. Select the next unblocked issue and read its contract and linked artifacts. Run workctl from the target checkout; it automatically resolves the repository there. Do not pass `--repo-path` for routine tracker operations. Use `--repo-path PATH` only when intentionally operating on a different local checkout. Confirm the worktree and current branch before editing; leave unrelated changes untouched and stop if they obstruct safe checkout or integration.
-2. Reuse an existing branch for this issue when its identity and checkout are established. Otherwise read `issue develop --help`, choose a short representative lowercase hyphenated slug without the ID, and create/check out the linked branch: `workctl issue develop 123 --name parser-crash --checkout`. Workctl prefixes the issue ID. Verify the actual branch; listing or creating a remote branch alone does not switch the worktree. Do not recreate a branch after an uncertain result: inspect linked branches and local state first.
-3. Let configured, locally approved workctl workflows handle branch/PR/merge-driven stages and supported time tracking. Branch creation is not proof that a stage changed. Inspect workflow status/actions when automation is relevant or reports a warning; do not duplicate automatic mutations, invent timers, or approve rules merely to unblock execution. Missing automation is not a reason to change repository configuration without authorization.
+1. Select the next unblocked issue, then `workctl issue view N` for its contract and linked artifacts. Confirm the worktree and current branch before editing; leave unrelated changes alone and stop if they obstruct a safe checkout.
+2. Reuse the issue's existing branch when there is one. Otherwise run `workctl issue develop N --name short-slug --checkout`: the slug is short, lowercase, hyphenated, and describes the change; workctl prefixes the issue number. Verify the branch you are actually on, since creating a remote branch does not switch the worktree. After an uncertain result inspect with `issue develop N` (lists linked branches) and `git branch`; never recreate blindly.
+3. Branch, change-request, and merge events may trigger the repository's approved workflows (stage moves, time tracking). Creating the branch is the trigger, not proof of a stage change. Check `workctl workflow status`/`actions` only when automation matters or a warning appeared. Do not hand-edit what automation does, and do not approve rules to unblock yourself.
 
 ## Deliver the contract
 
-1. Give each execution agent the target, issue identity, branch/base, type, scope, acceptance, non-goals, owned paths, and verification. Describe the result behaviorally, not as a file checklist.
+1. Give each execution agent the issue number, branch and base, type, scope, acceptance, non-goals, owned paths, and verification. Describe the result behaviorally, not as a file checklist. An agent needs the issue number and a brief, not workctl flags.
 2. Route by type:
 
 | Item | Agent | Completion gate |
@@ -25,11 +27,11 @@ Execution keeps one identity: target checkout, canonical issue, linked branch, b
 | research | `scout` | map with paths, lines, and ownership |
 | pre-merge review | `reviewer`; also `security-reviewer` for sensitive surfaces | independent evidence-backed findings |
 
-3. Parallelize only disjoint independent work using `skill://implementation/reference/parallel-execution.md`. Keep tracker and branch lifecycle mutations serialized under the parent; children never create branches or switch the shared worktree independently.
+3. Parallelize only disjoint independent work using `skill://implementation/reference/parallel-execution.md`. Branch and tracker mutations stay serialized under the parent.
 4. Integrate results and exercise the specified behavior, including meaningful failures. Mark SRS requirements `Implemented` only when their named verification passes. Commit only when the assignment or repository workflow requires it.
-5. The parent records observed evidence and material blockers on the canonical issue and reads it back. GitHub uses `issue comment`/`issue edit`; GitLab uses `issue note`/`issue update`; consult the selected help, not another provider's spelling. Keep status output compact; use JSON only when consuming exact fields.
-6. Hand the verified branch, issue identity, base, checks, and remaining findings to `pull-request`. Do not close the issue merely because coding finished or PR creation succeeded; completion follows the issue's delivery contract and confirmed remote state.
+5. Record observed evidence and material blockers on the issue with its comment command, then read it back. Put multi-line evidence on stdin through a quoted heredoc. If a workctl command fails, act on the cause it prints.
+6. Hand the verified branch, issue, base, checks, and open findings to `pull-request`. Finished coding is not a closed issue; completion follows the contract and confirmed remote state.
 
 ## Stop conditions
 
-Stop for a structural/security decision, blocking defect, unavailable tracker, missing verification, or conflicting worktree changes. Record the actual blocker through the parent when reachable. Unknown remote-write outcomes require inspection before retry, never a duplicate create or blind replay.
+Stop for a structural or security decision, a blocking defect, an unavailable tracker, missing verification, or conflicting worktree changes. Record the real blocker on the issue when the tracker is reachable. After an unknown remote-write outcome, inspect before retrying; never duplicate a create or replay blindly.

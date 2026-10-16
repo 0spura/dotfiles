@@ -23,7 +23,7 @@ execution evidence. Name the broken behavior, not a presumed solution.
 [unknown until supported; the fix agent returns evidence for the parent to record on this issue]
 
 ## Fix
-[parent records the verified fix and links its PR/MR; do not close on local test success alone]
+[parent records the verified fix and links its change request; do not close on local test success alone]
 
 ## Implementation Surface
 - `[path/module]`: [suspected area, if known, used for parallel-safety]
