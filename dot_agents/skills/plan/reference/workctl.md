@@ -4,7 +4,7 @@ workctl is the only interface to the tracker and the code host. It hides the pro
 
 ## The mental model
 
-**The repository you are standing in is the context.** Run workctl from inside the project you are working on. It reads that checkout's Git `origin` and `.workctl.json` and decides the provider, repository, project fields, and defaults by itself. So `workctl issue view 123` is already complete: no repository, no provider, no path. Passing `--repo-path` or `--repo` for the project you are in adds noise and risks pointing at the wrong place. Reach for them only when you deliberately act on a different checkout or repository than the one you are in.
+**Invoke workctl explicitly.** For tracked work, start with `workctl issue view N`; use the relevant `workctl issue` command for tracker changes, and read the issue back after each write.
 
 **The provider changes the grammar, not the intent.** The command groups, flag names, and verbs can differ between providers. Read `workctl --help` and the specific command's `--help` once before composing a command, and trust what it prints over habit or memory of another provider.
 
