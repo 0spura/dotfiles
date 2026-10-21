@@ -20,10 +20,10 @@ execution evidence. Name the broken behavior, not a presumed solution.
 [what happens instead]
 
 ## Root Cause
-[unknown until supported; the fix agent returns evidence for the parent to record on this issue]
+[unknown until supported; the parent records evidence on the issue only when the bug is tracked]
 
 ## Fix
-[parent records the verified fix and links its change request; do not close on local test success alone]
+[for tracked bugs, parent records the verified fix and links its change request; do not close on local test success alone]
 
 ## Implementation Surface
 - `[path/module]`: [suspected area, if known, used for parallel-safety]

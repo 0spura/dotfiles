@@ -27,10 +27,10 @@ Omit a section when it has no material information; do not fill it with "none".
 
 ## Tracker
 
-[canonical issue identity and link; use supported explicit workctl issue-reference options when publishing]
+[include the canonical issue identity/link only for tracked delivery; otherwise omit this section]
 ```
 
 The title describes the outcome, not the implementation sequence. Keep the
 summary reviewable from the diff.
 
-The parent records this request on the same issue and reads back both. A request link is not delivery: queued merge, confirmed merge, issue closure, and workflow effects are separate observed states.
+The parent records this request on the same issue when tracked and reads back the result. A request link is not delivery: queued merge, confirmed merge, issue closure, and workflow effects are separate observed states.

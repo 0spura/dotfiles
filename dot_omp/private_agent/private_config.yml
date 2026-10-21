@@ -17,13 +17,7 @@ modelRoles:
   judgment: openai-codex/gpt-6.1-sol:medium
   bulk: openai-codex/gpt-6-luna:low
   scan: "@smol"
-  default: anthropic/claude-sonnet-5-5:low
-auth:
-  accountPolicies:
-    - provider: openai-codex
-      account:
-        email: luisborgeslima@icloud.com
-      priority: 100
+  default: openai-codex/gpt-6-luna:medium
 tools:
   approvalMode: yolo
 memory:
@@ -108,6 +102,8 @@ retry:
     web:
       - openai-codex/gpt-6-luna:low
       - web/public
+    anthropic/claude-opus-5-5:
+      - openai-codex/gpt-6.1-sol:medium
     anthropic/claude-sonnet-5-5:
       - openai-codex/gpt-6-luna:medium
   waitForUsageReset: true

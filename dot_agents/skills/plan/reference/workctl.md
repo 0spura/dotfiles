@@ -1,10 +1,10 @@
 # Working with workctl
 
-workctl is the only interface to the tracker and the code host. It hides the provider behind one command surface, so you think in issue and change-request numbers, never in provider mechanics. Never reach for the provider's own CLI for tracker work; if workctl cannot do something, say so instead of working around it.
+For actual tracker or code-host operations, workctl is the supported command interface. This reference applies only when a task is tracked or a work item/change request is explicitly requested; it does not require creating a tracker item for ordinary planning or implementation.
 
 ## The mental model
 
-**Invoke workctl explicitly.** For tracked work, start with `workctl issue view N`; use the relevant `workctl issue` command for tracker changes, and read the issue back after each write.
+**Invoke workctl explicitly only for tracked work.** Start with `workctl issue view N`; use the relevant `workctl issue` command for tracker changes, and read the issue back after each write.
 
 **The provider changes the grammar, not the intent.** The command groups, flag names, and verbs can differ between providers. Read `workctl --help` and the specific command's `--help` once before composing a command, and trust what it prints over habit or memory of another provider.
 
@@ -40,7 +40,7 @@ Errors print `code: message: cause` on stderr with an empty stdout and a nonzero
 | `*_write_uncertain` | The write may have happened | Read the remote state first; never repeat a create. |
 | `context` / `config` | No resolvable repository or invalid config | Run from inside the project, or fix config; do not invent a repo. |
 
-workctl never retries and never rolls back. Retry decisions are yours, made from observed state. A missing `workctl` binary or an unauthenticated provider CLI is an environment blocker: report it rather than substituting another tool.
+workctl never retries and never rolls back. Retry decisions are yours, made from observed state. A missing workctl binary blocks only the requested tracker or code-host operation; it does not block an untracked task.
 
 ## Automation
 

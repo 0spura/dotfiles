@@ -1,32 +1,32 @@
 ---
 name: plan
-description: Turn non-trivial work into one canonical workctl issue that states outcome, boundaries, blockers, and verification, then plan independently verifiable delivery from it.
+description: Plan work around an outcome, boundaries, blockers, and verification. Use a workctl issue only when tracking is explicitly requested or required; otherwise keep the plan in-session.
 ---
 
 # Plan
 
-The issue is the contract. Discovery, design, requirements, implementation, and review all advance that one item; do not open a ticket per skill or phase. A bounded, reversible one-file task needs no issue unless scope or a durable decision grows.
+The current request and repository instructions define the contract. When work is tracked, discovery, design, requirements, implementation, and review advance one canonical issue; do not open tickets per phase. Do not create a tracker item solely because work is non-trivial.
 
-All tracker work goes through workctl. Read `skill://plan/reference/workctl.md` first: it explains how workctl resolves its context from the repository you are in, how to write safely, and how to read its errors. The rest of this skill assumes it.
+Use workctl only for actual tracker operations. When an issue is supplied or tracking is explicitly requested or required, read `skill://plan/reference/workctl.md` first. Otherwise skip workctl and plan from the approved request.
 
 ## Find or create the contract
 
-1. Work from inside the project being changed. workctl discovers the repository itself, so run `workctl issue list` and `workctl issue view N` plainly.
-2. List summaries, then view the matching issue in full and read its linked artifacts once. Reuse a matching item. If none exists, the parent creates one from the template for its type (`feat`, `fix`, `refactor`, `perf` under `skill://plan/reference/`) and reads it back before anything is built. Create relationships as real links, not prose.
-3. Keep the contract self-sufficient: goal, acceptance, non-goals, and verification live in the issue, so any agent or later session can continue from the issue number alone. The parent owns tracker writes and readback; execution agents return evidence and proposed updates.
+1. Decide whether the task is tracked. Reuse an issue supplied by the user or required by repository policy; otherwise use the current approved request as the contract and do not call workctl.
+2. For tracked work, list summaries, read the matching issue and linked artifacts once, and create an item only when tracking was explicitly requested or required. Read every tracker write back before implementation.
+3. Keep the contract self-sufficient in either place: goal, acceptance, non-goals, blockers, and verification belong in the issue when tracked, or in the in-session plan otherwise. The parent owns tracker writes; agents return evidence.
 
 ## Plan from the contract
 
-1. Resolve missing discovery, direction, user-flow design, requirements, architecture, or costly choices through the matching skill. Link approved artifacts on this issue rather than copying them.
-2. Inspect real blockers before choosing what to execute. Use the blocker view in `workctl issue --help` to see open blocking chains. Parent/child is hierarchy, never a dependency. An empty chain does not prove readiness. Record unresolved decisions as blockers, not invented implementations.
-3. Slice vertically: observable goal, owned surface, acceptance oracle, verification, completion gate. Keep internal steps as a checklist. Create a child only for independent acceptance, ownership, deployment, dependency, or review scope, and link it with the relationship flags the provider's help shows.
+1. Resolve missing discovery, direction, user-flow design, requirements, architecture, or costly choices through the matching skill. Link approved artifacts to the issue when tracked; otherwise cite them in the plan.
+2. For tracked work, inspect blocking chains using the workctl help. Otherwise inspect blockers in the repository and request, and state unresolved dependencies without invoking workctl.
+3. Slice vertically: observable goal, owned surface, acceptance oracle, verification, completion gate. Create tracker children only for independently accepted work when tracking is in use; keep internal steps as a checklist.
 4. Order true dependencies and serialize overlapping writers. Each slice must verify on its own. Name landing places by responsibility; investigate unknown placement instead of guessing it.
-5. The parent records the agreed plan and artifact links on the issue with a surgical edit or a comment, then reads the issue back. Hand the next unblocked contract to `implementation`.
+5. Record the agreed plan on the issue only when tracked, then read it back. Otherwise return the plan in-session. Hand the next unblocked contract to `implementation`.
 
 ## Done when
 
-The issue names the outcome, boundaries, actual blockers, verification, and next unblocked work. Saving a plan is not approval to build.
+The plan names the outcome, boundaries, actual blockers, verification, and next action. When tracked, the issue contains that contract. Saving a plan is not approval to build.
 
 ## Stop conditions
 
-An unreadable issue, unavailable tracker, unresolved dependency, or unbounded implementation surface blocks execution. Preserve the contract, report the concrete missing prerequisite, and never create a duplicate issue to get around it.
+An unreadable issue or unavailable tracker blocks only work that is explicitly tracked. For untracked work, use the approved request; unresolved dependencies or an unbounded implementation surface still block execution.

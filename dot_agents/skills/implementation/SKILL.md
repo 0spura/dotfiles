@@ -1,23 +1,23 @@
 ---
 name: implementation
-description: Execute an approved workctl issue on its linked branch, coordinate bounded agents, and carry verified evidence into the pull request.
+description: Execute an approved scoped change, tracked or untracked, and return verified evidence; use workctl only for tracker-backed work.
 ---
 
 # Implementation
 
-Execution has one identity: the issue, its linked branch, base, acceptance, and verification. If any is missing, get it through `plan`; never implement from an issue title or summary alone. The parent owns tracker writes, branch lifecycle, and integration; execution agents receive the contract and return evidence.
+For tracked work, use the supplied issue, linked branch, base, acceptance, and verification as the contract. Otherwise, the current approved request and repository instructions are the contract; do not create a workctl item solely to implement it. The parent owns tracker writes and integration.
 
-Read `skill://plan/reference/workctl.md` for how workctl behaves. In short, run it from inside the project and it figures out the rest.
+Read `skill://plan/reference/workctl.md` and use workctl only when an issue is supplied or tracking is explicitly required. Untracked work skips tracker and issue-branch commands.
 
 ## Start work
 
-1. Select the next unblocked issue, then `workctl issue view N` for its contract and linked artifacts. Confirm the worktree and current branch before editing; leave unrelated changes alone and stop if they obstruct a safe checkout.
-2. Reuse the issue's existing branch when there is one. Otherwise run `workctl issue develop N --name short-slug --checkout`: the slug is short, lowercase, hyphenated, and describes the change; workctl prefixes the issue number. Verify the branch you are actually on, since creating a remote branch does not switch the worktree. After an uncertain result inspect with `issue develop N` (lists linked branches) and `git branch`; never recreate blindly.
-3. Branch, change-request, and merge events may trigger the repository's approved workflows (stage moves, time tracking). Creating the branch is the trigger, not proof of a stage change. Check `workctl workflow status`/`actions` only when automation matters or a warning appeared. Do not hand-edit what automation does, and do not approve rules to unblock yourself.
+1. For tracked work, select the next unblocked issue and read its full contract and linked artifacts. For untracked work, follow the approved request; inspect the current branch and leave unrelated changes alone.
+2. For tracked work, reuse the linked branch or create one with the documented workctl command. For untracked work, do not create a tracker branch or switch branches unless the user or repository workflow requires it.
+3. Apply workflow and branch automation checks only when tracker-backed actions trigger them. Do not hand-edit automation results or approve rules to unblock yourself.
 
 ## Deliver the contract
 
-1. Give each execution agent the issue number, branch and base, type, scope, acceptance, non-goals, owned paths, and verification. Describe the result behaviorally, not as a file checklist. An agent needs the issue number and a brief, not workctl flags.
+1. Give each execution agent the issue identity and branch only when tracked; otherwise provide the approved request, scope, acceptance, non-goals, owned paths, and verification.
 2. Route by type:
 
 | Item | Agent | Completion gate |
@@ -27,11 +27,11 @@ Read `skill://plan/reference/workctl.md` for how workctl behaves. In short, run 
 | research | `scout` | map with paths, lines, and ownership |
 | pre-merge review | `reviewer`; also `security-reviewer` for sensitive surfaces | independent evidence-backed findings |
 
-3. Parallelize only disjoint independent work using `skill://implementation/reference/parallel-execution.md`. Branch and tracker mutations stay serialized under the parent.
+3. Parallelize only disjoint independent work using `skill://implementation/reference/parallel-execution.md`. Serialize shared-branch changes and tracker mutations when a tracker is in use.
 4. Integrate results and exercise the specified behavior, including meaningful failures. Mark SRS requirements `Implemented` only when their named verification passes. Commit only when the assignment or repository workflow requires it.
-5. Record observed evidence and material blockers on the issue with its comment command, then read it back. Put multi-line evidence on stdin through a quoted heredoc. If a workctl command fails, act on the cause it prints.
-6. Hand the verified branch, issue, base, checks, and open findings to `pull-request`. Finished coding is not a closed issue; completion follows the contract and confirmed remote state.
+5. Record evidence on the issue only for tracked work, then read it back. Otherwise return observed evidence and blockers to the caller. If a tracker command fails, act on the cause it prints.
+6. Hand work to `pull-request` only when a change request is requested or required. Tracked deliveries retain issue identity; untracked work needs no tracker closure.
 
 ## Stop conditions
 
-Stop for a structural or security decision, a blocking defect, an unavailable tracker, missing verification, or conflicting worktree changes. Record the real blocker on the issue when the tracker is reachable. After an unknown remote-write outcome, inspect before retrying; never duplicate a create or replay blindly.
+Stop for a structural or security decision, a blocking defect, missing verification, or conflicting worktree changes. An unavailable tracker blocks only work whose contract explicitly requires tracking.

@@ -3,7 +3,7 @@
 Type: `feat`. The item describes an observable behavior, not a presumed
 implementation.
 
-Keep the feature on one canonical workctl issue. Create a child only for independent acceptance, ownership, deployment, dependency, or review scope; discovery, SRS, architecture, and change-request review are phases/artifacts of the same item, not automatic children.
+For tracked features, keep one canonical workctl issue. Create a child only for independent acceptance, ownership, deployment, dependency, or review scope; discovery, SRS, architecture, and review are artifacts/phases, not automatic children. An untracked feature plan does not require a tracker item.
 
 ## Parent
 

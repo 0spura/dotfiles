@@ -7,7 +7,7 @@ description: Pressure-test an approved design or costly technical decision one q
 
 For a decision that is costly to reverse or can invalidate substantial downstream work, not for routine requirements or settled implementation detail. Read the contract, the relevant artifact, code, principles, and memory first, and preserve established domain vocabulary; surface a conflict or overloaded term before designing around it.
 
-Use the canonical workctl issue and its linked artifacts to identify the decision being blocked. Keep the approved outcome distinct from proposed technical choices. The parent records the accepted choice or concrete unresolved blocker on that same issue with readback; neither a stage change nor a saved note establishes user approval.
+Use the canonical workctl issue and linked artifacts when a decision is tracked; otherwise use the user's approved request and evidence. Keep approved outcomes distinct from technical choices. The parent records the accepted choice or blocker on the issue only when tracked; a stage change or saved note never establishes approval.
 
 Start with the uncertainty whose answer could most change the decision. Ask one question at a time, and only when the answer changes the options, acceptance, or risk. State a recommendation when the evidence supports one, keeping a user outcome distinct from an implementation preference. Follow each answer to its consequences and stop when the choice, assumptions, risks, and remaining gaps are explicit.
 

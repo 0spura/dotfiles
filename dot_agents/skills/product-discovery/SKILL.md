@@ -9,10 +9,10 @@ Decide first whether the idea is an external product or an internal tool, then r
 
 ## Workflow
 
-1. Bind substantial research to the canonical workctl issue through `plan`; take its problem, users, constraints, and pending decision as scope. A research-only task does not require an implementation branch. Keep discovery on that same issue unless it has independently requested ownership and acceptance.
+1. For tracked discovery, use the canonical workctl issue supplied by `plan`; otherwise use the current approved request as scope. Research-only work does not require an implementation branch or a tracker item.
 2. Cover only the axes that can change that decision, and prefer primary sources for material market, standards, and competitor claims; identify the source and date so a reviewer can assess secondary evidence. When the research is split across agents, give each one an independent axis.
 3. Separate observed facts, sourced claims, assumptions, and recommendations; quantify frequency and impact when the evidence permits.
-4. Update rather than overwrite `docs/product/discovery.md`, citing evidence near each material claim with the research date. The parent links the artifact and decision-relevant findings on the canonical issue and reads it back; return its identity and unresolved choice to `brainstorming` rather than creating another phase ticket.
+4. Update rather than overwrite `docs/product/discovery.md`, citing evidence near each material claim with the research date. Link findings to the issue when tracked; otherwise return the artifact and unresolved choice to `brainstorming`.
 
 ## Done when
 

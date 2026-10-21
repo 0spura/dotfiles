@@ -13,7 +13,7 @@ The flow is designed from accepted requirements and current evidence; the defaul
 2. Cover only the material states — loading, empty, error, disabled, permission, success — and how each is reached and left.
 3. Preserve keyboard, screen-reader, focus, touch, and narrow-screen operation; apply current WCAG and platform requirements where they govern.
 4. Reference the requirements the flow satisfies instead of restating them, and return an ambiguity as a question rather than inventing product behavior.
-5. Name the success evidence a reviewer can observe. Return the flow artifact, requirement IDs, evidence, and unresolved decisions to the parent for linking on the same workctl issue and readback; a design-only result does not mark implementation complete.
+5. Name success evidence a reviewer can observe. Return the flow artifact, requirement IDs, evidence, and unresolved decisions to the parent; link them on the workctl issue only when tracked.
 
 ## Defaults
 

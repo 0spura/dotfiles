@@ -74,6 +74,18 @@ resource "cloudflare_dns_record" "ai_memory" {
   ttl     = 1
 }
 
+resource "cloudflare_dns_record" "omp_web" {
+  zone_id = var.zone_id
+  name    = "omp-web.blima.dev"
+  type    = "CNAME"
+  content = "8993801c-e6ca-4398-97a9-da4aa61717d9.cfargotunnel.com"
+  comment = "omp-web via cloudflared"
+  proxied = true
+  ttl     = 1
+}
+
+
+
 # --- Túnel mac-mini-m4 (criado pelo cloudflared no host) ---
 resource "cloudflare_zero_trust_tunnel_cloudflared" "mac_mini_m4" {
   account_id = var.account_id
@@ -109,6 +121,10 @@ resource "cloudflare_zero_trust_tunnel_cloudflared_config" "mac_mini_m4" {
       {
         hostname = "ai-memory.blima.dev"
         service  = "http://127.0.0.1:49374"
+      },
+      {
+        hostname = "omp-web.blima.dev"
+        service  = "http://127.0.0.1:30141"
       },
       {
         service = "http_status:404"
@@ -167,6 +183,34 @@ resource "cloudflare_zero_trust_access_policy" "mac_ssh_token" {
     }
   }]
 }
+
+resource "cloudflare_zero_trust_access_application" "omp_web" {
+  account_id                = var.account_id
+  name                      = "omp-web"
+  domain                    = "omp-web.blima.dev"
+  type                      = "self_hosted"
+  app_launcher_visible      = false
+  auto_redirect_to_identity = false
+  enable_binding_cookie     = false
+  options_preflight_bypass  = false
+  session_duration          = "720h"
+
+  destinations = [{
+    type = "public"
+    uri  = "omp-web.blima.dev"
+  }]
+  policies = [{
+    name       = "omp-web owner only"
+    decision   = "allow"
+    precedence = 1
+    include = [{
+      email = {
+        email = var.owner_email
+      }
+    }]
+  }]
+}
+
 
 resource "cloudflare_zero_trust_access_application" "ai_memory" {
   account_id                 = var.account_id

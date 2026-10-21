@@ -9,11 +9,11 @@ ai-memory is the only memory system: recall through `mcp__ai_memory_memory_query
 
 ## Tracker contract
 
-Non-trivial work has one tracker item as its current contract. Select it from summaries through `workctl issue list` and read it and its linked artifacts once. A document is an artifact of the item, not a reason to create another item. Use an optional configured stage key when work genuinely changes stage.
+Use one tracker item as the contract when the user explicitly requests tracking or the active project workflow requires it. Otherwise, the approved user request and repository instructions define the contract; do not create an item solely because work is non-trivial. When tracking applies, select the issue through `workctl issue list` and read it and its linked artifacts once. A document is an artifact of the item, not a reason to create another item. Use an optional configured stage key when work genuinely changes stage.
 
 Create a child item only when it has independent acceptance, ownership, deployment, dependency, or review scope. Create an outcome/epic only when it groups multiple such delivery items. Discovery, design, requirements, and architecture can be sections, linked documents, or comments on the same item; make them separate work only when they are independently requested or block other work. `Review` is normally a workflow stage and PR evidence on the same item, not a child.
 
-Do not create an item for a clearly bounded, reversible one-file task. Create or link one as soon as scope, coordination, acceptance, or a durable decision needs tracking. Keep the tracker canonical: link evidence instead of copying documents, session history, or provider-specific mechanics. Read back every tracker write, and surface a failed write as a blocker now rather than a footnote after the work is reported complete.
+Do not create an item for a clearly bounded, reversible one-file task or when the user asks to leave work untracked. Create or link one only when tracking is explicitly requested or required by the active project workflow. When tracked, keep the tracker canonical, link evidence instead of copying documents, session history, or provider-specific mechanics, read back every tracker write, and surface a failed write as a blocker now rather than a footnote after the work is reported complete.
 
 ## Default code work
 
