@@ -1,5 +1,7 @@
 services:
   omp-web:
+    group_add:
+      - "0"
     restart: unless-stopped
     build:
       context: .
@@ -15,17 +17,20 @@ services:
     ports:
       - "127.0.0.1:30141:30141"
     environment:
-      OMP_WEB_AUTHENTICATED: "1"
-      OMP_WEB_PASSWORD: ${OMP_WEB_PASSWORD:?Set OMP_WEB_PASSWORD in the ignored operator .env file}
       # Keep this exact hostname aligned with the public hostname and Cloudflare Access app.
       OMP_WEB_ALLOWED_HOSTS: omp-web.blima.dev
+      GH_CONFIG_DIR: /home/omp/.config/gh
+      GIT_CONFIG_GLOBAL: /home/omp/.config/gh/gitconfig
     volumes:
       - ${HOME}/.omp/agent:/home/omp/.omp/agent
       # Expose the host-authored skills inside the container without granting write access.
       - ${HOME}/.agents/skills:/home/omp/.agents/skills:ro
+      - ${HOME}/.orbstack/run/docker.sock:/var/run/docker.sock
+      - gh-config:/home/omp/.config/gh
       # Set OMP_WEB_WORKSPACES_ROOT to the explicit host directory containing intended projects.
       # Mount at the same absolute path so existing project paths and session references remain stable.
       - ${OMP_WEB_WORKSPACES_ROOT:?Set OMP_WEB_WORKSPACES_ROOT to an explicit project directory}:${OMP_WEB_WORKSPACES_ROOT:?Set OMP_WEB_WORKSPACES_ROOT to an explicit project directory}
       - cargo-home:/home/omp/.cargo
 volumes:
   cargo-home:
+  gh-config:

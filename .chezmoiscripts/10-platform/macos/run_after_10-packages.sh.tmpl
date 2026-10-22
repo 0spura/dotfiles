@@ -37,8 +37,8 @@ brew_install cask orbstack
 # Editor.
 brew_install cask zed
 
-# CLI owned here: vcs, hub, tunnel, multiplexer, agent deps.
-for formula in git gh cloudflared tmux chezmoi; do
+# CLI owned here: vcs, hub, tunnel, agent deps.
+for formula in git gh cloudflared chezmoi; do
   brew_install formula "$formula"
 done
 

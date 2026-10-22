@@ -5,6 +5,7 @@ ARG OMP_WEB_REF=f54521209fcdc8b7fce83d700bb16a6e8d6f2dc9
 ARG WORKCTL_REV=8797ac2edac87f2ce3ba16341756301a9d56a2a3
 
 FROM rust:1.99.1-bookworm@${RUST_IMAGE_DIGEST} AS rust-toolchain
+FROM docker:29.8.2-cli@sha256:35cfcf893c20f2931f4909151b5407aaaeab711277de7ce8b8f521f095d54c32 AS docker-cli
 
 FROM rust:1.99.1-bookworm@${RUST_IMAGE_DIGEST} AS workctl-build
 ARG WORKCTL_REV
@@ -55,12 +56,15 @@ RUN groupmod --gid "${GID}" bun \
  && groupmod --new-name omp bun \
  && usermod --login omp --home /home/omp --move-home --gid omp bun \
  && usermod --uid "${UID}" omp \
- && mkdir -p /home/omp/.omp/agent /home/omp/.cargo /workspace \
+ && mkdir -p /home/omp/.omp/agent /home/omp/.cargo /home/omp/.config/gh /workspace \
  && chown -R omp:omp /home/omp /workspace
 
 COPY --from=rust-toolchain /usr/local/cargo /usr/local/cargo
 COPY --from=rust-toolchain /usr/local/rustup /usr/local/rustup
 COPY --from=workctl-build /opt/workctl/bin/workctl /usr/local/bin/workctl
+COPY --from=docker-cli /usr/local/bin/docker /usr/local/bin/docker
+COPY --from=docker-cli /usr/local/libexec/docker/cli-plugins/docker-buildx /usr/local/libexec/docker/cli-plugins/docker-buildx
+COPY --from=docker-cli /usr/local/libexec/docker/cli-plugins/docker-compose /usr/local/libexec/docker/cli-plugins/docker-compose
 COPY --from=app-build --chown=omp:omp /app/node_modules /app/node_modules
 COPY --from=app-build --chown=omp:omp /app/.next /app/.next
 COPY --from=app-build --chown=omp:omp /app/public /app/public

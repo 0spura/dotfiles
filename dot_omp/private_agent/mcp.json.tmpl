@@ -7,7 +7,7 @@
   "mcpServers": {
     "ai-memory": {
       "type": "http",
-      "url": "{{ trimSuffix "/" .aiMemoryUrl }}/mcp",
+      "url": "{{ trimSuffix "/" (replace "127.0.0.1" "host.docker.internal" .aiMemoryUrl) }}/mcp",
       "headers": {
         "Authorization": "Bearer {{ .aiMemoryAuthToken }}"
       },

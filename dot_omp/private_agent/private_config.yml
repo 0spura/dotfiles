@@ -77,6 +77,7 @@ retry:
   fallbackChains:
     default:
       - openai-codex/gpt-6-luna:medium
+      - anthropic/claude-sonnet-5-5:medium
     plan:
       - anthropic/claude-opus-5-5:medium
     task:
@@ -106,6 +107,10 @@ retry:
       - openai-codex/gpt-6.1-sol:medium
     anthropic/claude-sonnet-5-5:
       - openai-codex/gpt-6-luna:medium
+    openai-codex/gpt-6.1-sol:
+      - anthropic/claude-opus-5-5:medium
+    openai-codex/gpt-6-luna:
+      - anthropic/claude-sonnet-5-5:medium
   waitForUsageReset: true
   usageReservePct: 1
   usageReservePolicy: auto

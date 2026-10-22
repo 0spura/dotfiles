@@ -42,8 +42,27 @@ resource "cloudflare_dns_record" "dmarc" {
   zone_id = var.zone_id
   name    = "_dmarc.blima.dev"
   type    = "TXT"
-  content = "\"v=DMARC1; p=none; rua=mailto:f2fe0099913541069d7a6ac157512766@dmarc-reports.cloudflare.net\""
+  content = "\"v=DMARC1; p=quarantine; rua=mailto:f2fe0099913541069d7a6ac157512766@dmarc-reports.cloudflare.net\""
   ttl     = 1
+}
+resource "cloudflare_zone_setting" "min_tls_version" {
+  zone_id    = var.zone_id
+  setting_id = "min_tls_version"
+  value      = "1.2"
+}
+
+resource "cloudflare_zone_setting" "security_header" {
+  zone_id    = var.zone_id
+  setting_id = "security_header"
+  value = {
+    strict_transport_security = {
+      enabled            = true
+      max_age            = 15552000
+      include_subdomains = false
+      preload            = false
+      nosniff            = false
+    }
+  }
 }
 
 resource "cloudflare_dns_record" "apple_verify" {
@@ -73,7 +92,6 @@ resource "cloudflare_dns_record" "ai_memory" {
   proxied = true
   ttl     = 1
 }
-
 resource "cloudflare_dns_record" "omp_web" {
   zone_id = var.zone_id
   name    = "omp-web.blima.dev"
@@ -83,6 +101,7 @@ resource "cloudflare_dns_record" "omp_web" {
   proxied = true
   ttl     = 1
 }
+
 
 
 
@@ -143,15 +162,15 @@ resource "cloudflare_zero_trust_tunnel_cloudflared_route" "lan_full" {
 
 # --- Access apps (policies são recursos próprios no provider v5) ---
 resource "cloudflare_zero_trust_access_application" "mac_ssh" {
-  account_id                 = var.account_id
-  name                       = "mac ssh"
-  domain                     = "ssh.blima.dev"
-  type                       = "self_hosted"
-  app_launcher_visible       = false
-  auto_redirect_to_identity  = false
-  enable_binding_cookie      = false
-  options_preflight_bypass   = false
-  session_duration           = "720h"
+  account_id                = var.account_id
+  name                      = "mac ssh"
+  domain                    = "ssh.blima.dev"
+  type                      = "self_hosted"
+  app_launcher_visible      = false
+  auto_redirect_to_identity = false
+  enable_binding_cookie     = false
+  options_preflight_bypass  = false
+  session_duration          = "720h"
   destinations = [{
     type = "public"
     uri  = "ssh.blima.dev"
@@ -183,7 +202,6 @@ resource "cloudflare_zero_trust_access_policy" "mac_ssh_token" {
     }
   }]
 }
-
 resource "cloudflare_zero_trust_access_application" "omp_web" {
   account_id                = var.account_id
   name                      = "omp-web"
@@ -199,10 +217,11 @@ resource "cloudflare_zero_trust_access_application" "omp_web" {
     type = "public"
     uri  = "omp-web.blima.dev"
   }]
+
   policies = [{
     name       = "omp-web owner only"
-    decision   = "allow"
     precedence = 1
+    decision   = "allow"
     include = [{
       email = {
         email = var.owner_email
@@ -212,16 +231,18 @@ resource "cloudflare_zero_trust_access_application" "omp_web" {
 }
 
 
+
+
 resource "cloudflare_zero_trust_access_application" "ai_memory" {
-  account_id                 = var.account_id
-  name                       = "ai-memory server"
-  domain                     = "ai-memory.blima.dev"
-  type                       = "self_hosted"
-  app_launcher_visible       = false
-  auto_redirect_to_identity  = false
-  enable_binding_cookie      = false
-  options_preflight_bypass   = false
-  session_duration           = "720h"
+  account_id                = var.account_id
+  name                      = "ai-memory server"
+  domain                    = "ai-memory.blima.dev"
+  type                      = "self_hosted"
+  app_launcher_visible      = false
+  auto_redirect_to_identity = false
+  enable_binding_cookie     = false
+  options_preflight_bypass  = false
+  session_duration          = "720h"
 
   destinations = [{
     type = "public"
@@ -236,9 +257,9 @@ resource "cloudflare_zero_trust_access_application" "ai_memory" {
 }
 
 resource "cloudflare_zero_trust_access_policy" "ai_memory_owner" {
-  account_id     = var.account_id
-  name           = "owner only"
-  decision       = "allow"
+  account_id = var.account_id
+  name       = "owner only"
+  decision   = "allow"
   include = [{
     email = {
       email = var.owner_email

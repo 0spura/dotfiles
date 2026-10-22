@@ -80,11 +80,6 @@ root so install and discovery agree. Providers come from repository configuratio
   `host.docker.internal:11434`. Manage with `brew services start|stop|restart ollama`, inspect with
   `ollama ps`, logs at `/opt/homebrew/var/log/ollama.log`; never run the GUI app alongside it.
   Keep port 11434 off the LAN; recreate the ai-memory container after changing embeddings.
-- **Peripheral USB control**: `com.luis.monitor-usb` runs `~/.local/bin/monitor-usb.py` and cycles
-  power on hub front port 2 (Apple hubs `2-1`/`2-2`) when the monitor sleeps; rear ports and port 1
-  are untouched, but never attach storage to the controlled hub. Logs in
-  `~/Library/Logs/monitor-usb{,.error}.log`; stop/restore with
-  `launchctl bootout gui/$(id -u)/com.luis.monitor-usb`.
 
 ## Secrets
 
