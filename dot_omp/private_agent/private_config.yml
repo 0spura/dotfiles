@@ -3,6 +3,20 @@ setupVersion: 2
 theme:
   dark: dark-forest
 symbolPreset: ascii
+auth:
+  accountPolicies:
+    - provider: openai-codex
+      account:
+        email: "luisborgeslima@icloud.com"
+      priority: 100
+      reservePct: 0
+      reclaimAbovePct: 20
+    - provider: openai-codex
+      account:
+        email: "fabioplima15@gmail.com"
+      priority: 50
+      reservePct: 0
+      reclaimAbovePct: 20
 modelRoles:
   smol: openai-codex/gpt-6-luna:low
   slow: anthropic/claude-opus-5-5:medium
@@ -17,13 +31,11 @@ modelRoles:
   judgment: openai-codex/gpt-6.1-sol:medium
   bulk: openai-codex/gpt-6-luna:low
   scan: "@smol"
-  default: openai-codex/gpt-6-luna:medium
+  default: openai-codex/gpt-6.1-sol:medium
 tools:
   approvalMode: yolo
 memory:
   backend: "off"
-autolearn:
-  enabled: false
 task:
   batch: true
   maxConcurrency: 4
@@ -73,15 +85,24 @@ tui:
 terminal:
   showProgress: true
 retry:
+  enabled: true
+  maxRetries: 10
+  baseDelayMs: 500
+  maxDelayMs: 300000
+  modelFallback: true
+  fallbackOn: usage-limit
+  fallbackRevertPolicy: cooldown-expiry
   usageAwareFallback: true
+  usageReservePct: 0
+  usageReservePolicy: auto
+  waitForUsageReset: false
   fallbackChains:
     default:
-      - openai-codex/gpt-6-luna:medium
       - anthropic/claude-sonnet-5-5:medium
     plan:
       - anthropic/claude-opus-5-5:medium
     task:
-      - openai-codex/gpt-6-luna:medium
+      - openai-codex/gpt-6.1-terra:medium
     slow:
       - openai-codex/gpt-6.1-sol:medium
     advisor:
@@ -106,21 +127,20 @@ retry:
     anthropic/claude-opus-5-5:
       - openai-codex/gpt-6.1-sol:medium
     anthropic/claude-sonnet-5-5:
-      - openai-codex/gpt-6-luna:medium
+      - openai-codex/gpt-6.1-terra:medium
     openai-codex/gpt-6.1-sol:
       - anthropic/claude-opus-5-5:medium
+    openai-codex/gpt-6.1-terra:
+      - anthropic/claude-sonnet-5-5:medium
     openai-codex/gpt-6-luna:
       - anthropic/claude-sonnet-5-5:medium
-  waitForUsageReset: true
-  usageReservePct: 1
-  usageReservePolicy: auto
 compaction:
   thresholdTokens: 200000
 codexResets:
   autoRedeem: "no"
 dev:
   autoqaConsent: granted
-defaultThinkingLevel: auto
+defaultThinkingLevel: medium
 plan:
   enabled: false
 goal:
@@ -131,5 +151,3 @@ title:
   refreshOnReplan: false
 claudeResets:
   autoRedeem: "no"
-collab:
-  autoStart: control

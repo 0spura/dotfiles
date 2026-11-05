@@ -49,8 +49,8 @@ else
   hostport="${hostport#https://}"
   hostport="${hostport%%/*}"
   port="${hostport##*:}"
-  bind_host="127.0.0.1"
-  allowed_hosts="localhost,127.0.0.1"
+  # Local clients use loopback; host.docker.internal remains allowed for other containers.
+  allowed_hosts="localhost,127.0.0.1,host.docker.internal"
   # Public hostname served through a Cloudflare Tunnel lands on loopback too,
   # but the Host header carries the public name, so it must be allowlisted
   # even when the container is not shared on the LAN.

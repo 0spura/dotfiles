@@ -1,7 +1,7 @@
 ---
 name: worker
 description: Implement one shaped feature or behavior-preserving refactor with focused verification.
-model: openai-codex/gpt-6-luna:medium
+model: openai-codex/gpt-6.1-terra:medium
 thinkingLevel: medium
 blocking: true
 autoloadSkills: [code-craft]

@@ -1,0 +1,49 @@
+{{- if eq .chezmoi.os "darwin" -}}
+#!/bin/sh
+set -eu
+
+export PATH="$HOME/.local/bin:/opt/homebrew/bin:/usr/local/bin:$HOME/.cargo/bin:/usr/bin:/bin:/usr/sbin:/sbin"
+
+command -v node >/dev/null 2>&1 || { echo "ompweb: Node.js 24+ is required; install Node.js and re-apply" >&2; exit 1; }
+node_major="$(node -p 'Number(process.versions.node.split(".")[0])')"
+if [ "$node_major" -lt 24 ]; then
+  echo "ompweb: Node.js 24+ is required; found $(node --version)" >&2
+  exit 1
+fi
+command -v npx >/dev/null 2>&1 || { echo "ompweb: npx is required; install npm and re-apply" >&2; exit 1; }
+omp_bin="$(command -v omp || true)"
+if [ -z "$omp_bin" ]; then
+  echo "ompweb: omp CLI is required and must be on PATH" >&2
+  exit 1
+fi
+
+label="com.blima.omp-web"
+launch_domain="gui/$(id -u)"
+old_plist="$HOME/Library/LaunchAgents/$label.plist"
+launchctl bootout "$launch_domain/$label" >/dev/null 2>&1 || true
+rm -f "$old_plist"
+
+mkdir -p "$HOME/Library/Logs/ompweb" "$HOME/Library/LaunchAgents"
+plist="$HOME/Library/LaunchAgents/com.kahme247.ompweb.plist"
+launchctl bootout "gui/$(id -u)/com.kahme247.ompweb" >/dev/null 2>&1 || true
+rm -f "$plist"
+
+PORT=30141 \
+OMP_WEB_HOSTNAME=127.0.0.1 \
+OMP_WEB_NO_OPEN=1 \
+OMP_WEB_DISABLE_AUTOUPDATE=1 \
+OMP_WEB_OMP_BIN="$omp_bin" \
+npx --yes @kahme247/ompweb@0.6.0 ompweb-launchd install @kahme247/ompweb@0.6.0 || {
+  [ -f "$plist" ] || exit 1
+  echo "ompweb: finishing launchd bootstrap after installer reported a bootstrap error" >&2
+}
+
+# The upstream launchd installer builds PATH from omp/node/npx only. Preserve
+# host CLIs (for example workctl in ~/.cargo/bin and gh in Homebrew's bin).
+service_path="$HOME/.local/bin:$HOME/.cargo/bin:/opt/homebrew/bin:/usr/local/bin:$(dirname "$(command -v node)"):/usr/bin:/bin:/usr/sbin:/sbin"
+/usr/libexec/PlistBuddy -c "Set :EnvironmentVariables:PATH $service_path" "$plist"
+launchctl bootout "gui/$(id -u)/com.kahme247.ompweb" >/dev/null 2>&1 || true
+sleep 1
+launchctl bootstrap "gui/$(id -u)" "$plist"
+launchctl kickstart -k "gui/$(id -u)/com.kahme247.ompweb"
+{{- end }}
