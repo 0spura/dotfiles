@@ -3,20 +3,6 @@ setupVersion: 2
 theme:
   dark: dark-forest
 symbolPreset: ascii
-auth:
-  accountPolicies:
-    - provider: openai-codex
-      account:
-        email: "luisborgeslima@icloud.com"
-      priority: 100
-      reservePct: 0
-      reclaimAbovePct: 20
-    - provider: openai-codex
-      account:
-        email: "fabioplima15@gmail.com"
-      priority: 50
-      reservePct: 0
-      reclaimAbovePct: 20
 modelRoles:
   smol: openai-codex/gpt-6-luna:low
   slow: anthropic/claude-opus-5-5:medium
