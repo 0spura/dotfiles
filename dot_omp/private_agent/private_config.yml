@@ -151,3 +151,5 @@ title:
   refreshOnReplan: false
 claudeResets:
   autoRedeem: "no"
+update:
+  auto: true
