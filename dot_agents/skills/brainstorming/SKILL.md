@@ -1,24 +1,48 @@
 ---
 name: brainstorming
-description: Explore and converge on an approved product, component, or feature design before requirements or implementation. Use when direction is undecided; not to generate code.
+description: Explore and converge on an approved product, component, or feature direction before requirements or implementation. Use when direction is undecided; never to generate code or implementation plans.
 ---
 
 # Brainstorming
 
-Choose one scope: product, module, or feature. Read the existing evidence before asking what it already answers, and ask only questions that can change the direction. Write no production code, API schema, estimate, or implementation plan here.
+Converge on one approved direction by comparing real tradeoffs — without prematurely writing code, schemas, or plans.
+
+## House rules
+
+1. **One scope per session.** Pick exactly one: `Product`, `Component`, or `Feature`.
+2. **Read before asking.** Check existing code, docs, and discovery evidence first; ask only questions whose answer changes the direction.
+3. **Real alternatives only.** Present alternatives only where a genuine tradeoff exists — never pad with strawmen.
+4. **One recommendation + kill switch.** Always recommend one option and explicitly name the assumption that would invalidate it.
+5. **Approval before advancing.** Never move to requirements, architecture, or code until the user approves the chosen direction.
+
+## Scope outputs
+
+| Scope | What to produce | Next routing |
+| --- | --- | --- |
+| **Product** | Purpose, aspiration, target users, principles, anti-goals (`skill://brainstorming/reference/vision-template.md`); save `docs/product/vision.md` after approval. | `srs` / `design-principles` |
+| **Component** | Problem, boundaries, interfaces, responsibilities, technical choices, risks. | `architecture-design` |
+| **Feature** | Problem, core use case, MVP, non-goals, high-level user flow, risks. | Route material UI flows to `design-principles`; UI builds to `frontend-craft`; irreversible choices to `grill-me`. |
 
 ## Workflow
 
-1. Use the canonical issue and linked discovery when supplied for tracked work; otherwise use the current request as the problem boundary. Carry the target project, affected users, constraints, success signal, and non-goals through the design.
-2. Produce alternatives only for a real choice, comparing expected outcome, evidence, tradeoffs, risks, and reversibility.
-3. Recommend one option and name the assumption that could invalidate it.
-4. Ask for approval before saving the design or moving to requirements. Link decisions to the same issue only when tracked; otherwise return the approved design and unresolved choice to the caller.
-5. Route irreversible data, API, infrastructure, security, or scale choices through `grill-me`, and technical design through `architecture-design`. Preserve the approved scope; do not create tracker items for skill phases.
+1. **Frame the boundary.** State target project, affected users, constraints, success signal, and non-goals from existing evidence.
+2. **Compare real options.** Contrast expected outcome, evidence, tradeoffs, risks, and reversibility.
+3. **Recommend one option.** State why it wins and the exact assumption that would flip the recommendation.
+4. **Get explicit approval.** Return the proposed direction and any blocking decision; route irreversible data/API/infra/security choices to `grill-me` and technical structure to `architecture-design`.
 
-- **Product:** draft purpose, aspiration, users, principles, and anti-goals with `skill://brainstorming/reference/vision-template.md`; save `docs/product/vision.md` after approval.
-- **Component:** problem, boundaries, interfaces, responsibilities, technical choices, and risks.
-- **Feature:** problem, core use case, MVP, non-goals, user flow, and risks; route a material UI flow to the `design` agent, which owns `design-principles`.
+## Checklist
 
-## Done when
+- [ ] Scope (`Product`, `Component`, or `Feature`) is explicit and bounded.
+- [ ] Every alternative is viable with honest tradeoffs and reversibility noted.
+- [ ] One option recommended with its invalidating assumption named.
+- [ ] Explicit approval requested before saving durable docs or starting the next phase.
 
-The design is approved, or the decision blocking it is explicit, with the next phase named.
+## Never
+
+- Write production code, API schemas, effort estimates, or step-by-step implementation plans here.
+- Ask questions already answered by the repository or discovery docs.
+- Invent strawman options just to make a recommendation look obvious.
+
+## Output
+
+Chosen scope, tradeoffs, single recommendation with invalidating assumption, blocking decisions, and recommended next phase.

@@ -4,7 +4,7 @@ description: Investigate a reported defect or measure a bottleneck, then fix onl
 model: "@judgment"
 thinkingLevel: high
 blocking: true
-autoloadSkills: [debugging, code-craft]
+autoloadSkills: [debugging, code-craft, code-smells]
 tools: [read, bash, edit, write, grep, glob, lsp, web_search, mcp__ai_memory_memory_query, mcp__ai_memory_memory_read_page]
 ---
 

@@ -1,24 +1,46 @@
 ---
 name: debugging
-description: Diagnose a bug, test failure, or performance regression before changing code. Use for investigation; use code-craft once the cause and proof seam are known.
+description: Diagnose a bug, test failure, or performance regression before changing code. Use for root-cause investigation; hand off to code-craft once the cause and proof seam are established.
 ---
 
 # Debugging
 
-Start from the reported observation. Do not rerun a check merely to confirm what the reporter already established. Read `skill://debugging/reference/feedback-loops.md` when the failure has no bounded reproduction yet.
+Prove the root cause before touching production logic. Read `skill://debugging/reference/feedback-loops.md` when no fast local reproduction exists yet.
 
-For tracked work, retain the canonical issue supplied by `plan`/`implementation`. Use the issue's reported symptom and expected behavior as the diagnostic contract; keep hypotheses out of its acceptance criteria. The parent records the supported cause and proof on that same issue, not a second investigation ticket. Execution agents return evidence without tracker writes or branch switches.
+## House rules
 
-1. Capture the exact symptom and expected behavior from the report, logs, trace, or failing command. Build the smallest independent reproduction when practical; distinguish a failure in the reported path from a nearby one.
-2. Minimize only the inputs and steps needed to isolate the cause. Preserve the symptom while removing incidental setup.
-3. Trace input, state, and control flow to the shared failure. Form falsifiable hypotheses from evidence, rank only plausible ones, and use a discriminating check for each; change one variable at a time.
-4. Add instrumentation only where it distinguishes hypotheses, tag temporary logs for cleanup, and redact secrets from everything quoted.
-5. Identify the caller-visible regression proof and its expected result. Hand the supported cause and proof seam to `code-craft` for implementation, post-fix verification, and cleanup of temporary instrumentation or harnesses; retain a regression test only when it protects a plausible bug.
+1. **Trust the reported observation.** Do not rerun a check merely to re-confirm what the reporter already proved.
+2. **Reproduce before theorizing.** Build the smallest deterministic feedback loop that exhibits the exact symptom.
+3. **One variable at a time.** Every diagnostic check must discriminate between competing hypotheses.
+4. **Evidence over intuition.** Never assert a cause or apply a speculative fix without an observed failure or discriminating check.
+5. **Measure first for perf.** Establish a comparable baseline (timing, profiler, query plan) before proposing any optimization.
 
-## Stop conditions
+## Workflow
 
-Do not assert a cause without evidence. If local reproduction is unavailable, use the reported failure and available artifacts to narrow the path; say what remains uncertain. Stop before a speculative fix when neither an observed failure nor a discriminating check supports it. For performance work, establish comparable measurements before claiming improvement.
+1. **Pin the symptom.** Capture exact error, expected behavior, logs, trace, or failing command. Distinguish the reported path from nearby failures.
+2. **Minimize the repro.** Strip incidental setup while preserving the exact failure.
+3. **Form and test hypotheses.** Trace input, state, and control flow to the shared failure. Rank only plausible causes and run one discriminating check per hypothesis.
+4. **Instrument safely.** Add temporary logs/probes only where they separate hypotheses; tag them clearly for cleanup and redact secrets from all quoted output.
+5. **Define the proof seam.** Identify the caller-visible regression test (or comparable perf measurement) and hand the supported cause + proof seam to `code-craft` for the fix and instrumentation cleanup.
+
+## When local reproduction is impossible
+
+State what was attempted, what existing logs/traces establish, and what remains uncertain. Request the specific missing artifact, access, or temporary instrumentation rather than guessing.
+
+## Checklist
+
+- [ ] Exact symptom and expected behavior captured.
+- [ ] Root cause backed by a discriminating check (or explicit uncertainty stated).
+- [ ] Caller-visible regression proof seam named with expected pass/fail behavior.
+- [ ] Any temporary instrumentation tagged for cleanup and free of secrets.
+
+## Never
+
+- Apply "try this and see" edits before narrowing the cause.
+- Keep hypotheses inside acceptance criteria.
+- Retain a regression test that guards an impossible or contrived state.
+- Claim a performance improvement without before/after measurements on comparable inputs.
 
 ## Output
 
-The reported observation, reproduction or other evidence, supported cause and uncertainty, diagnostic checks, proposed post-fix proof, and any blocker.
+Reported observation, reproduction/evidence, supported cause (and remaining uncertainty), diagnostic checks run, proposed post-fix proof seam, and blockers.

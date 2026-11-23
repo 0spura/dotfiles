@@ -19,11 +19,11 @@ edit it in the repository, apply it with chezmoi, and read the deployed file bac
 
 `agents/` overrides the bundled `scout`, `reviewer`, `security-reviewer`, `task`, and `sonic`,
 keeping the harness's own names so its task prompt, `/agents`, and spawn policy keep working. The
-remaining definitions cover the contracts OMP does not ship: `advisor` and `design` (read-only
-design and research) and `worker` and `fix` (bounded writers). `task` and `sonic` declare no `tools`
-list — that is how full access is declared.
+remaining definitions cover the contracts OMP does not ship: `advisor` (read-only technical
+design) and `worker`, `fix`, and `simplifier` (bounded writers). `task` and `sonic` declare no
+`tools` list — that is how full access is declared.
 
-`advisor`, `design`, `fix`, `reviewer`, `security-reviewer`, and `worker` declare `blocking: true`,
+`advisor`, `fix`, `reviewer`, `security-reviewer`, `simplifier`, and `worker` declare `blocking: true`,
 so the parent waits for them even with async tasks on. `scout`, `task`, and `sonic` stay
 non-blocking so the parent can fan them out.
 

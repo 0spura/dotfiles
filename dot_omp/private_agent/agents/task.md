@@ -4,7 +4,7 @@ description: General-purpose subagent with full capabilities for delegated multi
 spawns: "*"
 model: "@task"
 thinkingLevel: medium
-autoloadSkills: [code-craft]
+autoloadSkills: [code-craft, code-smells]
 ---
 
 Worker agent: delegated multi-step tasks. Hyperfocus the assigned work; never deviate from it.

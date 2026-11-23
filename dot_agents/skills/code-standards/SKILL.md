@@ -1,29 +1,40 @@
 ---
 name: code-standards
-description: Review changed code for concrete correctness, data-access, security, and maintainability risks. Use for an explicit quality pass or review; implementation skills own normal execution.
+description: Review changed code for concrete bugs, edge-case defects, data/I/O hazards, error/observability leaks, and structural smells. Use for focused diff reviews; use simplifier to directly clean up code.
 ---
 
 # Code Standards
 
-Repository conventions and configured tooling win over these defaults. Report only findings with a concrete failure mode or measurable cost, and keep contract findings separate from engineering findings: a change can meet its requested behavior and still be risky, or be well-crafted and solve the wrong problem. Report the two groups side by side: never merge or rerank them into one list, and never name a single worst finding across both.
+Find concrete defects and measurable maintenance costs introduced in the diff. Repository conventions and configured tooling always override these defaults.
 
-Read `skill://code-standards/reference/smells.md` when the repository documents nothing, or when a finding needs a name.
+Use `code-smells` (autoloaded alongside this skill) to name structural, error-handling, test, and coupling anti-patterns — do not duplicate its catalog here.
 
-For tracked reviews, compare the diff with the canonical workctl issue and linked requirements, using the base from the parent. Reviewers are read-only: return findings and evidence for the parent to record on the same issue or change request. Do not mutate status, approve workflows, merge requests, or close the item. A clean review does not establish merge authorization.
+## House rules
 
-Check the changed surface for:
+1. **Concrete failure mode or measurable cost only.** If you cannot name how it breaks or what it costs, do not report it.
+2. **Diff-anchored & read-only.** Flag only defects introduced or exposed by the patch (check consuming dispatch points outside the diff for new types/events/variants). Never edit code, mutate tracker state, or authorize merges.
+3. **High signal, zero ceremony.** Do not burn tokens re-auditing settled product requirements or writing prose summaries of things that are fine; focus on real bugs and actionable fixes.
+4. **Name the action.** Every simplification finding must state one safe action (`delete`, `reuse`, `stdlib`, `native`, `shrink`) or recommend handing cleanup to `simplifier`.
 
-- a contract mismatch, changed public behavior without independent verification, or a test that cannot disagree with the code (tautological, assertion-free, asserting a mock), mixes unrelated failure reasons, or breaks on a behavior-preserving refactor;
-- N+1 queries, remote or filesystem I/O inside an unbounded loop, missing pagination, or missing batch/preload/aggregate behavior;
-- an API, dependency, type, or configuration value not established by local code or current documentation;
-- missing validation, authorization, idempotency, atomicity, or failure semantics the contract requires; a permanent failure reported as retryable, a transient outage as the client's fault, or a failure ignored where the operation requires propagation or accounting;
-- compressed expressions or control flow that hide state transitions, invariants, failure paths, or responsibility boundaries;
-- nesting deeper than the change requires, a unit changing for unrelated reasons, or a dependency stronger than the boundary needs — shared position, meaning, algorithm, or execution order where a name would do;
-- a file carrying unrelated reasons to change, domain-prefixed files that change together without a clear owner, or a module split by size instead of by reason;
-- new unreachable code, duplicate logic, needless abstraction, or branches that end in the same outcome.
+## Inspection axes
 
-Name the safe replacement for a simplification finding: `delete`, `reuse`, `stdlib`, `native`, or `shrink`; an installed dependency is also valid when simpler options do not meet the contract. Required validation, failure handling, accessibility, and independent proof are not bloat. Use query counts, traces, static analysis, or focused tests when available; never invent a global metric — complexity scores included — and never report a style preference.
+| Axis | What to flag |
+| --- | --- |
+| **Correctness & Edge Cases** | Logic bugs, broken invariants, silent drops at consumer dispatch points, unestablished API/type/config values, missing idempotency/atomicity, or tests that cannot disagree with the code (tautological, mock-only, happy-path-only). |
+| **Data & I/O** | N+1 queries, I/O inside unbounded loops, missing pagination/batching, outbound calls without explicit timeouts/cancellation, or unsupervised fire-and-forget tasks. |
+| **Errors & Observability** | Swallowed errors, retryable vs. permanent misclassification, ad-hoc error response helpers bypassing the canonical error boundary, opaque/leaking user errors, log spam in loops, or log-and-rethrow across layers. |
+| **Structure (`code-smells`)** | Concrete smells from `code-smells` that add real defect risk or maintenance cost (reinvented internal packages/SDKs, inline per-route guards, God files, messy module roots, flag soup, dead code, speculative wrappers). |
+
+## What is NOT bloat
+
+Required input validation, explicit failure handling, timeouts, accessibility requirements, and independent tests are never simplification findings.
+
+## Never
+
+- Report style preferences, subjective architecture opinions unrelated to the diff, or pre-existing defects outside touched paths.
+- Invent complexity scores or global metrics.
+- Claim a clean review implies merge authorization.
 
 ## Output
 
-Findings under `Contract` and `Engineering`, each as location, failure mode, evidence, and smallest correction. Report a clean area only when the inspected scope supports it.
+Concrete findings ordered by severity (`P0`–`P2`), each as: `location` — `failure mode` — `evidence` — `smallest correction` (plus simplification action when applicable), followed by a 1–2 sentence verdict.

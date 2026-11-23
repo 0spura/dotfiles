@@ -5,22 +5,49 @@ description: Convert an approved product or feature design into a versioned, obs
 
 # SRS
 
-The SRS specifies what the system must do and how that behavior is accepted. Keep user-flow design, technical realization, and durable decisions in their respective artifacts; reference them instead of duplicating them in the SRS.
+Specify **what** the system must do and **how** a tester independently verifies it — never **how** it is implemented internally.
+
+Use `skill://srs/reference/template.md` when initializing a new specification.
+
+## House rules
+
+1. **Behavior, never internals.** Describe caller-visible behavior and edge limits; never bind a requirement to file paths, classes, or line numbers (evidence links may still cite files).
+2. **Stable IDs + observable oracle.** Every active requirement has a stable ID (`RF-XXX.N` or `RNF-XXX.N`) and a concrete verification method (test, command, or direct observation with expected result).
+3. **Separate `Specified` from `Implemented`.** A requirement stays `Specified` until its named verification exists and actually passes.
+4. **Zero ambiguity.** A tester must be able to write a pass/fail check from the requirement without asking a follow-up question.
+5. **No superseded clutter.** Remove superseded text from the active contract (Git holds history; keep only a compact old-ID mapping if needed).
+
+## Required fields per requirement
+
+| Field | Rule |
+| --- | --- |
+| **ID** | Stable `RF-XXX.N` (functional) or `RNF-XXX.N` (non-functional); never reuse a retired ID. |
+| **Priority & dependencies** | Explicit priority and upstream requirement/system dependencies. |
+| **Acceptance & edge limits** | Measurable outcome plus explicit boundary/rejection behavior. |
+| **Verification** | Named test, command, or observable check with expected result. |
+| **Status** | `Specified` until verification passes, then `Implemented`. |
 
 ## Workflow
 
-1. For tracked work, read the canonical workctl issue and linked approved design; otherwise use the current request and approved design. Resolve contradictions before writing; the SRS remains the versioned behavioral artifact without requiring a tracker item.
-2. Define actors, use cases, constraints, non-goals, and stable domains.
-3. Give every active requirement a stable ID (`RF-XXX.N`, `RNF-XXX.N`), priority, dependencies, measurable acceptance, edge limits, and an observable verification method. Name a test or command when it exists; a direct observation with its expected result also qualifies. Track implementation status apart from approval: a requirement stays `Specified` until its verification exists and passes, and only then becomes `Implemented`. Describe caller-visible behavior rather than binding the requirement to a file path or line number; links to evidence may still name files.
-4. Use `skill://srs/reference/template.md` for an initial document.
-5. Check each requirement against the scope boundary, and confirm a tester can verify it without a follow-up question.
-6. Ask for approval when a requirement contradicts product principles, existing requirements, or a costly decision.
-7. Link the active SRS and stable requirement IDs on the issue only when tracked, then read it back. Handoff to architecture/implementation includes those IDs, acceptance, verification, and open decisions. Do not create requirement tickets solely because work changed skill.
+1. **Resolve contradictions first.** Compare the approved design against existing requirements and product principles; escalate conflicts for user approval before writing.
+2. **Define boundaries.** State actors, use cases, constraints, non-goals, and stable domains.
+3. **Write testable requirements.** Fill all table fields above. Reference user flows (`design-principles`), architecture (`architecture-design`), and decisions (`adr`) instead of duplicating them.
+4. **Keep navigable.** Use one `docs/srs.md` while scannable; split large domains into `docs/requirements/<domain>.md` indexed from `docs/srs.md` with IDs intact.
+5. **Hand off cleanly.** Pass requirement IDs, acceptance criteria, verification methods, and open decisions to `architecture-design` / `implementation`.
 
-## Size and structure
+## Checklist
 
-Keep one `docs/srs.md` while its domains remain easy to navigate; otherwise use it as an index and move each domain to `docs/requirements/<domain>.md` with its IDs intact. Superseded text never stays in the active contract: Git holds the history, and an external reference keeps only a compact old-ID mapping.
+- [ ] Every requirement has a stable ID, measurable acceptance, edge limits, and an observable verification method.
+- [ ] Zero implementation internals (file paths/classes) leaked into requirement definitions.
+- [ ] All contradictions with existing requirements or principles surfaced for approval.
+- [ ] No requirement prematurely marked `Implemented`.
+
+## Never
+
+- Write vague requirements ("fast", "user-friendly", "scalable") without measurable thresholds.
+- Duplicate UI flows or architecture diagrams inside the SRS.
+- Open a separate tracker ticket just for writing requirements.
 
 ## Output
 
-The active contract, its verification boundaries, and open decisions.
+Active SRS path(s), requirement IDs with verification boundaries, and open decisions.
