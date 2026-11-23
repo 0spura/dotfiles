@@ -15,8 +15,7 @@
 
 `cloudflare_zone_setting.min_tls_version` exige TLS 1.2 para toda a zona;
 `security_header` ativa HSTS por 180 dias sem `includeSubdomains` nem preload.
-Isso cobre `ssh.blima.dev` e `ai-memory.blima.dev` na borda HTTPS; não altera o
-protocolo SSH encaminhado pelo Tunnel.
+Isso cobre `ai-memory.blima.dev` e `omp-web.blima.dev` na borda HTTPS.
 
 O registro DMARC iCloud está em `_dmarc.blima.dev` com `p=quarantine` e relatório
 agregado enviado ao endereço de relatórios do Cloudflare. A política envia para
@@ -30,22 +29,11 @@ exige um contato de segurança público real; não publiquei endereço pessoal
 inventado. AI Labyrinth é um recurso controlado no painel e não foi ativado sem
 API suportada confirmada.
 
-## Sessão do SSH
-
-`cloudflare.tf` define `mac ssh` (`ssh.blima.dev`) com `session_duration = "720h"`
-(30 dias). Isso controla a janela de autenticação para novas conexões, não a
-duração de uma conexão SSH aberta. O Cloudflare Access permite no máximo um mês.
-
-Para ajustar no dashboard: **Zero Trust → Access controls → Applications →
-mac ssh → Configure → Overview → Session Duration → 1 month → Save**.
-Na política **owner only**, deixe **Session Duration** como **Same as application
-session timeout** para não substituir o prazo do aplicativo.
-
 ## OMP Web
 
 `omp-web.blima.dev` passa pelo Tunnel para `http://127.0.0.1:30141`; o host e a porta
 permanecem inalterados na migração. Cloudflare Access mantém a política `owner only`
-para o email configurado, com sessão de 30 dias. O listener local fica restrito a
+para o email configurado, com sessão de 15 minutos. O listener local fica restrito a
 loopback e não exige senha própria; processos locais podem acessá-lo.
 
 O script de chezmoi instala `@kahme247/ompweb@0.6.0` via `npx`, usando Node.js 24+

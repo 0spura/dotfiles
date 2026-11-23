@@ -1,5 +1,5 @@
 modelRoleStorage: global
-setupVersion: 2
+setupVersion: 3
 theme:
   dark: dark-forest
 symbolPreset: ascii
@@ -17,10 +17,16 @@ auth:
       priority: 50
       reservePct: 0
       reclaimAbovePct: 20
+    - provider: openai-codex
+      account:
+        email: "titialgo2@gmail.com"
+      priority: 0
+      reservePct: 0
+      reclaimAbovePct: 20
 modelRoles:
   smol: openai-codex/gpt-6-luna:low
   slow: anthropic/claude-opus-5-5:medium
-  plan: openai-codex/gpt-6.1-sol:medium
+  plan: openai-codex/gpt-6.2-sol:medium
   task: anthropic/claude-sonnet-5-5:medium
   commit: "@bulk"
   tiny: "@smol"
@@ -28,10 +34,10 @@ modelRoles:
   judge: openai-codex/gpt-6-astra:medium
   web: web/exa
   deep: "@slow"
-  judgment: openai-codex/gpt-6.1-sol:medium
+  judgment: openai-codex/gpt-6.2-sol:medium
   bulk: openai-codex/gpt-6-luna:low
   scan: "@smol"
-  default: openai-codex/gpt-6.1-sol:medium
+  default: openai-codex/gpt-6-luna:medium
 tools:
   approvalMode: yolo
 memory:
@@ -104,9 +110,9 @@ retry:
     task:
       - openai-codex/gpt-6.1-terra:medium
     slow:
-      - openai-codex/gpt-6.1-sol:medium
+      - openai-codex/gpt-6.2-sol:medium
     advisor:
-      - openai-codex/gpt-6.1-sol:medium
+      - openai-codex/gpt-6.2-sol:medium
     judge:
       - anthropic/claude-sonnet-5-5:medium
     judgment:
@@ -125,10 +131,10 @@ retry:
       - openai-codex/gpt-6-luna:low
       - web/public
     anthropic/claude-opus-5-5:
-      - openai-codex/gpt-6.1-sol:medium
+      - openai-codex/gpt-6.2-sol:medium
     anthropic/claude-sonnet-5-5:
       - openai-codex/gpt-6.1-terra:medium
-    openai-codex/gpt-6.1-sol:
+    openai-codex/gpt-6.2-sol:
       - anthropic/claude-opus-5-5:medium
     openai-codex/gpt-6.1-terra:
       - anthropic/claude-sonnet-5-5:medium
@@ -153,3 +159,5 @@ claudeResets:
   autoRedeem: "no"
 update:
   auto: true
+textVerbosity: low
+personality: none

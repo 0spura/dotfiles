@@ -11,11 +11,6 @@ if [ "$node_major" -lt 24 ]; then
   exit 1
 fi
 command -v npx >/dev/null 2>&1 || { echo "ompweb: npx is required; install npm and re-apply" >&2; exit 1; }
-omp_bin="$(command -v omp || true)"
-if [ -z "$omp_bin" ]; then
-  echo "ompweb: omp CLI is required and must be on PATH" >&2
-  exit 1
-fi
 
 label="com.blima.omp-web"
 launch_domain="gui/$(id -u)"
@@ -24,26 +19,45 @@ launchctl bootout "$launch_domain/$label" >/dev/null 2>&1 || true
 rm -f "$old_plist"
 
 mkdir -p "$HOME/Library/Logs/ompweb" "$HOME/Library/LaunchAgents"
-plist="$HOME/Library/LaunchAgents/com.kahme247.ompweb.plist"
-launchctl bootout "gui/$(id -u)/com.kahme247.ompweb" >/dev/null 2>&1 || true
-rm -f "$plist"
+web_label="com.kahme247.ompweb"
+host_label="com.kahme247.ompweb-host"
+web_plist="$HOME/Library/LaunchAgents/$web_label.plist"
+host_plist="$HOME/Library/LaunchAgents/$host_label.plist"
+for label in "$web_label" "$host_label"; do
+  launchctl bootout "gui/$(id -u)/$label" >/dev/null 2>&1 || true
+  # bootstrap fails with EIO while the old job is still being torn down.
+  for _ in $(seq 1 30); do
+    launchctl print "gui/$(id -u)/$label" >/dev/null 2>&1 || break
+    sleep 1
+  done
+done
+rm -f "$web_plist" "$host_plist"
 
 PORT=30141 \
 OMP_WEB_HOSTNAME=127.0.0.1 \
 OMP_WEB_NO_OPEN=1 \
-OMP_WEB_DISABLE_AUTOUPDATE=1 \
-OMP_WEB_OMP_BIN="$omp_bin" \
-npx --yes @kahme247/ompweb@0.6.0 ompweb-launchd install @kahme247/ompweb@0.6.0 || {
-  [ -f "$plist" ] || exit 1
+OMP_WEB_PKG="@kahme247/ompweb@0.7.3" \
+npx --yes @kahme247/ompweb@0.7.3 ompweb-launchd install @kahme247/ompweb@0.7.3 || {
+  [ -f "$web_plist" ] && [ -f "$host_plist" ] || exit 1
   echo "ompweb: finishing launchd bootstrap after installer reported a bootstrap error" >&2
 }
 
-# The upstream launchd installer builds PATH from omp/node/npx only. Preserve
-# host CLIs (for example workctl in ~/.cargo/bin and gh in Homebrew's bin).
+# The installer records the Node Cellar versions in both plists; that path is
+# removed by a Node.js patch upgrade. Point both services at Homebrew's stable
+# links instead, and keep the host CLIs on PATH for session tools.
 service_path="$HOME/.local/bin:$HOME/.cargo/bin:/opt/homebrew/bin:/usr/local/bin:$(dirname "$(command -v node)"):/usr/bin:/bin:/usr/sbin:/sbin"
-/usr/libexec/PlistBuddy -c "Set :EnvironmentVariables:PATH $service_path" "$plist"
-launchctl bootout "gui/$(id -u)/com.kahme247.ompweb" >/dev/null 2>&1 || true
+npx_path="$(command -v npx)"
+for plist in "$web_plist" "$host_plist"; do
+  /usr/libexec/PlistBuddy -c "Set :EnvironmentVariables:PATH $service_path" "$plist"
+  /usr/libexec/PlistBuddy -c "Set :ProgramArguments:0 $npx_path" "$plist"
+done
+
+for label in "$web_label" "$host_label"; do
+  launchctl bootout "gui/$(id -u)/$label" >/dev/null 2>&1 || true
+done
 sleep 1
-launchctl bootstrap "gui/$(id -u)" "$plist"
-launchctl kickstart -k "gui/$(id -u)/com.kahme247.ompweb"
+launchctl bootstrap "gui/$(id -u)" "$web_plist"
+launchctl bootstrap "gui/$(id -u)" "$host_plist"
+launchctl kickstart -k "gui/$(id -u)/$web_label"
+launchctl kickstart -k "gui/$(id -u)/$host_label"
 {{- end }}
