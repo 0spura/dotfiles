@@ -1,30 +1,59 @@
 ---
 name: architecture-design
-description: Design the smallest implementation structure for accepted requirements. Use before coding when a change introduces a real module, data, integration, or failure-boundary decision.
+description: Design the smallest deep-module implementation structure for accepted requirements. Use before coding when a change introduces a module boundary, data ownership, integration, or failure-boundary decision.
 ---
 
 # Architecture Design
 
-Use approved requirements and the current request as the design boundary. For tracked work, read the canonical workctl issue and linked requirements; otherwise use the user's approved scope. This skill does not require creating a work item.
+Design the smallest structure of deep modules that satisfies accepted requirements and evolves safely.
 
-Design the smallest deep modules: clear ownership, narrow interfaces, and a seam callers and tests can cross. Design for safe evolution: preserve the public contract while internals change, separate a stable interface from volatile behavior, and prefer rollout strategies that expose a change gradually with observable health and a fast rollback path when risk justifies it. Read `skill://architecture-design/reference/deep-modules.md` when choosing a seam, and add an abstraction only when it hides real complexity or a second concrete variation justifies it. Resolve a costly choice with the user or `grill-me` before documenting it.
+Read `skill://architecture-design/reference/deep-modules.md` when choosing a seam, `skill://architecture-design/reference/module-layout.md` when placing files, `skill://architecture-design/reference/patterns.md` for pragmatic architecture defaults, and `skill://architecture-design/reference/template.md` when updating `docs/architecture.md`.
 
-For each changed seam, specify only its owner, contract, invariants, integration failure behavior, and trust boundary. For a collection path, state cardinality and the pagination, batching, or query bound that keeps database and remote I/O bounded.
+## House rules
 
-## File and folder layout
+1. **Deep modules over shallow wrappers.** Prefer substantial behavior behind a narrow, stable interface; delete any layer that only forwards calls.
+2. **Place by reason to change, never by file size.** Group code that changes for the same actor/policy; split only when independent policies diverge.
+3. **Every seam has a failure path.** Every external/integration boundary must declare timeouts, error semantics, and fallback or fail-closed behavior.
+4. **Bound all collection I/O.** State expected cardinality plus the pagination, batching, or query bound for every collection path.
+5. **Earn every abstraction.** Add an interface/adapter only to hide real complexity or serve a second concrete variation — never speculatively.
+6. **Escalate costly choices.** Route hard-to-reverse data, API, infra, or security decisions through `grill-me` (and `adr` once approved) before locking them in.
 
-Place code by reason to change, not by size: group responsibilities that change together behind a cohesive module, and split when independent policies change for different reasons. A domain prefix repeated across separate files can signal a missing boundary, but a folder or another level of nesting must make ownership clearer, not merely move names. Read `skill://architecture-design/reference/module-layout.md` for placement examples and `skill://architecture-design/reference/deep-modules.md` before splitting a module.
+## Per-seam specification
 
-Update `docs/architecture.md` (`skill://architecture-design/reference/template.md`) and `docs/project.md` only when applicable, referencing `srs` and `adr` records instead of repeating them. Link the artifact on the issue when tracked; otherwise return it with its invariants, failure behavior, and unresolved choices to the caller.
+For each new or changed seam, specify only:
 
-## Review
+| Field | What to state |
+| --- | --- |
+| **Owner** | Module/subsystem responsible for the policy and state. |
+| **Contract** | Inputs, outputs, and public interface callers and tests cross. |
+| **Invariants** | Rules the module enforces internally (never left to callers). |
+| **Failure behavior** | Retryable vs permanent errors, atomicity/idempotency, fail-closed rules. |
+| **Trust boundary** | Validation, authz, and untrusted input sanitization points. |
+| **I/O bound** | Collection cardinality and pagination/batch/query cap. |
+| **Rollout** | Gradual exposure, observable health signal, and rollback path (when risk warrants). |
 
-Every seam has an owner, every integration has a failure path, every collection has bounded I/O, and the design is testable publicly.
+## Workflow
 
-## Size and structure
+1. **Anchor to scope & reuse inventory.** Read accepted requirements, workspace manifests, sibling internal SDKs, and current codebase layout first. Identify every existing internal crate, SDK layer, or native framework primitive that should be reused or extended before proposing any new module or crate. Do not invent unrequested scope.
+2. **Choose seams and layout.** Identify changed responsibilities, apply the deletion test to proposed layers, and name exact landing paths.
+3. **Specify each changed seam.** Complete the table fields above; reference `srs` and `adr` IDs instead of repeating them.
+4. **Update docs only when applicable.** Update `docs/architecture.md` (split into `docs/architecture/<concern>.md` with an index if navigation degrades) and `docs/project.md` when the system structure changes.
 
-Keep `docs/architecture.md` scannable; when distinct concerns make it hard to navigate, use it as an index and move those concerns to `docs/architecture/<concern>.md`.
+## Checklist
+
+- [ ] Every changed seam has a single clear owner and public test seam.
+- [ ] Every integration specifies failure behavior and trust boundaries.
+- [ ] Every collection path has bounded DB/network/filesystem I/O.
+- [ ] No speculative abstraction or size-based file splits.
+- [ ] Costly irreversible choices flagged for `grill-me` / user approval.
+
+## Never
+
+- Split files by line count instead of reason to change.
+- Add a pass-through "middle man" layer that enforces no invariant or boundary.
+- Duplicate SRS requirements or ADR rationale inside `docs/architecture.md`.
+- Commit silently to irreversible schema, public API, or security choices.
 
 ## Output
 
-The architecture artifact and the unresolved choices.
+Architecture artifact (seams, invariants, failure behavior, I/O bounds, placement) and unresolved choices.

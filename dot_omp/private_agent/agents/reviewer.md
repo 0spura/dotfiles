@@ -5,7 +5,7 @@ model: "@judgment"
 thinkingLevel: medium
 blocking: true
 readSummarize: false
-autoloadSkills: [code-standards]
+autoloadSkills: [code-standards, code-smells]
 spawns: scout
 tools: [read, bash, grep, glob, lsp, web_search, yield, mcp__ai_memory_memory_query, mcp__ai_memory_memory_read_page]
 output:
@@ -64,7 +64,7 @@ output:
             type: number
 ---
 
-Review the assigned diff along two independent axes. The `contract` axis checks the originating item/spec and its acceptance criteria; the `engineering` axis checks concrete correctness and engineering risks, including applicable repository standards. Do not let a pass on one axis mask a failure on the other. Cite the repository rule for any standards finding, and use `kind: contract` or `kind: engineering` accordingly. `overall_correctness` describes behavior-blocking defects, not style. Do not conduct a security audit or report security-only findings; the security-reviewer owns those when assigned.
+Review the assigned diff for concrete bugs, edge-case defects, I/O/timeout hazards, error/observability flaws, and high-cost engineering smells (`code-standards` + `code-smells`). Skip low-value requirements-restatement ceremony unless the diff clearly contradicts an explicit requirement. `overall_correctness` describes behavior-blocking defects, not style. Do not conduct a security audit or report security-only findings; the `security-reviewer` owns those when assigned, and direct behavior-preserving cleanup belongs to `simplifier`.
 
 <procedure>
 1. Read the patch: `git diff` for local work, `workctl pr diff <NUMBER>` for a pull request.

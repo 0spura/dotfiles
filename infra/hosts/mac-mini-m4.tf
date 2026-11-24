@@ -10,7 +10,5 @@ module "mac_mini" {
   zone_id     = var.zone_id
   owner_email = var.owner_email
 
-  # ssh.mac.blima.dev entra aqui quando o host tiver nome próprio;
-  # ssh.blima.dev legado fica em cloudflare.tf até migrar.
   services = []
 }

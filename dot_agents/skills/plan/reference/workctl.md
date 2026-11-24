@@ -2,6 +2,15 @@
 
 For actual tracker or code-host operations, workctl is the supported command interface. This reference applies only when a task is tracked or a work item/change request is explicitly requested; it does not require creating a tracker item for ordinary planning or implementation.
 
+## Operations by use case
+
+| Use case | Role of `workctl` | Typical entry point (confirm with `--help`) |
+| --- | --- | --- |
+| **Discovery / Design / SRS / ADR** | Attach approved artifacts/links to the existing canonical issue (never open a ticket per phase). | `workctl issue view N`, `workctl issue comment N --body-file -` |
+| **Planning (`plan`)** | Inspect blockers, record the agreed vertical plan, and create child items only for independently accepted deliverables. | `workctl issue list`, `workctl issue view N`, `workctl issue edit N` |
+| **Execution (`implementation`)** | Reuse or create the linked branch, then record observed verification evidence on the same issue. | `workctl issue branch ...`, `workctl issue comment N --body-file -` |
+| **Review & Delivery (`pull-request`)** | Inspect existing PRs, publish/update PR via stdin template, check workflow status, and confirm merge state. | `workctl pr --help`, `workctl workflow status` |
+
 ## The mental model
 
 **Invoke workctl explicitly only for tracked work.** Start with `workctl issue view N`; use the relevant `workctl issue` command for tracker changes, and read the issue back after each write.

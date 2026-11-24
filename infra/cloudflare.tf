@@ -73,16 +73,6 @@ resource "cloudflare_dns_record" "apple_verify" {
   ttl     = 1
 }
 
-resource "cloudflare_dns_record" "ssh" {
-  zone_id = var.zone_id
-  name    = "ssh.blima.dev"
-  type    = "CNAME"
-  content = "8993801c-e6ca-4398-97a9-da4aa61717d9.cfargotunnel.com"
-  comment = "ssh via cloudflared access"
-  proxied = true
-  ttl     = 1
-}
-
 resource "cloudflare_dns_record" "ai_memory" {
   zone_id = var.zone_id
   name    = "ai-memory.blima.dev"
@@ -134,10 +124,6 @@ resource "cloudflare_zero_trust_tunnel_cloudflared_config" "mac_mini_m4" {
     }
     ingress = [
       {
-        hostname = "ssh.blima.dev"
-        service  = "ssh://127.0.0.1:22"
-      },
-      {
         hostname = "ai-memory.blima.dev"
         service  = "http://127.0.0.1:49374"
       },
@@ -161,47 +147,6 @@ resource "cloudflare_zero_trust_tunnel_cloudflared_route" "lan_full" {
 }
 
 # --- Access apps (policies são recursos próprios no provider v5) ---
-resource "cloudflare_zero_trust_access_application" "mac_ssh" {
-  account_id                = var.account_id
-  name                      = "mac ssh"
-  domain                    = "ssh.blima.dev"
-  type                      = "self_hosted"
-  app_launcher_visible      = false
-  auto_redirect_to_identity = false
-  enable_binding_cookie     = false
-  options_preflight_bypass  = false
-  session_duration          = "720h"
-  destinations = [{
-    type = "public"
-    uri  = "ssh.blima.dev"
-  }]
-
-  lifecycle {
-    ignore_changes = [policies]
-  }
-}
-
-resource "cloudflare_zero_trust_access_policy" "mac_ssh_owner" {
-  account_id = var.account_id
-  name       = "owner only"
-  decision   = "allow"
-  include = [{
-    email = {
-      email = var.owner_email
-    }
-  }]
-}
-
-resource "cloudflare_zero_trust_access_policy" "mac_ssh_token" {
-  account_id = var.account_id
-  name       = "service token cli"
-  decision   = "non_identity"
-  include = [{
-    service_token = {
-      token_id = "29954982-e23c-4de1-9d45-04f6e23859eb"
-    }
-  }]
-}
 resource "cloudflare_zero_trust_access_application" "omp_web" {
   account_id                = var.account_id
   name                      = "omp-web"
@@ -211,7 +156,7 @@ resource "cloudflare_zero_trust_access_application" "omp_web" {
   auto_redirect_to_identity = false
   enable_binding_cookie     = false
   options_preflight_bypass  = false
-  session_duration          = "720h"
+  session_duration          = "15m"
 
   destinations = [{
     type = "public"
@@ -277,13 +222,4 @@ resource "cloudflare_zero_trust_gateway_policy" "allow_private_tunnel" {
   action      = "allow"
   filters     = ["l4"]
   traffic     = "net.dst.ip in {192.168.0.0/24}"
-}
-
-# --- SSH sem chave estatica: CA emite cert efemero por login Access ---
-# O sshd do Mac confia via TrustedUserCAKeys (chezmoi, profile
-# homelab-server). Principal do cert = prefixo do email (luisborgeslima),
-# por isso o login passa a ser esse user (mapeado no sshd_config).
-resource "cloudflare_zero_trust_access_short_lived_certificate" "mac_ssh" {
-  account_id = var.account_id
-  app_id     = cloudflare_zero_trust_access_application.mac_ssh.id
 }

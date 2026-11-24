@@ -1,28 +1,35 @@
 ---
 name: adr
-description: Record an approved, costly-to-reverse architecture decision as a durable ai-memory record, with a repository ADR file only when the project requires one.
+description: Record an explicitly approved, costly-to-reverse architecture decision as a durable ai-memory record (and docs/adr/ file only when the repository requires one).
 ---
 
 # ADR
 
-The SRS and architecture documents stay the active contract; the ai-memory record is durable history, not a replacement for them.
+Capture durable rationale for costly-to-reverse decisions without cluttering active contracts (`docs/srs.md`, `docs/architecture.md`).
 
-## Workflow
+## House rules
 
-1. For tracked work, read the canonical workctl issue and linked design; otherwise use the current approved request and design. Confirm explicit approval and that the choice affects boundaries, data ownership, public contracts, infrastructure, security, or migration. Record on the existing issue only when tracked; do not create an ADR ticket for a phase.
-2. Record a self-contained decision with `mcp__ai_memory_memory_write_page`: status, date, decision, consequences, source paths, tracker identifier when applicable, and any superseded page path.
-3. When a decision supersedes another, cite that page and write the replacement separately; historical evidence is never overwritten or invalidated.
-4. Write `docs/adr/` only when the repository already treats ADR files as a review or release artifact. There the file is authoritative and the ai-memory record links to it.
-5. The parent links the canonical decision and approval source on the issue when tracked, reads it back, and passes accepted constraints to planning/implementation. Otherwise return those constraints to the caller. A subagent proposes evidence and wording; it never writes tracker or durable memory records.
+1. **Costly-to-reverse + explicitly approved only.** Record only decisions affecting system boundaries, data ownership, public contracts, infrastructure, security, or migrations that have explicit approval.
+2. **History, not active contract.** `docs/srs.md` and `docs/architecture.md` remain the active contracts; ADR records explain *why* and link back to them.
+3. **Append-only history.** Never overwrite or edit a superseded decision; write a new ADR that explicitly cites the superseded record.
+4. **Parent writes durable records.** Subagents propose wording and evidence only; the parent writes to ai-memory and links the issue (when tracked).
 
-## Structure
+## Where to store
+
+| Repository policy | Authoritative record | ai-memory action |
+| --- | --- | --- |
+| Repo already uses `docs/adr/` as a review/release artifact | `docs/adr/<id>-<slug>.md` | Write compact ai-memory record linking to the file. |
+| Default (no repo ADR convention) | Self-contained `mcp__ai_memory_memory_write_page` record | Include full template, source paths, and tracker ID if applicable. |
+
+## Template
 
 ```markdown
 # Decision title
 
 - Status: Proposed | Accepted | Superseded
 - Date: YYYY-MM-DD
-- Tracker: [identifier, if applicable]
+- Tracker: [issue ID, omit if untracked]
+- Supersedes: [prior ADR path or page, omit if none]
 
 ## Context
 ## Decision
@@ -31,6 +38,19 @@ The SRS and architecture documents stay the active contract; the ai-memory recor
 ## Traceability
 ```
 
-## Done when
+## Checklist
 
-The decision has explicit approval, an unambiguous status, its consequences, and traceability to the active contract.
+- [ ] Explicit approval confirmed (not inferred from a draft or stage change).
+- [ ] Unambiguous status, date, consequences, rejected alternatives, and source traceability included.
+- [ ] Any superseded record cited without overwriting it.
+- [ ] Accepted constraints handed to `plan` / `implementation`.
+
+## Never
+
+- Record routine implementation details or easily reversible refactors as ADRs.
+- Mark a proposal `Accepted` without explicit user approval.
+- Open a separate tracker ticket just for writing an ADR.
+
+## Output
+
+Canonical ADR location (ai-memory page and/or `docs/adr/` path), status, and accepted constraints for downstream work.

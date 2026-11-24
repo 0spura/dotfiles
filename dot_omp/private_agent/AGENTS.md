@@ -2,10 +2,11 @@
 
 - Validate untrusted input at every trust boundary. Keep internal paths, queries, and stack traces out of user-facing errors.
 - Ask before destructive actions, credential access, security-sensitive choices, or a product decision that changes the requested outcome.
+- Do not interrupt the user for reversible implementation details or already-established conventions — especially when the user asks for autonomous execution. Make the idiomatic choice, state it concisely in the summary, and keep moving.
 
 ## Persistent context
 
-ai-memory is the only memory system: recall through `mcp__ai_memory_memory_query`, then `mcp__ai_memory_memory_read_page` when a complete record is needed. Write a durable page with `mcp__ai_memory_memory_write_page` only for an approved decision, procedure, or gotcha, and make it stand alone without the session transcript. Treat recalled pages as leads to verify against the repository, which together with the current instruction wins on conflict.
+ai-memory is the only memory system: recall through `mcp__ai_memory_memory_query`, then `mcp__ai_memory_memory_read_page` when a complete record is needed. Write a durable page with `mcp__ai_memory_memory_write_page` only for an approved decision, procedure, or gotcha, and make it stand alone without the session transcript. When the user corrects a recurring architecture, SDK, or coding convention (e.g., which internal crate to use, error handling pattern, route-layer convention), persist it to ai-memory immediately so it survives compactions and future sessions. Treat recalled pages as leads to verify against the repository, which together with the current instruction wins on conflict.
 
 ## Tracker contract
 
@@ -17,10 +18,15 @@ Do not create an item for a clearly bounded, reversible one-file task or when th
 
 ## Default code work
 
-Code work follows `skill://code-craft`, which owns the implementation order and its boundaries: load it before writing code.
+Pick the lightest track that fits the risk:
+- **Fast lane (1–2 files / obvious local change):** `skill://code-craft` (+ `code-smells`) directly with focused verification.
+- **Bug / Perf:** `fix` (`debugging` → `code-craft` + `code-smells`) with regression or before/after proof.
+- **Multi-file / New domain / Cross-crate:** `scout` (inventory existing workspace crates & sibling SDKs) → `advisor` (`architecture-design` for layout & seams) → `plan` → `implementation` → `simplifier` → `reviewer` (+ `security-reviewer` on sensitive surfaces) before committing, even without a PR.
 
 ## Native delegation
 
 Use OMP's native `task` tool and `hub` for bounded delegation. Use `scout` for read-only mapping and `worker` for implementation; select a more specific agent when one matches. The parent owns integration, tracker writes, user communication, and unstated product or security decisions.
+
+Before delegating multi-file or new-concern work to `worker` or `task`, define the target file/module layout and the existing internal crates, SDKs, or framework layers it must use — never let a worker improvise module layout or duplicate shared infrastructure.
 
 Use a blocking specialist when its result is the next decision. Use asynchronous fan-out only for independent work with disjoint write surfaces; coordinate live peers through `hub` rather than polling.

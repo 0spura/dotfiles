@@ -1,37 +1,53 @@
 ---
 name: implementation
-description: Execute an approved scoped change, tracked or untracked, and return verified evidence; use workctl only for tracker-backed work.
+description: Execute an approved scoped change (tracked or untracked) by routing work to the right agents, integrating results, and returning verified evidence.
 ---
 
 # Implementation
 
-For tracked work, use the supplied issue, linked branch, base, acceptance, and verification as the contract. Otherwise, the current approved request and repository instructions are the contract; do not create a workctl item solely to implement it. The parent owns tracker writes and integration.
+Execute an approved contract end-to-end, integrate changes cleanly, and prove the result with observed checks.
 
-Read `skill://plan/reference/workctl.md` and use workctl only when an issue is supplied or tracking is explicitly required. Untracked work skips tracker and issue-branch commands.
+Read `skill://plan/reference/workctl.md` **only** for tracked work, and `skill://implementation/reference/parallel-execution.md` before parallelizing any writers.
 
-## Start work
+## House rules
 
-1. For tracked work, select the next unblocked issue and read its full contract and linked artifacts. For untracked work, follow the approved request; inspect the current branch and leave unrelated changes alone.
-2. For tracked work, reuse the linked branch or create one with the documented workctl command. For untracked work, do not create a tracker branch or switch branches unless the user or repository workflow requires it.
-3. Apply workflow and branch automation checks only when tracker-backed actions trigger them. Do not hand-edit automation results or approve rules to unblock yourself.
+1. **Parent owns integration, layout, and writes.** Before dispatching `worker` or `task` on multi-file or new-concern work, define the exact target file/module layout and the existing internal crates/SDKs/layers it must reuse. The parent manages branch setup, tracker mutations, commits, and PRs; subagents edit only their assigned surface and return evidence.
+2. **Never invent tracking.** Use `workctl` only when an issue is supplied or tracking is explicitly required; never create an issue just to implement.
+3. **Complete sweeps on repo-wide refactors.** When asked to clean, refactor, or migrate across a repo or multi-repo workspace, enumerate all target paths with `scout` first and verify every target is addressed before reporting done.
+4. **Parallelize only disjoint surfaces.** Never run two writers concurrently on overlapping files or shared state.
+5. **Verify after integration.** Passing slice checks do not replace verifying the integrated behavior (including meaningful failures). Never substitute stubs when real provisioning or E2E execution was requested.
+6. **Respect automation.** Never hand-edit workflow/automation results or self-approve rules to unblock execution.
 
-## Deliver the contract
+## Agent routing
 
-1. Give each execution agent the issue identity and branch only when tracked; otherwise provide the approved request, scope, acceptance, non-goals, owned paths, and verification.
-2. Route by type:
-
-| Item | Agent | Completion gate |
+| Work type | Agent | Required completion gate |
 | --- | --- | --- |
-| `feat`, `refactor` | `worker` (`code-craft`) | focused verification; cite an SRS ID in a durable test when it defends that requirement |
-| `fix`, `perf` | `fix` (`debugging`, then `code-craft`) | supported cause and regression proof, or comparable measurement meeting the target |
-| research | `scout` | map with paths, lines, and ownership |
-| pre-merge review | `reviewer`; also `security-reviewer` for sensitive surfaces | independent evidence-backed findings |
+| `feat`, `refactor` | `worker` (`code-craft`) | Focused verification passing; SRS ID cited in durable test when defending a requirement. |
+| `fix`, `perf` | `fix` (`debugging` → `code-craft`) | Evidence-backed root cause + regression proof, or comparable perf measurement hitting target. |
+| Codebase mapping | `scout` | Concrete map with file paths, lines, and ownership. |
+| Frontend / UI build | `worker` + `frontend-craft` | Build/typecheck + states, a11y, and viewport check passing. |
+| Post-implementation cleanup | `simplifier` (`code-smells`) | Recent diff simplified directly with focused verification passing and zero behavior change. |
+| Pre-merge / pre-commit review | `reviewer` (+ `security-reviewer` for sensitive surfaces) | Concrete bug/smell findings (or clean verdict). |
 
-3. Parallelize only disjoint independent work using `skill://implementation/reference/parallel-execution.md`. Serialize shared-branch changes and tracker mutations when a tracker is in use.
-4. Integrate results and exercise the specified behavior, including meaningful failures. Mark SRS requirements `Implemented` only when their named verification passes. Commit only when the assignment or repository workflow requires it.
-5. Record evidence on the issue only for tracked work, then read it back. Otherwise return observed evidence and blockers to the caller. If a tracker command fails, act on the cause it prints.
-6. Hand work to `pull-request` only when a change request is requested or required. Tracked deliveries retain issue identity; untracked work needs no tracker closure.
+## Workflow
+
+1. **Prepare context.**
+   - *Tracked:* read the canonical issue and reuse or create its linked branch via `workctl`.
+   - *Untracked:* inspect the current branch, leave unrelated dirty work alone, and do not switch branches unless required.
+2. **Dispatch bounded slices.** Hand each agent its exact scope, acceptance, non-goals, owned paths, and verification (plus issue/branch only when tracked).
+3. **Integrate, simplify, and verify.** Exercise the integrated acceptance path and at least one meaningful failure class. For multi-file, cross-crate, or sensitive-surface (auth/authz/secrets/untrusted input) changes, run `simplifier` on the diff (when cleanup is worthwhile) and a quick independent `reviewer` pass (plus `security-reviewer` for sensitive surfaces) before committing — even when committing directly without a PR. Mark SRS requirements `Implemented` only after their named verification passes.
+4. **Record and hand off.** Commit only when assigned or required by repo workflow. Record observed evidence on the canonical issue and read back (tracked only). Hand off to `pull-request` only when a PR is requested or required.
 
 ## Stop conditions
 
-Stop for a structural or security decision, a blocking defect, missing verification, or conflicting worktree changes. An unavailable tracker blocks only work whose contract explicitly requires tracking.
+Stop and escalate on: unresolved structural or security decision, pre-existing blocking defect, missing verification capability, conflicting worktree changes, or unavailable tracker (tracked work only).
+
+## Never
+
+- Close an issue or claim delivery merely because local unit tests pass.
+- Parallelize overlapping writers or let subagents switch branches / mutate tracker state.
+- Bypass failed checks or approve workflow gates yourself.
+
+## Output
+
+Integrated result, observed verification evidence, changed artifacts, and remaining blockers.

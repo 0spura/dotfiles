@@ -1,32 +1,55 @@
 ---
 name: plan
-description: Plan work around an outcome, boundaries, blockers, and verification. Use a workctl issue only when tracking is explicitly requested or required; otherwise keep the plan in-session.
+description: Plan work around an outcome, boundaries, blockers, vertical slices, and verification. Use a workctl issue only when tracking is explicitly requested or required; otherwise keep the plan in-session.
 ---
 
 # Plan
 
-The current request and repository instructions define the contract. When work is tracked, discovery, design, requirements, implementation, and review advance one canonical issue; do not open tickets per phase. Do not create a tracker item solely because work is non-trivial.
+Turn an approved goal into ordered, independently verifiable vertical slices with explicit boundaries and real blockers.
 
-Use workctl only for actual tracker operations. When an issue is supplied or tracking is explicitly requested or required, read `skill://plan/reference/workctl.md` first. Otherwise skip workctl and plan from the approved request.
+Read `skill://plan/reference/workctl.md` **only** when tracking applies. Use the matching type guide when helpful: `feature.md`, `bug.md`, `refactor.md`, or `perf.md` under `skill://plan/reference/`.
 
-## Find or create the contract
+## House rules
 
-1. Decide whether the task is tracked. Reuse an issue supplied by the user or required by repository policy; otherwise use the current approved request as the contract and do not call workctl.
-2. For tracked work, list summaries, read the matching issue and linked artifacts once, and create an item only when tracking was explicitly requested or required. Read every tracker write back before implementation.
-3. Keep the contract self-sufficient in either place: goal, acceptance, non-goals, blockers, and verification belong in the issue when tracked, or in the in-session plan otherwise. The parent owns tracker writes; agents return evidence.
+1. **One contract, not ticket sprawl.** Never create a tracker item just because work is non-trivial, and never open separate tickets for planning, design, or review phases.
+2. **Vertical slices only.** Every slice delivers an observable outcome with its own acceptance oracle, owned paths, and verification command.
+3. **Real blockers only.** Inspect actual code/dependency blockers; never guess unknown file placement — investigate it first.
+4. **Serialize overlapping writers.** Only slices with disjoint write surfaces may run in parallel.
+5. **A plan is not approval to build.** Stop and present the plan unless execution was already approved.
 
-## Plan from the contract
+## Tracked vs. untracked
 
-1. Resolve missing discovery, direction, user-flow design, requirements, architecture, or costly choices through the matching skill. Link approved artifacts to the issue when tracked; otherwise cite them in the plan.
-2. For tracked work, inspect blocking chains using the workctl help. Otherwise inspect blockers in the repository and request, and state unresolved dependencies without invoking workctl.
-3. Slice vertically: observable goal, owned surface, acceptance oracle, verification, completion gate. Create tracker children only for independently accepted work when tracking is in use; keep internal steps as a checklist.
-4. Order true dependencies and serialize overlapping writers. Each slice must verify on its own. Name landing places by responsibility; investigate unknown placement instead of guessing it.
-5. Record the agreed plan on the issue only when tracked, then read it back. Otherwise return the plan in-session. Hand the next unblocked contract to `implementation`.
+| Mode | Contract source | Tracker actions |
+| --- | --- | --- |
+| **Tracked** (user supplied issue or repo policy requires it) | Canonical `workctl` issue + linked artifacts | Read issue once; record agreed plan on same issue and read back; create child items only for independently accepted deliverables. |
+| **Untracked** (default) | Approved user request + repo instructions | Skip `workctl` completely; keep plan and checklist in-session. |
 
-## Done when
+## Workflow
 
-The plan names the outcome, boundaries, actual blockers, verification, and next action. When tracked, the issue contains that contract. Saving a plan is not approval to build.
+1. **Establish the contract & reuse inventory.** Determine tracked vs. untracked. Capture goal, acceptance, non-goals, blockers, and verification. Before slicing any multi-file or cross-cutting work, inventory existing workspace crates, sibling internal SDKs, native framework primitives, and installed dependencies (via `scout` if needed) so slices reuse or extend them instead of inventing duplicates.
+2. **Close upstream gaps.** Route missing discovery (`product-discovery`), undecided direction (`brainstorming`), UX flow (`design-principles`), requirements (`srs`), architecture (`architecture-design`), or costly choices (`grill-me`) before slicing.
+3. **Slice vertically.** For each slice specify:
+   - Observable outcome
+   - Owned paths (investigated, not guessed)
+   - Acceptance oracle & verification command
+   - Dependencies / blockers
+4. **Order execution.** Sequence true dependencies and serialize any overlapping write surfaces.
+5. **Record and hand off.** Persist on the canonical issue (only when tracked, then read back) or present in-session. Hand the next unblocked slice to `implementation` once approved.
 
-## Stop conditions
+## Checklist
 
-An unreadable issue or unavailable tracker blocks only work that is explicitly tracked. For untracked work, use the approved request; unresolved dependencies or an unbounded implementation surface still block execution.
+- [ ] Goal, non-goals, actual blockers, and verification are explicit.
+- [ ] Every slice is vertically testable on its own with known landing paths.
+- [ ] Overlapping writers are serialized.
+- [ ] No unnecessary `workctl` items created.
+
+## Never
+
+- Create a tracker item solely because a task is multi-step or non-trivial.
+- Slice horizontally ("DB layer", "API layer", "tests later") with no per-slice verification.
+- Guess file paths or module ownership without checking the repository.
+- Treat saving a plan as permission to start implementing.
+
+## Output
+
+Outcome, boundaries/non-goals, blockers, ordered vertical slices (with owned paths and verification), and next action.
